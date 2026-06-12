@@ -1349,6 +1349,8 @@
   .admin-table tbody tr:nth-child(even) td { background:#F4F3F1; }
   .admin-table tbody tr:hover td { background:#FEF8E0; color:#262626; }
   .admin-table td:first-child, .admin-table th:first-child { text-align:right; font-weight:700; }
+  .admin-skills-cell { white-space:normal; min-width:220px; text-align:right; }
+  .admin-skill-tag { display:inline-block; background:var(--teal-light); color:#1a6b5e; border:1px solid var(--brand-teal); border-radius:20px; padding:3px 10px; font-size:11.5px; margin:2px; white-space:nowrap; }
   .res-card h3 { font-family:'ThmanyahSerifDisplay',sans-serif; font-size:17px; color:var(--brand-dark); margin-bottom:14px; }
   .res-big-num { font-family:'ThmanyahSerifDisplay',sans-serif; font-size:52px; font-weight:900; line-height:1; }
   .res-sub { font-size:13px; color:var(--text-muted); margin-top:4px; }
@@ -4788,17 +4790,20 @@ async function loadAdminResults() {
     }
     const rows = Object.values(data).sort((a, b) => (b.updatedAt || 0) - (a.updatedAt || 0));
     let html = `<table class="admin-table"><thead><tr>
-      <th>الاسم</th><th>التقدم</th><th>التسمم %</th><th>الاستيعاب</th><th>المهارات</th><th>الروتين</th><th>آخر تحديث</th>
+      <th>الاسم</th><th>التقدم</th><th>التسمم %</th><th>الاستيعاب</th><th>التخصصات المختارة</th><th>متوسط المهارات</th><th>الروتين</th><th>آخر تحديث</th>
     </tr></thead><tbody>`;
     rows.forEach(r => {
-      const skillsTxt = (r.skillsList || []).map(s => `${s.label}: ${s.overall ?? '—'}`).join('، ') || '—';
+      const skillsTags = (r.skillsList || []).map(s =>
+        `<span class="admin-skill-tag">${s.label}${s.overall != null ? ' · ' + s.overall : ''}</span>`
+      ).join('') || '—';
       const updated = r.updatedAt ? new Date(r.updatedAt).toLocaleString('ar-SA') : '—';
       html += `<tr>
         <td>${r.name || '—'}</td>
         <td>${r.progressPct ?? 0}%</td>
         <td>${r.poisonPct ?? '—'}</td>
         <td>${r.compScore ?? '—'}</td>
-        <td title="${skillsTxt}">${r.skillsOverall ?? '—'}</td>
+        <td class="admin-skills-cell">${skillsTags}</td>
+        <td>${r.skillsOverall ?? '—'}</td>
         <td>${r.routineDone ? '✅' : '—'}</td>
         <td>${updated}</td>
       </tr>`;

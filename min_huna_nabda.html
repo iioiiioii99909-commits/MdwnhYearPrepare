@@ -4713,13 +4713,14 @@ function buildMemberSummary(snap) {
   const skillsList = (snap.sqSkillList || []).map(sid => {
     const fd = SKILL_FIELDS[sid];
     const res = (snap.sqResults || {})[sid];
-    return { id: sid, label: fd ? fd.label : sid, overall: res ? res.overall : null };
+    return { id: sid, label: fd ? fd.label : sid, icon: fd ? fd.icon : '', overall: res ? res.overall : null, level: res ? res.level : null };
   });
   const skillsOverall = skillsList.length
     ? Math.round(skillsList.reduce((s, x) => s + (x.overall || 0), 0) / skillsList.length)
     : null;
   const items = [snap.progress.nameSet, snap.progress.lectureDone, snap.progress.skillsDone, snap.progress.routineDone, snap.progress.planningDone];
   const progressPct = Math.round((items.filter(Boolean).length / items.length) * 100);
+  const fields = snap.fields || {};
   return {
     name: snap.creatorName,
     progressPct,
@@ -4730,6 +4731,13 @@ function buildMemberSummary(snap) {
     lectureDone: !!snap.progress.lectureDone,
     skillsDone: !!snap.progress.skillsDone,
     routineDone: !!snap.progress.routineDone,
+    planningDone: !!snap.progress.planningDone,
+    rtModes: snap.rtModes || [],
+    goals: {
+      goal1: fields['goal1'] || '', goal1d: fields['goal1-date'] || '',
+      goal2: fields['goal2'] || '', goal2d: fields['goal2-date'] || '',
+      goal3: fields['goal3'] || '', goal3d: fields['goal3-date'] || ''
+    },
     updatedAt: snap.updatedAt
   };
 }
@@ -4761,6 +4769,8 @@ async function leaderLogin() {
     alert('كلمة المرور غير صحيحة');
     return;
   }
+  const ls = document.getElementById('login-screen');
+  if (ls) ls.classList.add('hidden');
   document.querySelectorAll('.page-section').forEach(s => s.classList.remove('active'));
   document.getElementById('page-admin').classList.add('active');
   document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
@@ -4770,7 +4780,18 @@ async function leaderLogin() {
 
 function leaderBack() {
   document.querySelectorAll('.page-section').forEach(s => s.classList.remove('active'));
-  document.getElementById('page-home').classList.add('active');
+  if (!progress.nameSet) {
+    const ls = document.getElementById('login-screen');
+    if (ls) ls.classList.remove('hidden');
+  } else {
+    document.getElementById('page-home').classList.add('active');
+  }
+  window.scrollTo(0, 0);
+}
+
+function backToAdminTable() {
+  document.querySelectorAll('.page-section').forEach(s => s.classList.remove('active'));
+  document.getElementById('page-admin').classList.add('active');
   window.scrollTo(0, 0);
 }
 
@@ -4790,7 +4811,7 @@ async function loadAdminResults() {
     }
     const rows = Object.values(data).sort((a, b) => (b.updatedAt || 0) - (a.updatedAt || 0));
     let html = `<table class="admin-table"><thead><tr>
-      <th>الاسم</th><th>التقدم</th><th>التسمم %</th><th>الاستيعاب</th><th>التخصصات المختارة</th><th>متوسط المهارات</th><th>الروتين</th><th>آخر تحديث</th>
+      <th>الاسم</th><th>التقدم</th><th>التسمم %</th><th>الاستيعاب</th><th>التخصصات المختارة</th><th>متوسط المهارات</th><th>الروتين</th><th>الخطة السنوية</th><th>آخر تحديث</th><th>النتيجة</th>
     </tr></thead><tbody>`;
     rows.forEach(r => {
       const skillsTags = (r.skillsList || []).map(s =>
@@ -4805,7 +4826,9 @@ async function loadAdminResults() {
         <td class="admin-skills-cell">${skillsTags}</td>
         <td>${r.skillsOverall ?? '—'}</td>
         <td>${r.routineDone ? '✅' : '—'}</td>
+        <td>${r.planningDone ? '✅' : '—'}</td>
         <td>${updated}</td>
+        <td><button class="btn-gold" onclick="showMemberResultAdmin('${(r.name || '').replace(/'/g, "\\'")}')" style="padding:6px 14px;border-radius:10px;font-size:12px;white-space:nowrap;">📄 عرض النتيجة</button></td>
       </tr>`;
     });
     html += '</tbody></table>';
@@ -5664,44 +5687,34 @@ async function downloadPlanPDF(){
 // ============================================================
 // RESULTS PAGE
 // ============================================================
-function showResults(){
-  const wrap=document.getElementById('results-wrap');
-  if(!wrap)return;
-
-  // gather lecture results
-  const poisonPct=document.getElementById('poison-pct')?.textContent||'—';
-  const compScore=document.getElementById('comp-score-panel')?.textContent||'—';
-
+function buildResultsHTML({ name, avatarSrc, poisonPct, compScore, skillsList, rtModesData, goals, backLabel, backAction }){
   // gather skills
   let skillsHtml='<div class="res-skills-list">';
-  sqSkillList.forEach(sid=>{
-    const fd=SKILL_FIELDS[sid]; const res=sqResults[sid];
-    if(!fd||!res)return;
-    skillsHtml+=`<div class="res-skill-row"><span class="res-skill-name">${fd.icon} ${fd.label}</span><span class="res-skill-score">${res.overall}/100</span></div>`;
+  (skillsList||[]).forEach(s=>{
+    skillsHtml+=`<div class="res-skill-row"><span class="res-skill-name">${s.icon||''} ${s.label}</span><span class="res-skill-score">${s.overall}/100</span></div>`;
   });
   skillsHtml+='</div>';
 
   // routine summary
   let routineHtml='';
-  rt_modes.forEach((m,idx)=>{
-    const entries=m.state.filter(r=>rt_parseT(r.s)!==null&&rt_parseT(r.e)!==null);
+  (rtModesData||[]).forEach((state,idx)=>{
+    const m=rt_modes[idx];
+    if(!m)return;
+    const entries=(state||[]).filter(r=>rt_parseT(r.s)!==null&&rt_parseT(r.e)!==null);
     if(!entries.length)return;
     routineHtml+=`<div style="margin-bottom:14px;"><strong style="font-family:'ThmanyahSans';font-size:13px;">${m.label}</strong><div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:6px;">`;
     entries.forEach(r=>{const p=RT_PAL[r.type]||RT_PAL.leisure;routineHtml+=`<span style="background:${p.color};color:#fff;padding:3px 10px;border-radius:8px;font-size:12px;font-family:'ThmanyahSans';">${p.emoji} ${p.label} ${r.s}→${r.e}</span>`;});
     routineHtml+='</div></div>';
   });
 
-  // planning summary
-  const goal1=document.getElementById('goal1')?.value||'';
-  const goal2=document.getElementById('goal2')?.value||'';
-  const goal3=document.getElementById('goal3')?.value||'';
+  const g=goals||{};
+  const goal1=g.goal1||'', goal2=g.goal2||'', goal3=g.goal3||'';
 
-  const avatarSrc=document.getElementById('user-avatar-bar')?.src||'';
-  wrap.innerHTML=`
+  return `
     <div class="results-hero">
-      ${avatarSrc?`<img src="${avatarSrc}" alt="${creatorName}">`:''}
-      <h2>نتائج ${creatorName} 🏆</h2>
-      <p>إليك ملخص رحلتك الكاملة في من هنا نبدأ</p>
+      ${avatarSrc?`<img src="${avatarSrc}" alt="${name}">`:''}
+      <h2>نتائج ${name} 🏆</h2>
+      <p>إليك ملخص رحلته الكاملة في من هنا نبدأ</p>
     </div>
 
     <div class="results-grid">
@@ -5721,7 +5734,7 @@ function showResults(){
       </div>
 
       <!-- Skills -->
-      ${sqSkillList.length?`
+      ${(skillsList&&skillsList.length)?`
       <div class="res-card">
         <h3>🃏 المهارات الإبداعية</h3>
         ${skillsHtml}
@@ -5729,14 +5742,14 @@ function showResults(){
 
       <!-- Routine -->
       <div class="res-card">
-        <h3>⏰ روتينك</h3>
+        <h3>⏰ الروتين</h3>
         ${routineHtml||'<p style="color:var(--text-muted);font-size:13px;">لم يُسجَّل روتين بعد</p>'}
       </div>
 
       <!-- Goals -->
       ${(goal1||goal2||goal3)?`
       <div class="res-card">
-        <h3>🎯 أهدافك الكبرى</h3>
+        <h3>🎯 الأهداف الكبرى</h3>
         <div class="res-skills-list">
           ${goal1?`<div class="res-skill-row"><span class="res-skill-name">الهدف الأول</span><span style="font-size:13px;font-family:'ThmanyahSans';">${goal1}</span></div>`:''}
           ${goal2?`<div class="res-skill-row"><span class="res-skill-name">الهدف الثاني</span><span style="font-size:13px;font-family:'ThmanyahSans';">${goal2}</span></div>`:''}
@@ -5746,15 +5759,78 @@ function showResults(){
     </div>
 
     <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:8px;padding-bottom:40px;">
-      <button class="btn-primary" onclick="window.print()" style="padding:13px 28px;border-radius:14px;font-size:15px;">🖨️ طباعة نتائجي</button>
-      <button class="btn-gold" onclick="showPage('page-lecture')" style="padding:13px 28px;border-radius:14px;font-size:15px;">← العودة للمحاضرة</button>
+      <button class="btn-primary" onclick="window.print()" style="padding:13px 28px;border-radius:14px;font-size:15px;">🖨️ طباعة النتائج</button>
+      <button class="btn-gold" onclick="${backAction}" style="padding:13px 28px;border-radius:14px;font-size:15px;">${backLabel}</button>
     </div>
   `;
+}
+
+function showResults(){
+  const wrap=document.getElementById('results-wrap');
+  if(!wrap)return;
+
+  const poisonPct=document.getElementById('poison-pct')?.textContent||'—';
+  const compScore=document.getElementById('comp-score-panel')?.textContent||'—';
+
+  const skillsList=sqSkillList.map(sid=>{
+    const fd=SKILL_FIELDS[sid]; const res=sqResults[sid];
+    if(!fd||!res)return null;
+    return { label: fd.label, icon: fd.icon, overall: res.overall };
+  }).filter(Boolean);
+
+  const rtModesData=rt_modes.map(m=>m.state);
+
+  const goals={
+    goal1: document.getElementById('goal1')?.value||'',
+    goal2: document.getElementById('goal2')?.value||'',
+    goal3: document.getElementById('goal3')?.value||''
+  };
+
+  const avatarSrc=document.getElementById('user-avatar-bar')?.src||'';
+  wrap.innerHTML=buildResultsHTML({
+    name: creatorName, avatarSrc, poisonPct, compScore, skillsList, rtModesData, goals,
+    backLabel: '← العودة للمحاضرة', backAction: "showPage('page-lecture')"
+  });
 
   document.querySelectorAll('.page-section').forEach(s=>s.classList.remove('active'));
   document.getElementById('page-results').classList.add('active');
   document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
   window.scrollTo(0,0);
+}
+
+async function showMemberResultAdmin(name){
+  const wrap=document.getElementById('results-wrap');
+  if(!wrap)return;
+  if(!window.mdwnahLoadResults){
+    alert('تعذّر الاتصال بقاعدة البيانات.');
+    return;
+  }
+  try{
+    const data=await window.mdwnahLoadResults();
+    const r=data ? data[encodeURIComponent(name)] : null;
+    if(!r){
+      alert('لا توجد نتائج محفوظة لهذا العضو بعد.');
+      return;
+    }
+    const member=MEMBERS.find(m=>m.name===r.name);
+    wrap.innerHTML=buildResultsHTML({
+      name: r.name || name,
+      avatarSrc: member ? member.img : '',
+      poisonPct: r.poisonPct ?? '—',
+      compScore: r.compScore ?? '—',
+      skillsList: r.skillsList || [],
+      rtModesData: r.rtModes || [],
+      goals: r.goals || {},
+      backLabel: '← رجوع لجدول القائد', backAction: 'backToAdminTable()'
+    });
+    document.querySelectorAll('.page-section').forEach(s=>s.classList.remove('active'));
+    document.getElementById('page-results').classList.add('active');
+    document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
+    window.scrollTo(0,0);
+  }catch(e){
+    console.error(e);
+    alert('حدث خطأ أثناء تحميل النتيجة.');
+  }
 }
 
 </script>

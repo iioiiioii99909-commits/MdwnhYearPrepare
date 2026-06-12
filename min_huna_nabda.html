@@ -5660,21 +5660,49 @@ async function downloadPlanPDF(){
     const { jsPDF } = window.jspdf;
     const pdf=new jsPDF('p','mm','a4');
     const pw=pdf.internal.pageSize.getWidth(), ph=pdf.internal.pageSize.getHeight();
-    // 1) plan text → paginated across pages
-    const canvas=await html2canvas(wrap,{backgroundColor:'#15151a',scale:2,useCORS:true,allowTaint:true,logging:false,windowWidth:wrap.scrollWidth});
-    const img=canvas.toDataURL('image/jpeg',0.92);
-    const iw=pw, ih=canvas.height*iw/canvas.width;
-    let heightLeft=ih, position=0;
-    pdf.addImage(img,'JPEG',0,position,iw,ih,'','FAST'); heightLeft-=ph;
-    while(heightLeft>0){ position-=ph; pdf.addPage(); pdf.addImage(img,'JPEG',0,position,iw,ih,'','FAST'); heightLeft-=ph; }
+    const margin=10;
+    const usableW=pw-margin*2, usableH=ph-margin*2;
+    let cursorY=margin;
+    let needsNewPage=false;
+
+    // 1) render each block (header + each plan-out-sec) separately so page breaks
+    //    fall between sections instead of slicing through text/paragraphs
+    for(const block of [...clone.children]){
+      const canvas=await html2canvas(block,{backgroundColor:'#15151a',scale:2,useCORS:true,allowTaint:true,logging:false,windowWidth:clone.scrollWidth});
+      const img=canvas.toDataURL('image/jpeg',0.92);
+      const imgW=usableW, imgH=canvas.height*imgW/canvas.width;
+      if(imgH<=0)continue;
+
+      if(needsNewPage){ pdf.addPage(); cursorY=margin; needsNewPage=false; }
+
+      if(imgH<=usableH){
+        if(cursorY+imgH>ph-margin && cursorY>margin){ pdf.addPage(); cursorY=margin; }
+        pdf.addImage(img,'JPEG',margin,cursorY,imgW,imgH,'','FAST');
+        cursorY+=imgH+6;
+      } else {
+        // block taller than a full page: paginate it on its own pages
+        if(cursorY>margin){ pdf.addPage(); cursorY=margin; }
+        let heightLeft=imgH, position=0;
+        pdf.addImage(img,'JPEG',margin,margin-position,imgW,imgH,'','FAST');
+        heightLeft-=usableH;
+        while(heightLeft>1){
+          position+=usableH;
+          pdf.addPage();
+          pdf.addImage(img,'JPEG',margin,margin-position,imgW,imgH,'','FAST');
+          heightLeft-=usableH;
+        }
+        needsNewPage=true;
+      }
+    }
+
     // 2) each saved invoice on its own dedicated page, centred (never split)
     for(const im of (savedRoutineImgs||[])){
       pdf.addPage();
       // use stored canvas dimensions (avoids getImageProperties which fails on some browsers)
       const srcW=im.w||800, srcH=im.h||600;
-      const margin=12;
-      let dw=pw-margin*2, dh=srcH*dw/srcW;
-      if(dh>ph-margin*2){ dh=ph-margin*2; dw=srcW*dh/srcH; }
+      const imMargin=12;
+      let dw=pw-imMargin*2, dh=srcH*dw/srcW;
+      if(dh>ph-imMargin*2){ dh=ph-imMargin*2; dw=srcW*dh/srcH; }
       pdf.addImage(im.dataURL,'PNG',(pw-dw)/2,(ph-dh)/2,dw,dh,'','FAST');
     }
     pdf.save(`مخطط-${creatorName}-١٤٤٨.pdf`);

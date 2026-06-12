@@ -1951,7 +1951,7 @@
 <section class="page-section" id="page-lecture">
   <div class="content-wrap">
 
-    <!-- Video -->
+    <!-- Header -->
     <div class="section-header">
       <div class="section-icon">🎥</div>
       <div>
@@ -1960,29 +1960,14 @@
       </div>
     </div>
 
-    <div class="video-container" id="video-facade" onclick="playLecture()" role="button" tabindex="0" title="شغّل المحاضرة">
-      <img class="video-thumb" src="https://i.ytimg.com/vi/Qpy6IoYOyZI/maxresdefault.jpg" alt="معنى الحياة في الواقع المعاصر"
-           onerror="this.onerror=null;this.src='https://i.ytimg.com/vi/Qpy6IoYOyZI/hqdefault.jpg'">
-      <div class="video-play-overlay">
-        <div class="video-play-btn">▶</div>
-        <div class="video-play-label">شغّل المحاضرة</div>
-      </div>
-    </div>
-    <div class="video-fallback">
-      <span>لم يبدأ التشغيل؟</span>
-      <a href="https://www.youtube.com/watch?v=Qpy6IoYOyZI" target="_blank" rel="noopener">افتح المحاضرة على يوتيوب ↗</a>
-    </div>
-
-    <!-- Unified Quiz -->
-    <div id="lecture-quiz">
+    <!-- STEP 1: Poison quiz — before the video -->
+    <div id="poison-quiz-section">
       <div style="background:linear-gradient(135deg,var(--brand-dark),#1a1a1a); color:white; border-radius:18px; padding:24px; margin-bottom:28px;">
-        <h3 style="font-size:20px; color:var(--brand-yellow); margin-bottom:8px;">📋 اختبر نفسك — عشرة أسئلة</h3>
-        <p style="font-size:14px; opacity:0.8;">أجب على الأسئلة العشرة ثم اضغط "اعرض نتيجتي" لتظهر لك نتيجتان: مدى السُّمية ومدى استيعابك لمعنى الحياة الحقيقي.</p>
+        <h3 style="font-size:20px; color:var(--brand-yellow); margin-bottom:8px;">📋 الخطوة ١ — اختبر نفسك قبل المشاهدة</h3>
+        <p style="font-size:14px; opacity:0.8;">أجب بصدق على هذه الأسئلة الخمسة لتقيس مدى تأثرك بمفاهيم الغرب في معنى الحياة — قبل أن تشاهد المحاضرة. لا توجد إجابات صواب وخطأ، فقط اختر ما يعبّر عن تفكيرك الفعلي.</p>
       </div>
 
-      <!-- GROUP 1: Poison questions -->
-      <div class="quiz-group-label">🧪 الجزء الأول — مدى تأثير مفاهيم الغرب عليك</div>
-      <p style="font-size:13px; color:var(--text-muted); margin-bottom:20px; padding-right:4px;">لا توجد إجابات صواب وخطأ — اختر ما يعبّر عن تفكيرك الفعلي بصدق.</p>
+      <div class="quiz-group-label">🧪 اختبار التسمم بمفاهيم الغرب</div>
 
       <div class="quiz-card" data-q="0">
         <div class="quiz-q">١. لما تشوف شخصاً ناجحاً على السوشيال ميديا عنده متابعين كثر وإنجازات... ماذا يخطر ببالك أول شيء؟</div>
@@ -2034,17 +2019,65 @@
         </div>
       </div>
 
-      <!-- Divider -->
-      <div class="quiz-group-divider">
-        <span class="quiz-group-divider-text">الجزء الثاني</span>
+      <!-- Submit -->
+      <div class="quiz-submit-row">
+        <button class="btn-primary" onclick="submitPoisonQuiz()">اعرض نتيجتي 📊</button>
       </div>
 
-      <!-- GROUP 2: Comprehension questions -->
-      <div class="quiz-group-label">💡 الجزء الثاني — مدى استيعابك لمعنى الحياة الحقيقي</div>
-      <p style="font-size:13px; color:var(--text-muted); margin-bottom:20px; padding-right:4px;">أسئلة عن محتوى المحاضرة — هناك إجابة صحيحة لكل سؤال، والتغذية الراجعة تظهر فور اختيارك.</p>
+      <!-- Result -->
+      <div class="dual-result" id="poison-result">
+        <div class="result-panel" id="result-poison-panel">
+          <div class="result-panel-icon">🧪</div>
+          <div class="result-panel-title">مدى السُّمية</div>
+          <div class="result-panel-score" id="poison-pct">—</div>
+          <div class="result-panel-msg" id="poison-msg-panel"></div>
+          <div class="result-panel-detail" id="poison-detail-panel"></div>
+        </div>
+      </div>
+
+      <!-- Continue to video -->
+      <div id="poison-next-row" style="display:none; justify-content:center; margin-top:30px;">
+        <button class="btn-primary" onclick="goToLectureVideo()" style="font-size:16px;padding:15px 40px;border-radius:16px;">التالي: شاهد المحاضرة 🎥</button>
+      </div>
+    </div>
+
+    <!-- STEP 2: Video -->
+    <div id="lecture-video-section" style="display:none;">
+      <div style="background:linear-gradient(135deg,var(--brand-dark),#1a1a1a); color:white; border-radius:18px; padding:24px; margin-bottom:28px;">
+        <h3 style="font-size:20px; color:var(--brand-yellow); margin-bottom:8px;">🎥 الخطوة ٢ — شاهد المحاضرة</h3>
+        <p style="font-size:14px; opacity:0.8;">شاهد المحاضرة كاملة، ثم انتقل لاختبار قصير يقيس مدى استيعابك لمحتواها.</p>
+      </div>
+
+      <div class="video-container" id="video-facade" onclick="playLecture()" role="button" tabindex="0" title="شغّل المحاضرة">
+        <img class="video-thumb" src="https://i.ytimg.com/vi/Qpy6IoYOyZI/maxresdefault.jpg" alt="معنى الحياة في الواقع المعاصر"
+             onerror="this.onerror=null;this.src='https://i.ytimg.com/vi/Qpy6IoYOyZI/hqdefault.jpg'">
+        <div class="video-play-overlay">
+          <div class="video-play-btn">▶</div>
+          <div class="video-play-label">شغّل المحاضرة</div>
+        </div>
+      </div>
+      <div class="video-fallback">
+        <span>لم يبدأ التشغيل؟</span>
+        <a href="https://www.youtube.com/watch?v=Qpy6IoYOyZI" target="_blank" rel="noopener">افتح المحاضرة على يوتيوب ↗</a>
+      </div>
+
+      <!-- Continue to comprehension quiz -->
+      <div style="display:flex; justify-content:center; margin-top:10px;">
+        <button class="btn-primary" onclick="goToCompQuiz()" style="font-size:16px;padding:15px 40px;border-radius:16px;">التالي: اختبر فهمك 💡</button>
+      </div>
+    </div>
+
+    <!-- STEP 3: Comprehension quiz — after the video -->
+    <div id="comp-quiz-section" style="display:none;">
+      <div style="background:linear-gradient(135deg,var(--brand-dark),#1a1a1a); color:white; border-radius:18px; padding:24px; margin-bottom:28px;">
+        <h3 style="font-size:20px; color:var(--brand-yellow); margin-bottom:8px;">💡 الخطوة ٣ — اختبر فهمك</h3>
+        <p style="font-size:14px; opacity:0.8;">أسئلة عن محتوى المحاضرة — هناك إجابة صحيحة لكل سؤال، والتغذية الراجعة تظهر فور إرسال إجاباتك.</p>
+      </div>
+
+      <div class="quiz-group-label">💡 اختبار الفهم — مدى استيعابك لمعنى الحياة الحقيقي</div>
 
       <div class="quiz-card" data-q="0">
-        <div class="quiz-q">٦. ما الذي يصنع "معنى الحياة" عند الإنسان وفق ما شرحه الشيخ؟</div>
+        <div class="quiz-q">١. ما الذي يصنع "معنى الحياة" عند الإنسان وفق ما شرحه الشيخ؟</div>
         <div class="quiz-options">
           <div class="quiz-opt" onclick="selectComp(this,0,'a')"><span class="opt-letter">أ</span> قراراته الشخصية ورغباته الفردية</div>
           <div class="quiz-opt correct-ans" onclick="selectComp(this,0,'b')"><span class="opt-letter">ب</span> السردية الكبرى التي يؤمن بها ويحياها</div>
@@ -2055,7 +2088,7 @@
       </div>
 
       <div class="quiz-card" data-q="1">
-        <div class="quiz-q">٧. ما مفهوم "وَتَوشة معنى الحياة" الذي طرحه الشيخ؟</div>
+        <div class="quiz-q">٢. ما مفهوم "وَتَوشة معنى الحياة" الذي طرحه الشيخ؟</div>
         <div class="quiz-options">
           <div class="quiz-opt" onclick="selectComp(this,1,'a')"><span class="opt-letter">أ</span> تغيير الإنسان لقناعاته بقرار واعٍ ومتعمد</div>
           <div class="quiz-opt" onclick="selectComp(this,1,'b')"><span class="opt-letter">ب</span> ظاهرة الكتب التي تشرح معنى الحياة</div>
@@ -2066,7 +2099,7 @@
       </div>
 
       <div class="quiz-card" data-q="2">
-        <div class="quiz-q">٨. ما أول مقترح ذكره الشيخ لمواجهة أزمة معنى الحياة؟</div>
+        <div class="quiz-q">٣. ما أول مقترح ذكره الشيخ لمواجهة أزمة معنى الحياة؟</div>
         <div class="quiz-options">
           <div class="quiz-opt" onclick="selectComp(this,2,'a')"><span class="opt-letter">أ</span> الابتعاد الكلي عن السوشيال ميديا</div>
           <div class="quiz-opt correct-ans" onclick="selectComp(this,2,'b')"><span class="opt-letter">ب</span> الوحي القرآني كبوصلة ثابتة مع التدبر والتطبيق</div>
@@ -2077,7 +2110,7 @@
       </div>
 
       <div class="quiz-card" data-q="3">
-        <div class="quiz-q">٩. كيف وصف الشيخ ظاهرة تصوير الفلوجات اليومية ونشرها؟</div>
+        <div class="quiz-q">٤. كيف وصف الشيخ ظاهرة تصوير الفلوجات اليومية ونشرها؟</div>
         <div class="quiz-options">
           <div class="quiz-opt" onclick="selectComp(this,3,'a')"><span class="opt-letter">أ</span> وسيلة تعليمية مفيدة وإيجابية</div>
           <div class="quiz-opt" onclick="selectComp(this,3,'b')"><span class="opt-letter">ب</span> تعبير جميل عن الحياة الأسرية</div>
@@ -2088,7 +2121,7 @@
       </div>
 
       <div class="quiz-card" data-q="4">
-        <div class="quiz-q">١٠. ما القناة الأولى التي انتقلت من خلالها مقاربات الغرب لمعنى الحياة إلينا؟</div>
+        <div class="quiz-q">٥. ما القناة الأولى التي انتقلت من خلالها مقاربات الغرب لمعنى الحياة إلينا؟</div>
         <div class="quiz-options">
           <div class="quiz-opt" onclick="selectComp(this,4,'a')"><span class="opt-letter">أ</span> السوشيال ميديا ومنصات التواصل</div>
           <div class="quiz-opt correct-ans" onclick="selectComp(this,4,'b')"><span class="opt-letter">ب</span> التعليم الغربي وأنظمته التي تبنيناها</div>
@@ -2098,20 +2131,13 @@
         <div class="quiz-feedback" id="comp-fb-4"></div>
       </div>
 
-      <!-- Single Submit -->
+      <!-- Submit -->
       <div class="quiz-submit-row">
-        <button class="btn-primary" onclick="submitCombinedQuiz()">اعرض نتيجتي 📊</button>
+        <button class="btn-primary" onclick="submitCompQuiz()">اعرض نتيجتي 📊</button>
       </div>
 
-      <!-- Dual Results -->
-      <div class="dual-result" id="combined-result">
-        <div class="result-panel" id="result-poison-panel">
-          <div class="result-panel-icon">🧪</div>
-          <div class="result-panel-title">مدى السُّمية</div>
-          <div class="result-panel-score" id="poison-pct">—</div>
-          <div class="result-panel-msg" id="poison-msg-panel"></div>
-          <div class="result-panel-detail" id="poison-detail-panel"></div>
-        </div>
+      <!-- Result -->
+      <div class="dual-result" id="comp-result">
         <div class="result-panel" id="result-comp-panel">
           <div class="result-panel-icon">💡</div>
           <div class="result-panel-title">مدى الاستيعاب</div>
@@ -3487,17 +3513,12 @@ function playLecture() {
   sfx('click');
 }
 
-function submitCombinedQuiz() {
+function submitPoisonQuiz() {
   if (Object.keys(poisonSelected).length < 5) {
-    alert('يرجى الإجابة على أسئلة الجزء الأول (١ – ٥)');
-    return;
-  }
-  if (Object.keys(compSelected).length < 5) {
-    alert('يرجى الإجابة على أسئلة الجزء الثاني (٦ – ١٠)');
+    alert('يرجى الإجابة على الأسئلة الخمسة');
     return;
   }
 
-  // --- Poison panel ---
   const total = Object.values(poisonSelected).reduce((a, b) => a + b, 0);
   const pct = Math.round((total / 15) * 100);
 
@@ -3520,7 +3541,40 @@ function submitCombinedQuiz() {
     poisonClass = 'panel-blue';
   }
 
-  // --- Comprehension panel ---
+  document.getElementById('poison-pct').textContent = pct + '%';
+  document.getElementById('poison-msg-panel').textContent = poisonMsg;
+  document.getElementById('poison-detail-panel').textContent = poisonDetail;
+  const poisonPanel = document.getElementById('result-poison-panel');
+  poisonPanel.className = 'result-panel ' + poisonClass;
+
+  const resultDiv = document.getElementById('poison-result');
+  resultDiv.classList.add('show');
+
+  progress.poisonDone = true;
+  updateProgress();
+  const nb = document.getElementById('poison-next-row'); if (nb) nb.style.display = 'flex';
+  sfx('success');
+  resultDiv.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function goToLectureVideo() {
+  const v = document.getElementById('lecture-video-section');
+  if (v) { v.style.display = 'block'; v.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+  sfx('click');
+}
+
+function goToCompQuiz() {
+  const c = document.getElementById('comp-quiz-section');
+  if (c) { c.style.display = 'block'; c.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+  sfx('click');
+}
+
+function submitCompQuiz() {
+  if (Object.keys(compSelected).length < 5) {
+    alert('يرجى الإجابة على الأسئلة الخمسة');
+    return;
+  }
+
   let correct = 0;
   for (let i = 0; i < 5; i++) {
     if (compSelected[i] === COMP_CORRECT[i]) correct++;
@@ -3541,13 +3595,6 @@ function submitCombinedQuiz() {
   ];
   const compClass = correct >= 4 ? 'panel-teal' : correct >= 2 ? 'panel-blue' : 'panel-yellow';
 
-  // --- Render ---
-  document.getElementById('poison-pct').textContent = pct + '%';
-  document.getElementById('poison-msg-panel').textContent = poisonMsg;
-  document.getElementById('poison-detail-panel').textContent = poisonDetail;
-  const poisonPanel = document.getElementById('result-poison-panel');
-  poisonPanel.className = 'result-panel ' + poisonClass;
-
   document.getElementById('comp-score-panel').textContent = correct + ' / 5';
   document.getElementById('comp-msg-panel').textContent = compMsgs[correct];
   document.getElementById('comp-detail-panel').textContent = compDetails[correct];
@@ -3555,8 +3602,7 @@ function submitCombinedQuiz() {
   compPanel.className = 'result-panel ' + compClass;
 
   // أظهر فيدباك أسئلة الاستيعاب بعد الإرسال
-  const allCards = document.querySelectorAll('#lecture-quiz .quiz-card');
-  const compCards = Array.from(allCards).slice(5); // الأسئلة 6-10
+  const compCards = document.querySelectorAll('#comp-quiz-section .quiz-card');
   for (let i = 0; i < 5; i++) {
     if (!compCards[i]) continue;
     const isCorrect = compSelected[i] === COMP_CORRECT[i];
@@ -3568,10 +3614,9 @@ function submitCombinedQuiz() {
     if (fb) { fb.textContent = COMP_EXPLAIN[i]; fb.className = 'quiz-feedback show ' + (isCorrect ? 'good' : 'bad'); }
   }
 
-  const resultDiv = document.getElementById('combined-result');
+  const resultDiv = document.getElementById('comp-result');
   resultDiv.classList.add('show');
 
-  progress.poisonDone = true;
   progress.compDone = true;
   progress.lectureDone = true;
   updateProgress();
@@ -4274,6 +4319,7 @@ function goToStep(idx) {
 const MEMBERS = [
   { name: 'الشعيرة',   img: 'MdwnhMembers/الشعيرة.png' },
   { name: 'أبو بندر',  img: 'MdwnhMembers/أبو بندر.png' },
+  { name: 'أبو مزاحم', img: 'MdwnhMembers/ابو مزاحم.png' },
   { name: 'جمانة',     img: 'MdwnhMembers/جمانة.png', f:true },
   { name: 'خالد حسن',  img: 'MdwnhMembers/خالد حسن.png' },
   { name: 'خالد',      img: 'MdwnhMembers/خالد.png' },

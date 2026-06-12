@@ -1341,6 +1341,13 @@
   .results-hero p { font-size:14px; color:rgba(255,255,255,0.6); margin-top:6px; }
   .results-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(280px,1fr)); gap:20px; margin-bottom:24px; }
   .res-card { background:#fff; border-radius:18px; padding:24px; border:1.5px solid var(--border); box-shadow:0 2px 12px var(--shadow); }
+
+  /* Leader admin table */
+  .admin-table { width:100%; border-collapse:collapse; background:#fff; border-radius:14px; overflow:hidden; box-shadow:0 2px 12px var(--shadow); font-family:'ThmanyahSans',sans-serif; font-size:13px; min-width:760px; }
+  .admin-table th, .admin-table td { padding:10px 14px; text-align:center; border-bottom:1px solid var(--border); white-space:nowrap; }
+  .admin-table th { background:var(--brand-dark); color:var(--brand-yellow); font-weight:700; }
+  .admin-table tbody tr:hover { background:var(--bg2); }
+  .admin-table td:first-child, .admin-table th:first-child { text-align:right; font-weight:700; }
   .res-card h3 { font-family:'ThmanyahSerifDisplay',sans-serif; font-size:17px; color:var(--brand-dark); margin-bottom:14px; }
   .res-big-num { font-family:'ThmanyahSerifDisplay',sans-serif; font-size:52px; font-weight:900; line-height:1; }
   .res-sub { font-size:13px; color:var(--text-muted); margin-top:4px; }
@@ -1944,6 +1951,10 @@
     <div id="results-cta" style="display:none;margin-top:32px;">
       <button onclick="showResults()" style="background:linear-gradient(135deg,var(--brand-teal),var(--brand-blue));color:white;border:none;padding:16px 40px;border-radius:16px;font-family:'ThmanyahSerifDisplay',sans-serif;font-size:18px;font-weight:700;cursor:pointer;box-shadow:0 6px 24px rgba(59,185,171,0.35);">🏆 اعرض نتائجي الكاملة</button>
     </div>
+
+    <div style="margin-top:56px;">
+      <span onclick="leaderLogin()" style="font-size:11px;color:var(--text-muted);opacity:0.55;cursor:pointer;font-family:'ThmanyahSans',sans-serif;">للقائد 🔑</span>
+    </div>
   </div>
 </section>
 
@@ -2348,6 +2359,20 @@
 <section class="page-section" id="page-results">
   <div class="content-wrap" id="results-wrap">
     <!-- built dynamically by showResults() -->
+  </div>
+</section>
+
+<!-- ===================== PAGE: ADMIN (للقائد) ===================== -->
+<section class="page-section" id="page-admin">
+  <div class="content-wrap" style="padding:32px 16px 60px;">
+    <div class="section-header">
+      <h2>📊 لوحة القائد — نتائج الأعضاء</h2>
+    </div>
+    <div style="display:flex;gap:10px;justify-content:center;margin-bottom:20px;flex-wrap:wrap;">
+      <button class="btn-gold" onclick="loadAdminResults()" style="padding:10px 24px;border-radius:12px;font-size:14px;">🔄 تحديث</button>
+      <button class="btn-primary" onclick="leaderBack()" style="padding:10px 24px;border-radius:12px;font-size:14px;">← رجوع</button>
+    </div>
+    <div id="admin-table-wrap" style="overflow-x:auto;"></div>
   </div>
 </section>
 
@@ -3513,9 +3538,9 @@ function playLecture() {
   sfx('click');
 }
 
-function submitPoisonQuiz() {
+function submitPoisonQuiz(silent) {
   if (Object.keys(poisonSelected).length < 5) {
-    alert('يرجى الإجابة على الأسئلة الخمسة');
+    if (!silent) alert('يرجى الإجابة على الأسئلة الخمسة');
     return;
   }
 
@@ -3553,8 +3578,11 @@ function submitPoisonQuiz() {
   progress.poisonDone = true;
   updateProgress();
   const nb = document.getElementById('poison-next-row'); if (nb) nb.style.display = 'flex';
-  sfx('success');
-  resultDiv.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  if (!silent) {
+    sfx('success');
+    resultDiv.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+  scheduleSave();
 }
 
 function goToLectureVideo() {
@@ -3569,9 +3597,9 @@ function goToCompQuiz() {
   sfx('click');
 }
 
-function submitCompQuiz() {
+function submitCompQuiz(silent) {
   if (Object.keys(compSelected).length < 5) {
-    alert('يرجى الإجابة على الأسئلة الخمسة');
+    if (!silent) alert('يرجى الإجابة على الأسئلة الخمسة');
     return;
   }
 
@@ -3621,8 +3649,11 @@ function submitCompQuiz() {
   progress.lectureDone = true;
   updateProgress();
   const nb = document.getElementById('lecture-next-row'); if (nb) nb.style.display = 'flex';
-  sfx('success');
-  resultDiv.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  if (!silent) {
+    sfx('success');
+    resultDiv.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+  scheduleSave();
 }
 
 // ============================================================
@@ -3912,10 +3943,11 @@ function computeSkillResult(sid) {
   sqResults[sid] = { overall, finals, level: lvlData, software: sqSoftware[sid] };
 }
 
-function showAllResults() {
+function showAllResults(silent) {
   // Compute any missing
   sqSkillList.forEach(sid => { if (!sqResults[sid]) computeSkillResult(sid); });
 
+  document.getElementById('skills-selector').style.display = 'none';
   document.getElementById('skills-quiz-container').style.display = 'none';
   const section = document.getElementById('player-cards-section');
   section.style.display = 'block';
@@ -3931,8 +3963,11 @@ function showAllResults() {
 
   progress.skillsDone = true;
   updateProgress();
-  sfx('success');
-  section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  if (!silent) {
+    sfx('success');
+    section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+  scheduleSave();
 }
 
 function renderPlayerCard(sid, grid) {
@@ -4102,7 +4137,7 @@ function getRadioVal(groupId) {
   return sel ? sel.dataset.val : null;
 }
 
-function generateRoutine() {
+function generateRoutine(silent) {
   const wakeTime = document.getElementById('wake-time').value || '05:30';
   const focusArea = document.getElementById('focus-area').value;
   const hours = getRadioVal('hours-group') || '2';
@@ -4196,7 +4231,10 @@ function generateRoutine() {
   document.getElementById('routine-result').classList.add('show');
   progress.routineDone = true;
   updateProgress();
-  document.getElementById('routine-result').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  if (!silent) {
+    document.getElementById('routine-result').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+  scheduleSave();
 }
 
 // ============================================================
@@ -4508,8 +4546,269 @@ function selectMember(member) {
   document.getElementById('login-screen').classList.add('hidden');
 
   progress.nameSet = true;
+  loadProgress();
   updateProgress();
   showPage('page-home');
+}
+
+// ============================================================
+// PROGRESS PERSISTENCE (resume where left off + leader sync)
+// ============================================================
+function memberStorageKey(name) {
+  return 'mdwnah_progress__' + name;
+}
+
+function snapshotState() {
+  const wheel = {};
+  document.querySelectorAll('.wheel-row input[type=range][data-wkey]').forEach(inp => {
+    wheel[inp.dataset.wkey] = inp.value;
+  });
+
+  const fields = {};
+  document.querySelectorAll('#page-planning input[id], #page-planning textarea[id], #page-routine input[id], #page-routine select[id], #page-routine textarea[id]').forEach(el => {
+    fields[el.id] = el.value;
+  });
+
+  return {
+    creatorName,
+    progress,
+    completedTasks: [...completedTasks],
+    poisonSelected, compSelected,
+    selectedSkills: [...selectedSkills],
+    sqSkillList, sqAnswers, sqResults, sqSoftware,
+    routineRadios: {
+      hours: getRadioVal('hours-group'),
+      fajr: getRadioVal('fajr-group'),
+      social: getRadioVal('social-group')
+    },
+    wheel,
+    fields,
+    rtModes: (typeof rt_modes !== 'undefined') ? rt_modes.map(m => m.state) : [],
+    updatedAt: Date.now()
+  };
+}
+
+let _saveTimer = null;
+function scheduleSave() {
+  clearTimeout(_saveTimer);
+  _saveTimer = setTimeout(saveProgress, 800);
+}
+
+function saveProgress() {
+  if (!creatorName || creatorName === 'المبدع') return;
+  try {
+    const snap = snapshotState();
+    localStorage.setItem(memberStorageKey(creatorName), JSON.stringify(snap));
+    pushMemberResult(snap);
+  } catch (e) { console.error('saveProgress failed', e); }
+}
+
+function loadProgress() {
+  let data;
+  try {
+    const raw = localStorage.getItem(memberStorageKey(creatorName));
+    if (!raw) return;
+    data = JSON.parse(raw);
+  } catch (e) { return; }
+  if (!data) return;
+
+  if (data.progress) Object.assign(progress, data.progress);
+  if (Array.isArray(data.completedTasks)) completedTasks = new Set(data.completedTasks);
+  if (data.poisonSelected) poisonSelected = data.poisonSelected;
+  if (data.compSelected) compSelected = data.compSelected;
+  if (Array.isArray(data.selectedSkills)) selectedSkills = new Set(data.selectedSkills);
+  if (Array.isArray(data.sqSkillList)) sqSkillList = data.sqSkillList;
+  if (data.sqAnswers) sqAnswers = data.sqAnswers;
+  if (data.sqResults) sqResults = data.sqResults;
+  if (data.sqSoftware) sqSoftware = data.sqSoftware;
+
+  // restore generic planning/routine input fields
+  if (data.fields) {
+    Object.keys(data.fields).forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.value = data.fields[id];
+    });
+  }
+
+  // restore wheel-of-life sliders
+  if (data.wheel) {
+    document.querySelectorAll('.wheel-row input[type=range][data-wkey]').forEach(inp => {
+      const k = inp.dataset.wkey;
+      if (data.wheel[k] !== undefined) {
+        inp.value = data.wheel[k];
+        updateRangeFill(inp);
+        const row = inp.closest('.wheel-row');
+        const span = row && row.querySelector('.wheel-val');
+        if (span) span.textContent = Math.round(+inp.value);
+      }
+    });
+    if (typeof drawWheelCanvas === 'function') drawWheelCanvas(wheel_targets());
+  }
+
+  // restore routine radio groups
+  if (data.routineRadios) {
+    const map = { 'hours-group': 'hours', 'fajr-group': 'fajr', 'social-group': 'social' };
+    Object.keys(map).forEach(g => {
+      const val = data.routineRadios[map[g]];
+      if (val) {
+        const opt = document.querySelector(`#${g} .radio-opt[data-val="${val}"]`);
+        if (opt) selectRadio(g, opt);
+      }
+    });
+  }
+
+  // restore routine wheel planner state
+  if (Array.isArray(data.rtModes) && typeof rt_modes !== 'undefined') {
+    data.rtModes.forEach((st, i) => { if (rt_modes[i] && Array.isArray(st)) rt_modes[i].state = st; });
+  }
+
+  restoreUI();
+}
+
+function restoreUI() {
+  // skills selection checkboxes
+  if (selectedSkills.size) {
+    document.querySelectorAll('#skills-checkboxes .skill-check').forEach((div, idx) => {
+      const sk = SKILLS[idx];
+      if (sk && selectedSkills.has(sk.id)) {
+        div.classList.add('checked');
+        const icon = div.querySelector('.skill-check-icon');
+        if (icon) icon.textContent = '✓';
+        let color = SKILL_PALETTE[skillFillIdx % SKILL_PALETTE.length];
+        if (color === lastSkillColor) { skillFillIdx++; color = SKILL_PALETTE[skillFillIdx % SKILL_PALETTE.length]; }
+        skillFillIdx++; lastSkillColor = color;
+        const txtCol = (color === '#F4C82C') ? '#1a1a1a' : '#fff';
+        div.style.setProperty('--fill', color);
+        div.style.setProperty('--fill-txt', txtCol);
+      }
+    });
+    const badge = document.getElementById('selected-count-badge');
+    if (badge) badge.textContent = selectedSkills.size > 0 ? `${selectedSkills.size} مهارة محددة` : 'لم تختر شيئاً بعد';
+  }
+
+  if (progress.poisonDone) {
+    const v = document.getElementById('lecture-video-section'); if (v) v.style.display = 'block';
+    if (Object.keys(poisonSelected).length >= 5) submitPoisonQuiz(true);
+  }
+  if (progress.compDone) {
+    const c = document.getElementById('comp-quiz-section'); if (c) c.style.display = 'block';
+    if (Object.keys(compSelected).length >= 5) submitCompQuiz(true);
+  }
+  if (progress.skillsDone && sqSkillList.length) {
+    showAllResults(true);
+  }
+  if (progress.routineDone) {
+    generateRoutine(true);
+  }
+
+  updateProgress();
+}
+
+// ============================================================
+// LEADER RESULTS SYNC (Firebase)
+// ============================================================
+function buildMemberSummary(snap) {
+  const skillsList = (snap.sqSkillList || []).map(sid => {
+    const fd = SKILL_FIELDS[sid];
+    const res = (snap.sqResults || {})[sid];
+    return { id: sid, label: fd ? fd.label : sid, overall: res ? res.overall : null };
+  });
+  const skillsOverall = skillsList.length
+    ? Math.round(skillsList.reduce((s, x) => s + (x.overall || 0), 0) / skillsList.length)
+    : null;
+  const items = [snap.progress.nameSet, snap.progress.lectureDone, snap.progress.skillsDone, snap.progress.routineDone, snap.progress.planningDone];
+  const progressPct = Math.round((items.filter(Boolean).length / items.length) * 100);
+  return {
+    name: snap.creatorName,
+    progressPct,
+    poisonPct: document.getElementById('poison-pct') ? document.getElementById('poison-pct').textContent : null,
+    compScore: document.getElementById('comp-score-panel') ? document.getElementById('comp-score-panel').textContent : null,
+    skillsOverall,
+    skillsList,
+    lectureDone: !!snap.progress.lectureDone,
+    skillsDone: !!snap.progress.skillsDone,
+    routineDone: !!snap.progress.routineDone,
+    updatedAt: snap.updatedAt
+  };
+}
+
+function pushMemberResult(snap) {
+  if (!window.mdwnahPushResult) return;
+  try {
+    const summary = buildMemberSummary(snap);
+    const id = encodeURIComponent(snap.creatorName);
+    window.mdwnahPushResult(id, summary);
+  } catch (e) { console.error('pushMemberResult failed', e); }
+}
+
+// ============================================================
+// LEADER / ADMIN PAGE
+// ============================================================
+const ADMIN_PASS_HASH = 'b464eba6631302e41ef825b2c4a68be265d06efb5b021cee16aa543f0ba3fda0';
+
+async function sha256Hex(text) {
+  const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(text));
+  return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('');
+}
+
+async function leaderLogin() {
+  const pw = prompt('🔒 كلمة مرور القائد:');
+  if (pw === null) return;
+  const hash = await sha256Hex(pw);
+  if (hash !== ADMIN_PASS_HASH) {
+    alert('كلمة المرور غير صحيحة');
+    return;
+  }
+  document.querySelectorAll('.page-section').forEach(s => s.classList.remove('active'));
+  document.getElementById('page-admin').classList.add('active');
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  window.scrollTo(0, 0);
+  loadAdminResults();
+}
+
+function leaderBack() {
+  document.querySelectorAll('.page-section').forEach(s => s.classList.remove('active'));
+  document.getElementById('page-home').classList.add('active');
+  window.scrollTo(0, 0);
+}
+
+async function loadAdminResults() {
+  const wrap = document.getElementById('admin-table-wrap');
+  if (!wrap) return;
+  wrap.innerHTML = '<p style="text-align:center;color:var(--text-muted);">جارِ التحميل...</p>';
+  if (!window.mdwnahLoadResults) {
+    wrap.innerHTML = '<p style="text-align:center;color:var(--text-muted);">تعذّر الاتصال بقاعدة البيانات.</p>';
+    return;
+  }
+  try {
+    const data = await window.mdwnahLoadResults();
+    if (!data) {
+      wrap.innerHTML = '<p style="text-align:center;color:var(--text-muted);">لا توجد نتائج محفوظة بعد.</p>';
+      return;
+    }
+    const rows = Object.values(data).sort((a, b) => (b.updatedAt || 0) - (a.updatedAt || 0));
+    let html = `<table class="admin-table"><thead><tr>
+      <th>الاسم</th><th>التقدم</th><th>التسمم %</th><th>الاستيعاب</th><th>المهارات</th><th>الروتين</th><th>آخر تحديث</th>
+    </tr></thead><tbody>`;
+    rows.forEach(r => {
+      const skillsTxt = (r.skillsList || []).map(s => `${s.label}: ${s.overall ?? '—'}`).join('، ') || '—';
+      const updated = r.updatedAt ? new Date(r.updatedAt).toLocaleString('ar-SA') : '—';
+      html += `<tr>
+        <td>${r.name || '—'}</td>
+        <td>${r.progressPct ?? 0}%</td>
+        <td>${r.poisonPct ?? '—'}</td>
+        <td>${r.compScore ?? '—'}</td>
+        <td title="${skillsTxt}">${r.skillsOverall ?? '—'}</td>
+        <td>${r.routineDone ? '✅' : '—'}</td>
+        <td>${updated}</td>
+      </tr>`;
+    });
+    html += '</tbody></table>';
+    wrap.innerHTML = html;
+  } catch (e) {
+    console.error(e);
+    wrap.innerHTML = '<p style="text-align:center;color:var(--text-muted);">حدث خطأ أثناء تحميل النتائج.</p>';
+  }
 }
 
 // ============================================================
@@ -4541,6 +4840,11 @@ window.addEventListener('DOMContentLoaded', () => {
     img.onerror=()=>{}; // texture file missing — skip gracefully
     img.src='Invoice texture.png';
   })();
+
+  // Auto-save progress on any interaction so members can resume later
+  document.addEventListener('input', scheduleSave);
+  document.addEventListener('click', scheduleSave);
+  window.addEventListener('beforeunload', saveProgress);
 });
 
 // ============================================================
@@ -5448,6 +5752,29 @@ function showResults(){
   window.scrollTo(0,0);
 }
 
+</script>
+
+<!-- Firebase sync: saves each member's results so the leader page can show everyone's progress -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+  import { getDatabase, ref, update, get } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyBUxJmhqzUuhRWS5jL-87IRzhBvzDc5OHQ",
+    authDomain: "mdwnh-digital-s.firebaseapp.com",
+    databaseURL: "https://mdwnh-digital-s-default-rtdb.europe-west1.firebasedatabase.app",
+    projectId: "mdwnh-digital-s",
+    storageBucket: "mdwnh-digital-s.firebasestorage.app",
+    messagingSenderId: "581682259149",
+    appId: "1:581682259149:web:95498ed08d5f6ca01b3584",
+    measurementId: "G-00F3S4CJZ6"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getDatabase(app);
+
+  window.mdwnahPushResult = (id, data) => update(ref(db, 'yearPrepareResults/' + id), data);
+  window.mdwnahLoadResults = async () => (await get(ref(db, 'yearPrepareResults'))).val();
 </script>
 </body>
 </html>

@@ -1,0 +1,3970 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>من هنا نبدأ</title>
+<style>
+  /* ===== THMANYAH FONT FACE ===== */
+  @font-face {
+    font-family: 'ThmanyahSerifDisplay';
+    src: url('Thmanyah-Font-Family/thmanyah typeface/thmanyahserifdisplay/woff2/thmanyahserifdisplay-Black.woff2') format('woff2');
+    font-weight: 900; font-style: normal; font-display: swap;
+  }
+  @font-face {
+    font-family: 'ThmanyahSerifDisplay';
+    src: url('Thmanyah-Font-Family/thmanyah typeface/thmanyahserifdisplay/woff2/thmanyahserifdisplay-Bold.woff2') format('woff2');
+    font-weight: 700; font-style: normal; font-display: swap;
+  }
+  @font-face {
+    font-family: 'ThmanyahSerifDisplay';
+    src: url('Thmanyah-Font-Family/thmanyah typeface/thmanyahserifdisplay/woff2/thmanyahserifdisplay-Regular.woff2') format('woff2');
+    font-weight: 400; font-style: normal; font-display: swap;
+  }
+  @font-face {
+    font-family: 'ThmanyahSans';
+    src: url('Thmanyah-Font-Family/thmanyah typeface/thmanyahsans/woff2/thmanyahsans-Black.woff2') format('woff2');
+    font-weight: 900; font-style: normal; font-display: swap;
+  }
+  @font-face {
+    font-family: 'ThmanyahSans';
+    src: url('Thmanyah-Font-Family/thmanyah typeface/thmanyahsans/woff2/thmanyahsans-Bold.woff2') format('woff2');
+    font-weight: 700; font-style: normal; font-display: swap;
+  }
+  @font-face {
+    font-family: 'ThmanyahSans';
+    src: url('Thmanyah-Font-Family/thmanyah typeface/thmanyahsans/woff2/thmanyahsans-Medium.woff2') format('woff2');
+    font-weight: 500; font-style: normal; font-display: swap;
+  }
+  @font-face {
+    font-family: 'ThmanyahSans';
+    src: url('Thmanyah-Font-Family/thmanyah typeface/thmanyahsans/woff2/thmanyahsans-Regular.woff2') format('woff2');
+    font-weight: 400; font-style: normal; font-display: swap;
+  }
+  @font-face {
+    font-family: 'ThmanyahSans';
+    src: url('Thmanyah-Font-Family/thmanyah typeface/thmanyahsans/woff2/thmanyahsans-Light.woff2') format('woff2');
+    font-weight: 300; font-style: normal; font-display: swap;
+  }
+
+  :root {
+    /* ===== المدونة ستوديو — Brand Colors ===== */
+    --brand-red:    #F04D39;
+    --brand-yellow: #F4C82C;
+    --brand-teal:   #3BB9AB;
+    --brand-blue:   #086FB4;
+    --brand-bg:     #FAF9F7;
+    --brand-dark:   #262626;
+
+    /* Tints */
+    --red-light:    #FEE9E7;
+    --yellow-light: #FEF8E0;
+    --teal-light:   #E0F5F3;
+    --blue-light:   #E0EEF9;
+    --bg:           #FAF9F7;
+    --bg2:          #F0EFED;
+    --text-main:    #262626;
+    --text-muted:   #6B6B6B;
+    --border:       rgba(38,38,38,0.12);
+    --shadow:       rgba(0,0,0,0.10);
+
+    /* Legacy aliases → brand palette */
+    --gold:         #F4C82C;
+    --gold-light:   #F4C82C;
+    --gold-dark:    #c0a010;
+    --ink:          #262626;
+    --ink2:         #1C1C1C;
+    --parchment:    #FAF9F7;
+    --parchment2:   #F0EFED;
+    --green-deep:   #262626;
+    --green-mid:    #d43d2a;
+    --green-light:  #3BB9AB;
+    --cream:        #FAF9F7;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'ThmanyahSans', sans-serif;
+    background: var(--parchment);
+    color: var(--text-main);
+    min-height: 100vh;
+    direction: rtl;
+  }
+
+  /* ===== TOP PROGRESS BAR ===== */
+  #progress-bar-container {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: var(--green-deep);
+    padding: 10px 24px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    border-bottom: 2px solid var(--gold);
+    box-shadow: 0 2px 12px rgba(0,0,0,0.3);
+  }
+  #user-name-display {
+    font-family: 'ThmanyahSerifDisplay', sans-serif;
+    font-weight: 700;
+    color: var(--gold-light);
+    font-size: 15px;
+    white-space: nowrap;
+  }
+  #progress-track {
+    flex: 1;
+    height: 8px;
+    background: rgba(255,255,255,0.15);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  #progress-fill {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, var(--gold-dark), var(--gold-light));
+    border-radius: 4px;
+    transition: width 0.6s ease;
+  }
+  #progress-label {
+    font-size: 13px;
+    color: var(--gold-light);
+    white-space: nowrap;
+  }
+  .readiness-badge {
+    background: var(--gold);
+    color: var(--ink);
+    font-weight: 700;
+    font-size: 12px;
+    padding: 3px 10px;
+    border-radius: 20px;
+    white-space: nowrap;
+  }
+
+  /* ===== NAV ===== */
+  #main-nav {
+    background: var(--ink2);
+    display: flex;
+    justify-content: center;
+    gap: 4px;
+    padding: 0 16px;
+    flex-wrap: wrap;
+    border-bottom: 1px solid rgba(201,168,76,0.3);
+  }
+  .nav-btn {
+    background: none;
+    border: none;
+    color: rgba(255,255,255,0.6);
+    font-family: 'ThmanyahSans', sans-serif;
+    font-size: 13px;
+    padding: 12px 16px;
+    cursor: pointer;
+    border-bottom: 3px solid transparent;
+    transition: all 0.25s;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    white-space: nowrap;
+  }
+  .nav-btn:hover { color: rgba(255,255,255,0.9); }
+  .nav-btn.active { color: var(--gold-light); border-bottom-color: var(--gold); }
+
+  /* ===== PAGE SECTIONS ===== */
+  .page-section { display: none; }
+  .page-section.active { display: block; }
+
+  /* ===== HERO ===== */
+  #hero {
+    text-align: center;
+    padding: 60px 24px 40px;
+    background: linear-gradient(180deg, var(--green-deep) 0%, var(--ink2) 100%);
+    color: white;
+    position: relative;
+    overflow: hidden;
+  }
+  #hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23C9A84C' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    pointer-events: none;
+  }
+  #hero h1 {
+    font-family: 'ThmanyahSerifDisplay', sans-serif;
+    font-size: clamp(36px, 6vw, 64px);
+    font-weight: 900;
+    color: var(--gold-light);
+    letter-spacing: -0.5px;
+    margin-bottom: 8px;
+    position: relative;
+  }
+  #hero p {
+    font-size: 16px;
+    color: rgba(255,255,255,0.65);
+    max-width: 520px;
+    margin: 0 auto 24px;
+    line-height: 1.7;
+    position: relative;
+  }
+  .name-input-row {
+    display: flex;
+    gap: 10px;
+    max-width: 420px;
+    margin: 0 auto;
+    position: relative;
+  }
+  .name-input-row input {
+    flex: 1;
+    padding: 12px 18px;
+    border: 2px solid var(--gold);
+    border-radius: 12px;
+    background: rgba(255,255,255,0.08);
+    color: white;
+    font-family: 'ThmanyahSans', sans-serif;
+    font-size: 16px;
+    outline: none;
+    text-align: right;
+  }
+  .name-input-row input::placeholder { color: rgba(255,255,255,0.35); }
+  .name-input-row input:focus { background: rgba(255,255,255,0.12); border-color: var(--gold-light); }
+  .btn-gold {
+    background: var(--gold);
+    color: var(--ink);
+    border: none;
+    padding: 12px 20px;
+    border-radius: 12px;
+    font-family: 'ThmanyahSans', sans-serif;
+    font-weight: 700;
+    font-size: 15px;
+    cursor: pointer;
+    transition: all 0.2s;
+    white-space: nowrap;
+  }
+  .btn-gold:hover { background: var(--gold-light); transform: translateY(-1px); }
+
+  /* ===== CONTENT WRAPPER ===== */
+  .content-wrap {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 32px 24px;
+  }
+
+  /* ===== SECTION HEADERS ===== */
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 28px;
+  }
+  .section-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 14px;
+    background: var(--green-deep);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    flex-shrink: 0;
+  }
+  .section-header h2 {
+    font-family: 'ThmanyahSerifDisplay', sans-serif;
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--green-deep);
+  }
+  .section-header p {
+    font-size: 14px;
+    color: var(--text-muted);
+    margin-top: 2px;
+  }
+
+  /* ===== YOUTUBE PLAYER ===== */
+  .video-container {
+    background: var(--ink);
+    border-radius: 18px;
+    overflow: hidden;
+    aspect-ratio: 16/9;
+    border: 2px solid var(--border);
+    box-shadow: 0 12px 40px rgba(0,0,0,0.2);
+    margin-bottom: 40px;
+  }
+  .video-container iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+  }
+
+  /* ===== QUIZ CARDS ===== */
+  .quiz-card {
+    background: white;
+    border-radius: 18px;
+    border: 1.5px solid var(--border);
+    padding: 28px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 16px var(--shadow);
+  }
+  .quiz-q {
+    font-family: 'ThmanyahSerifDisplay', sans-serif;
+    font-weight: 600;
+    font-size: 17px;
+    color: var(--text-main);
+    margin-bottom: 18px;
+    line-height: 1.6;
+  }
+  .quiz-options {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .quiz-opt {
+    padding: 13px 18px;
+    border: 1.5px solid var(--border);
+    border-radius: 12px;
+    cursor: pointer;
+    font-family: 'ThmanyahSans', sans-serif;
+    font-size: 15px;
+    color: var(--text-main);
+    background: var(--parchment);
+    transition: all 0.2s;
+    text-align: right;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .quiz-opt:hover { background: var(--parchment2); border-color: var(--gold); }
+  .quiz-opt.selected { background: var(--green-deep); color: white; border-color: var(--green-deep); }
+  .quiz-opt.correct { background: #1A3A2A; color: #86efac; border-color: #2D6A4F; }
+  .quiz-opt.wrong { background: #3A1A1A; color: #fca5a5; border-color: #7A2A2A; }
+  .quiz-opt .opt-letter {
+    width: 28px;
+    height: 28px;
+    border-radius: 8px;
+    background: rgba(255,255,255,0.15);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 13px;
+    flex-shrink: 0;
+  }
+  .quiz-feedback {
+    margin-top: 14px;
+    padding: 14px;
+    border-radius: 10px;
+    font-size: 14px;
+    line-height: 1.6;
+    display: none;
+  }
+  .quiz-feedback.show { display: block; }
+  .quiz-feedback.good { background: rgba(26,58,42,0.1); color: var(--green-deep); border: 1px solid var(--green-light); }
+  .quiz-feedback.bad { background: rgba(100,20,20,0.08); color: #7A2A2A; border: 1px solid #fca5a5; }
+
+  .quiz-submit-row {
+    display: flex;
+    justify-content: center;
+    margin-top: 24px;
+  }
+  .btn-primary {
+    background: var(--green-deep);
+    color: white;
+    border: none;
+    padding: 13px 32px;
+    border-radius: 12px;
+    font-family: 'ThmanyahSans', sans-serif;
+    font-weight: 700;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .btn-primary:hover { background: var(--green-mid); transform: translateY(-1px); }
+
+  .score-result {
+    background: linear-gradient(135deg, var(--green-deep), var(--green-mid));
+    color: white;
+    border-radius: 18px;
+    padding: 32px;
+    text-align: center;
+    display: none;
+    margin-top: 24px;
+  }
+  .score-result.show { display: block; }
+  .score-num {
+    font-family: 'ThmanyahSerifDisplay', sans-serif;
+    font-size: 56px;
+    font-weight: 900;
+    color: var(--gold-light);
+  }
+  .score-msg { font-size: 18px; margin-top: 8px; opacity: 0.9; }
+  .score-detail { font-size: 14px; margin-top: 6px; opacity: 0.7; }
+
+  /* ===== SKILLS SECTION ===== */
+  .skills-quiz-intro {
+    background: linear-gradient(135deg, var(--green-deep), #234d35);
+    border-radius: 18px;
+    padding: 28px;
+    color: white;
+    margin-bottom: 28px;
+  }
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 12px;
+    margin-bottom: 24px;
+  }
+  .skill-check {
+    background: white;
+    border: 1.5px solid var(--border);
+    border-radius: 14px;
+    padding: 14px 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .skill-check:hover { border-color: var(--gold); transform: translateY(-1px); }
+  .skill-check.checked { background: var(--green-deep); color: white; border-color: var(--green-deep); }
+  .skill-check input[type="checkbox"] { display: none; }
+  .skill-check-icon {
+    width: 24px;
+    height: 24px;
+    border-radius: 6px;
+    border: 2px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    flex-shrink: 0;
+    transition: all 0.2s;
+  }
+  .skill-check.checked .skill-check-icon { background: var(--gold); border-color: var(--gold); color: var(--ink); }
+  .skill-name { font-size: 14px; font-weight: 500; }
+
+  /* ===== PLAYER CARDS ===== */
+  #player-cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 20px;
+    margin-top: 28px;
+  }
+  .player-card {
+    background: linear-gradient(160deg, #1a2a1e 0%, #0d1a10 100%);
+    border: 2px solid var(--gold);
+    border-radius: 20px;
+    padding: 20px;
+    color: white;
+    position: relative;
+    overflow: hidden;
+  }
+  .player-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--gold-dark), var(--gold-light), var(--gold-dark));
+  }
+  .card-skill-name {
+    font-family: 'ThmanyahSerifDisplay', sans-serif;
+    font-weight: 700;
+    font-size: 16px;
+    color: var(--gold-light);
+    margin-bottom: 16px;
+    text-align: center;
+  }
+  .card-player-name {
+    font-size: 13px;
+    color: rgba(255,255,255,0.5);
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  .rating-stars {
+    display: flex;
+    justify-content: center;
+    gap: 4px;
+    margin-bottom: 14px;
+  }
+  .star { font-size: 22px; cursor: pointer; color: rgba(255,255,255,0.2); transition: all 0.15s; }
+  .star.active { color: var(--gold); }
+  .star:hover { transform: scale(1.2); }
+  .card-levels {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .card-level-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+  }
+  .card-level-label { color: rgba(255,255,255,0.55); width: 40px; }
+  .card-level-bar {
+    flex: 1;
+    height: 5px;
+    background: rgba(255,255,255,0.1);
+    border-radius: 3px;
+    overflow: hidden;
+  }
+  .card-level-fill {
+    height: 100%;
+    border-radius: 3px;
+    transition: width 0.5s ease;
+  }
+  .bar-strength { background: var(--gold); }
+  .bar-weakness { background: #ef4444; }
+  .card-notes {
+    width: 100%;
+    margin-top: 14px;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 8px;
+    padding: 8px 10px;
+    color: rgba(255,255,255,0.75);
+    font-family: 'ThmanyahSans', sans-serif;
+    font-size: 13px;
+    resize: none;
+    outline: none;
+    text-align: right;
+  }
+  .card-notes::placeholder { color: rgba(255,255,255,0.3); }
+
+  /* ===== DAILY ROUTINE SECTION ===== */
+  .survey-q {
+    background: white;
+    border-radius: 14px;
+    border: 1.5px solid var(--border);
+    padding: 22px;
+    margin-bottom: 16px;
+  }
+  .survey-q label {
+    display: block;
+    font-weight: 600;
+    color: var(--text-main);
+    margin-bottom: 12px;
+    font-size: 15px;
+  }
+  .survey-q select, .survey-q input[type="time"], .survey-q input[type="text"] {
+    width: 100%;
+    padding: 11px 14px;
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    font-family: 'ThmanyahSans', sans-serif;
+    font-size: 14px;
+    color: var(--text-main);
+    background: var(--parchment);
+    outline: none;
+    text-align: right;
+    appearance: none;
+    -webkit-appearance: none;
+  }
+  .survey-q select:focus, .survey-q input:focus {
+    border-color: var(--gold);
+    background: white;
+  }
+  .radio-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .radio-opt {
+    padding: 9px 16px;
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.2s;
+    background: var(--parchment);
+  }
+  .radio-opt:hover { border-color: var(--gold); }
+  .radio-opt.selected { background: var(--green-deep); color: white; border-color: var(--green-deep); }
+
+  #routine-result {
+    display: none;
+    margin-top: 28px;
+  }
+  #routine-result.show { display: block; }
+  .routine-timeline {
+    background: white;
+    border-radius: 18px;
+    border: 1.5px solid var(--border);
+    padding: 24px;
+  }
+  .routine-timeline h3 {
+    font-family: 'ThmanyahSerifDisplay', sans-serif;
+    font-weight: 700;
+    font-size: 20px;
+    color: var(--green-deep);
+    margin-bottom: 20px;
+  }
+  .time-block {
+    display: flex;
+    gap: 14px;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .time-block:last-child { border-bottom: none; }
+  .time-label {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--gold-dark);
+    width: 70px;
+    flex-shrink: 0;
+    padding-top: 2px;
+  }
+  .time-content h4 { font-size: 15px; font-weight: 600; margin-bottom: 3px; }
+  .time-content p { font-size: 13px; color: var(--text-muted); }
+
+  /* ===== TASKS ===== */
+  .tasks-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .task-item {
+    background: white;
+    border: 1.5px solid var(--border);
+    border-radius: 14px;
+    padding: 16px 20px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    cursor: pointer;
+    transition: all 0.25s;
+  }
+  .task-item:hover { border-color: var(--gold); transform: translateX(-2px); }
+  .task-item.done {
+    background: var(--parchment2);
+    opacity: 0.7;
+  }
+  .task-checkbox {
+    width: 26px;
+    height: 26px;
+    border-radius: 8px;
+    border: 2px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    flex-shrink: 0;
+    transition: all 0.2s;
+  }
+  .task-item.done .task-checkbox {
+    background: var(--green-deep);
+    border-color: var(--green-deep);
+    color: white;
+  }
+  .task-text { font-size: 15px; flex: 1; }
+  .task-item.done .task-text { text-decoration: line-through; color: var(--text-muted); }
+  .task-category {
+    font-size: 11px;
+    padding: 3px 10px;
+    border-radius: 20px;
+    background: var(--parchment2);
+    color: var(--text-muted);
+  }
+
+  /* ===== PLANNING GUIDE ===== */
+  .steps-nav {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 28px;
+    flex-wrap: wrap;
+  }
+  .step-dot {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: 2px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+    color: var(--text-muted);
+    background: white;
+  }
+  .step-dot.active { background: var(--green-deep); color: var(--gold-light); border-color: var(--green-deep); }
+  .step-dot.done { background: var(--green-mid); color: white; border-color: var(--green-mid); }
+
+  .planning-step {
+    display: none;
+    background: white;
+    border-radius: 20px;
+    border: 1.5px solid var(--border);
+    overflow: hidden;
+    box-shadow: 0 4px 20px var(--shadow);
+  }
+  .planning-step.active { display: block; }
+  .step-header {
+    background: linear-gradient(135deg, var(--green-deep), #234d35);
+    padding: 28px 32px;
+    color: white;
+  }
+  .step-num {
+    font-size: 11px;
+    color: rgba(255,255,255,0.5);
+    font-weight: 600;
+    margin-bottom: 6px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+  .step-header h3 {
+    font-family: 'ThmanyahSerifDisplay', sans-serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--gold-light);
+    margin-bottom: 8px;
+  }
+  .step-header p { font-size: 14px; color: rgba(255,255,255,0.7); line-height: 1.6; }
+  .step-body { padding: 28px 32px; }
+  .step-tip {
+    background: var(--parchment);
+    border-right: 4px solid var(--gold);
+    border-radius: 0 10px 10px 0;
+    padding: 14px 18px;
+    font-size: 14px;
+    line-height: 1.7;
+    color: var(--text-main);
+    margin-bottom: 20px;
+  }
+  .step-visual {
+    background: var(--parchment2);
+    border-radius: 14px;
+    padding: 20px;
+    margin-bottom: 20px;
+  }
+  .life-wheel {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+  }
+  .wheel-area {
+    background: white;
+    border-radius: 10px;
+    border: 1.5px solid var(--border);
+    padding: 12px;
+    text-align: center;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-muted);
+  }
+  .wheel-area span { display: block; font-size: 20px; margin-bottom: 4px; }
+  .step-nav-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+  }
+
+  /* ===== QUARTERLY PLAN ===== */
+  .quarterly-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 16px;
+    margin-top: 20px;
+  }
+  .quarter-card {
+    background: white;
+    border-radius: 16px;
+    border: 1.5px solid var(--border);
+    padding: 20px;
+    box-shadow: 0 2px 12px var(--shadow);
+  }
+  .quarter-card h4 {
+    font-family: 'ThmanyahSerifDisplay', sans-serif;
+    font-weight: 700;
+    font-size: 15px;
+    color: var(--green-deep);
+    margin-bottom: 14px;
+    text-align: center;
+  }
+  .quarter-goal {
+    background: var(--parchment);
+    border-radius: 8px;
+    padding: 8px 12px;
+    font-size: 13px;
+    color: var(--text-muted);
+    margin-bottom: 6px;
+    cursor: pointer;
+    border: 1px solid transparent;
+    transition: all 0.2s;
+  }
+  .quarter-goal:hover { border-color: var(--gold); background: var(--parchment2); }
+
+  /* ===== TABS ===== */
+  .tabs {
+    display: flex;
+    gap: 6px;
+    background: var(--parchment2);
+    border-radius: 14px;
+    padding: 5px;
+    margin-bottom: 24px;
+  }
+  .tab-btn {
+    flex: 1;
+    padding: 10px;
+    border: none;
+    border-radius: 10px;
+    background: none;
+    font-family: 'ThmanyahSans', sans-serif;
+    font-size: 14px;
+    cursor: pointer;
+    color: var(--text-muted);
+    transition: all 0.2s;
+  }
+  .tab-btn.active { background: white; color: var(--green-deep); font-weight: 700; box-shadow: 0 2px 8px var(--shadow); }
+
+  .tab-pane { display: none; }
+  .tab-pane.active { display: block; }
+
+  /* ===== DIVIDERS ===== */
+  .section-divider {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin: 36px 0 28px;
+  }
+  .section-divider hr { flex: 1; border: none; height: 1px; background: var(--border); }
+  .section-divider span { color: var(--text-muted); font-size: 13px; white-space: nowrap; }
+
+  /* ===== ANIMATIONS ===== */
+  @keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .animate-in { animation: fadeInUp 0.4s ease forwards; }
+
+  /* ===== SKILL QUIZ STYLES ===== */
+  .sq-choice {
+    padding: 11px 16px;
+    border: 1.5px solid var(--border);
+    border-radius: 12px;
+    cursor: pointer;
+    font-size: 14px;
+    color: var(--text-main);
+    background: var(--parchment);
+    transition: all 0.18s;
+    text-align: right;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 8px;
+  }
+  .sq-choice:hover { background: var(--parchment2); border-color: var(--gold); }
+  .sq-choice.selected { background: var(--green-deep); color: white; border-color: var(--green-deep); }
+  .sq-choice-letter {
+    width: 28px; height: 28px; border-radius: 8px;
+    background: rgba(255,255,255,0.15);
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 700; font-size: 12px; flex-shrink: 0;
+  }
+  .sq-scale-row { display:flex; align-items:center; gap:12px; margin-bottom:8px; }
+  .sq-scale-val { font-size:24px; font-weight:700; color:var(--green-deep); min-width:36px; text-align:center; }
+  .sq-scale-labels { display:flex; justify-content:space-between; font-size:11px; color:var(--text-muted); }
+  input[type=range] { flex:1; accent-color: var(--green-mid); }
+  .sq-type-badge {
+    display:inline-flex; align-items:center; gap:5px;
+    font-size:11px; padding:3px 10px; border-radius:20px; font-weight:500;
+  }
+  .badge-mcq { background:#EEEDFE; color:#3C3489; }
+  .badge-scale { background:#E1F5EE; color:#085041; }
+  .badge-scenario { background:#FAECE7; color:#712B13; }
+
+  /* Skill result player card */
+  .skill-result-card {
+    background: linear-gradient(160deg, #1a2a1e 0%, #0d1a10 100%);
+    border: 2px solid var(--gold);
+    border-radius: 20px;
+    padding: 0;
+    color: white;
+    position: relative;
+    overflow: hidden;
+  }
+  .src-top-bar {
+    height: 4px;
+    background: linear-gradient(90deg, var(--gold-dark), var(--gold-light), var(--gold-dark));
+  }
+  .src-body { padding: 18px 20px; }
+  .src-skill-name {
+    font-family: 'ThmanyahSerifDisplay', sans-serif; font-weight: 700;
+    font-size: 15px; color: var(--gold-light);
+    margin-bottom: 2px; text-align: center;
+  }
+  .src-role { font-size:11px; color:rgba(255,255,255,0.45); text-align:center; margin-bottom:14px; }
+  .src-score-circle {
+    width:72px; height:72px; border-radius:50%;
+    border: 3px solid var(--gold);
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    margin: 0 auto 16px;
+  }
+  .src-score-num { font-size:22px; font-weight:700; color:var(--gold-light); line-height:1; }
+  .src-score-label { font-size:9px; color:rgba(255,255,255,0.5); margin-top:1px; }
+  .src-level-chip {
+    display:inline-block; padding:3px 12px; border-radius:20px;
+    font-size:11px; font-weight:700; margin-bottom:12px;
+  }
+  .src-dim-bar { margin-bottom:7px; }
+  .src-dim-label { font-size:11px; color:rgba(255,255,255,0.6); margin-bottom:3px; display:flex; justify-content:space-between; }
+  .src-bar-bg { height:5px; background:rgba(255,255,255,0.1); border-radius:3px; overflow:hidden; }
+  .src-bar-fill { height:5px; border-radius:3px; }
+  .src-radar { display:flex; justify-content:center; margin: 8px 0; }
+  .src-notes {
+    width:100%; background:rgba(255,255,255,0.06);
+    border:1px solid rgba(255,255,255,0.12); border-radius:8px;
+    padding:8px 10px; color:rgba(255,255,255,0.75);
+    font-family:'Tajawal',sans-serif; font-size:13px;
+    resize:none; outline:none; text-align:right; margin-top:12px;
+  }
+  .src-notes::placeholder { color:rgba(255,255,255,0.3); }
+  .src-retake-btn {
+    width:100%; margin-top:10px; padding:8px;
+    background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.15);
+    border-radius:8px; color:rgba(255,255,255,0.7); cursor:pointer;
+    font-family:'Tajawal',sans-serif; font-size:12px; transition:all 0.2s;
+  }
+  .src-retake-btn:hover { background:rgba(255,255,255,0.12); }
+
+  /* Skill tab buttons */
+  .skill-tab-btn {
+    padding:7px 14px; border-radius:10px;
+    border:1.5px solid var(--border); background:white;
+    font-family:'Tajawal',sans-serif; font-size:13px;
+    color:var(--text-muted); cursor:pointer; transition:all 0.2s;
+    display:flex; align-items:center; gap:6px;
+  }
+  .skill-tab-btn:hover { border-color:var(--gold); }
+  .skill-tab-btn.active { background:var(--green-deep); color:var(--gold-light); border-color:var(--green-deep); }
+  .skill-tab-btn.done { background:var(--parchment2); color:var(--green-deep); border-color:var(--green-mid); }
+  .skill-tab-btn.done::after { content:' ✓'; }
+
+  /* ===== RESPONSIVE ===== */
+  @media (max-width: 600px) {
+    .skills-grid { grid-template-columns: repeat(2, 1fr); }
+    .life-wheel { grid-template-columns: repeat(2, 1fr); }
+    #hero h1 { font-size: 32px; }
+    .step-body { padding: 20px; }
+    .step-header { padding: 20px; }
+    .dual-result { flex-direction: column; }
+  }
+
+  /* ===== UNIFIED LECTURE QUIZ ===== */
+  .quiz-group-label {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--brand-dark);
+    padding: 12px 18px;
+    background: var(--bg2);
+    border-radius: 12px;
+    margin-bottom: 18px;
+    border-right: 4px solid var(--brand-red);
+  }
+  .quiz-group-divider {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin: 36px 0;
+  }
+  .quiz-group-divider::before,
+  .quiz-group-divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+  .quiz-group-divider-text {
+    font-size: 13px;
+    color: var(--text-muted);
+    white-space: nowrap;
+    background: var(--bg);
+    padding: 6px 14px;
+    border-radius: 20px;
+    border: 1px solid var(--border);
+  }
+  .dual-result {
+    display: none;
+    flex-direction: row;
+    gap: 20px;
+    margin-top: 32px;
+  }
+  .dual-result.show { display: flex; }
+  .result-panel {
+    flex: 1;
+    border-radius: 20px;
+    padding: 28px 20px;
+    text-align: center;
+    border: 2px solid var(--border);
+    background: var(--bg2);
+    transition: border-color 0.3s;
+  }
+  .result-panel-icon { font-size: 36px; margin-bottom: 10px; }
+  .result-panel-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-muted);
+    margin-bottom: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .result-panel-score {
+    font-size: 52px;
+    font-weight: 900;
+    line-height: 1;
+    margin-bottom: 14px;
+    color: var(--brand-dark);
+  }
+  .result-panel-msg {
+    font-size: 16px;
+    font-weight: 700;
+    margin-bottom: 8px;
+    color: var(--brand-dark);
+  }
+  .result-panel-detail {
+    font-size: 13px;
+    color: var(--text-muted);
+    line-height: 1.6;
+  }
+  .result-panel.panel-red { background: var(--red-light); border-color: var(--brand-red); }
+  .result-panel.panel-yellow { background: var(--yellow-light); border-color: var(--brand-yellow); }
+  .result-panel.panel-teal { background: var(--teal-light); border-color: var(--brand-teal); }
+  .result-panel.panel-blue { background: var(--blue-light); border-color: var(--brand-blue); }
+  .result-panel.panel-red .result-panel-score { color: var(--brand-red); }
+  .result-panel.panel-yellow .result-panel-score { color: #a08900; }
+  .result-panel.panel-teal .result-panel-score { color: #1a8a7e; }
+  .result-panel.panel-blue .result-panel-score { color: var(--brand-blue); }
+
+  /* ===== BRAND OVERRIDES ===== */
+  body { background: var(--brand-bg); }
+
+  /* Typography system: Display headings → SerifDisplay, UI/numbers → Sans */
+  h1, h2 { font-family: 'ThmanyahSerifDisplay', sans-serif; }
+  h3 { font-family: 'ThmanyahSerifDisplay', sans-serif; font-weight: 700; }
+  .score-num, .result-panel-score, #progress-label, .readiness-badge,
+  .src-score-num, .task-count, .step-num { font-family: 'ThmanyahSans', sans-serif; }
+
+  /* Buttons */
+  .btn-primary { background: var(--brand-red); color: #fff; border: none; }
+  .btn-primary:hover { background: #d43d2a; transform: translateY(-1px); }
+  .btn-gold { background: var(--brand-yellow); color: var(--brand-dark); }
+  .btn-gold:hover { background: #e6b820; }
+
+  /* Progress bar */
+  #progress-bar-container { background: var(--brand-dark); border-bottom-color: var(--brand-yellow); }
+  #user-name-display { color: var(--brand-yellow); font-family: 'ThmanyahSans', sans-serif; font-weight: 700; }
+  #progress-fill { background: var(--brand-red); }
+  .readiness-badge { background: var(--brand-yellow); color: var(--brand-dark); }
+
+  /* Nav */
+  #main-nav { background: var(--brand-dark); border-bottom-color: rgba(244,200,44,0.25); }
+  .nav-btn { font-family: 'ThmanyahSans', sans-serif; }
+  .nav-btn.active { color: var(--brand-yellow); border-bottom-color: var(--brand-red); }
+
+  /* Hero */
+  #hero { background: linear-gradient(180deg, var(--brand-dark) 0%, #1a1a1a 100%); }
+  #hero h1 { color: var(--brand-yellow); font-family: 'ThmanyahSerifDisplay', sans-serif; font-weight: 900; }
+  #hero p { color: rgba(255,255,255,0.6); }
+  .name-input-row input { border-color: var(--brand-red); font-family: 'ThmanyahSans', sans-serif; }
+
+  /* Section icons & headers */
+  .section-icon { background: var(--brand-blue); }
+  .section-header h2 { color: var(--brand-dark); }
+
+  /* Cards */
+  .journey-card h3 { color: var(--brand-dark); }
+  .journey-card { border-color: var(--border); }
+
+  /* Quiz */
+  .quiz-opt.selected { background: var(--brand-dark); border-color: var(--brand-red); }
+  .quiz-opt.correct { background: var(--teal-light); color: #1a6b5e; border-color: var(--brand-teal); }
+  .quiz-opt.wrong   { background: var(--red-light);  color: #a02a1a; border-color: var(--brand-red); }
+  .quiz-feedback.good { background: var(--teal-light); color: #1a6b5e; border-color: var(--brand-teal); }
+  .quiz-feedback.bad  { background: var(--red-light);  color: #a02a1a; border-color: var(--brand-red); }
+  .quiz-group-label { border-right-color: var(--brand-red); }
+  .score-result { background: linear-gradient(135deg, var(--brand-dark), #1a1a1a); }
+
+  /* Tabs */
+  .tab-btn.active { color: var(--brand-red); box-shadow: none; border-bottom: 2px solid var(--brand-red); }
+  .skill-tab-btn.active { background: var(--brand-red); border-color: var(--brand-red); }
+  .ftab.active { background: var(--brand-red); border-color: var(--brand-red); }
+
+  /* Skills quiz */
+  .skills-quiz-intro { background: linear-gradient(135deg, var(--brand-dark), #333); }
+  .sq-choice.selected { background: var(--brand-dark); border-color: var(--brand-red); }
+
+  /* Player cards */
+  .src-top-bar { background: linear-gradient(90deg, var(--brand-red), var(--brand-yellow)); }
+  .src-score-circle { border-color: var(--brand-yellow); }
+  .src-score-num { color: var(--brand-yellow); }
+
+  /* Routine & planning */
+  .step-header { background: linear-gradient(135deg, var(--brand-dark), #333); }
+  .step-header h3 { color: var(--brand-yellow); font-family: 'ThmanyahSerifDisplay', sans-serif; }
+  .step-tip { border-right-color: var(--brand-red); }
+  .routine-timeline h3 { color: var(--brand-red); }
+  .time-label { color: var(--brand-red); }
+
+  /* Tasks */
+  #task-progress-bar { background: linear-gradient(90deg, var(--brand-red), var(--brand-teal)) !important; }
+
+  /* ===== MEMBER LOGIN SCREEN ===== */
+  #login-screen {
+    position: fixed;
+    inset: 0;
+    background: var(--brand-dark);
+    z-index: 9000;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    overflow-y: auto;
+    padding: 40px 24px 60px;
+  }
+  #login-screen.hidden { display: none; }
+  .login-studio-name {
+    font-family: 'ThmanyahSerifDisplay', sans-serif;
+    font-weight: 900;
+    font-size: clamp(18px, 3vw, 26px);
+    color: var(--brand-yellow);
+    letter-spacing: 1px;
+    margin-bottom: 4px;
+  }
+  .login-title {
+    font-family: 'ThmanyahSerifDisplay', sans-serif;
+    font-weight: 900;
+    font-size: clamp(28px, 5vw, 52px);
+    color: #fff;
+    margin: 24px 0 8px;
+    line-height: 1.1;
+  }
+  .login-subtitle {
+    font-family: 'ThmanyahSans', sans-serif;
+    font-size: 15px;
+    color: rgba(255,255,255,0.5);
+    margin-bottom: 40px;
+  }
+  .members-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 16px;
+    max-width: 900px;
+    width: 100%;
+  }
+  .member-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    padding: 16px 8px;
+    border-radius: 16px;
+    cursor: pointer;
+    border: 2px solid rgba(255,255,255,0.08);
+    background: rgba(255,255,255,0.04);
+    transition: all 0.2s;
+  }
+  .member-card:hover {
+    border-color: var(--brand-red);
+    background: rgba(240,77,57,0.08);
+    transform: translateY(-4px);
+  }
+  .member-card:hover .member-name { color: var(--brand-yellow); }
+  .member-avatar {
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid rgba(255,255,255,0.15);
+    transition: border-color 0.2s;
+    background: #333;
+  }
+  .member-card:hover .member-avatar { border-color: var(--brand-red); }
+  .member-name {
+    font-family: 'ThmanyahSans', sans-serif;
+    font-weight: 700;
+    font-size: 13px;
+    color: rgba(255,255,255,0.75);
+    text-align: center;
+    line-height: 1.2;
+    transition: color 0.2s;
+  }
+
+  /* Progress bar avatar */
+  #user-avatar-bar {
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid var(--brand-yellow);
+    display: none;
+  }
+  #user-avatar-bar.show { display: block; }
+
+  @media (max-width: 700px) {
+    .members-grid { grid-template-columns: repeat(4, 1fr); gap: 10px; }
+    .member-avatar { width: 58px; height: 58px; }
+    .member-name { font-size: 11px; }
+  }
+  @media (max-width: 480px) {
+    .members-grid { grid-template-columns: repeat(3, 1fr); gap: 8px; }
+    .member-avatar { width: 52px; height: 52px; }
+  }
+
+  /* ===== NAV LOCK ===== */
+  .nav-btn.locked { opacity:0.4; cursor:not-allowed; pointer-events:none; }
+
+  /* ===== ROUTINE PLANNER (embedded) ===== */
+  #page-routine { background:var(--rt-bg,#262626); min-height:100vh; transition:background 0.45s ease; padding-bottom:60px; }
+  .rt-header { text-align:center; padding:28px 20px 0; }
+  .rt-brand { font-size:11px; letter-spacing:2.5px; text-transform:uppercase; color:rgba(255,255,255,0.45); font-weight:500; }
+  .rt-title { font-family:'ThmanyahSerifDisplay',sans-serif; font-size:26px; font-weight:900; color:#fff; margin-top:4px; }
+  .rt-modes-bar { display:flex; justify-content:center; gap:10px; padding:20px 16px 0; flex-wrap:wrap; }
+  .rt-mode-btn { font-family:'ThmanyahSans',sans-serif; font-size:14px; font-weight:700; padding:10px 22px; border-radius:14px;
+    border:2px solid rgba(255,255,255,0.15); cursor:pointer; background:rgba(255,255,255,0.08); color:rgba(255,255,255,0.6);
+    transition:all 0.22s; }
+  .rt-mode-btn.on { background:#fff; color:#1a1a1a; border-color:#fff; }
+  .rt-add-mode { border-style:dashed; }
+  .rt-color-bar { display:flex; align-items:center; justify-content:center; gap:8px; padding:14px 20px 0; }
+  .rt-color-lbl { font-size:12px; color:rgba(255,255,255,0.45); font-family:'ThmanyahSans',sans-serif; }
+  .rt-clr-btn { width:22px; height:22px; border-radius:50%; border:2px solid rgba(255,255,255,0.2); cursor:pointer; transition:transform 0.15s; padding:0; }
+  .rt-clr-btn:hover { transform:scale(1.2); border-color:#fff; }
+  .rt-card { max-width:980px; margin:18px auto 0; background:rgba(255,255,255,0.06); border-radius:26px;
+    padding:32px 28px; backdrop-filter:blur(12px); border:1px solid rgba(255,255,255,0.1);
+    display:grid; grid-template-columns:300px 1fr; gap:36px; position:relative; }
+  .rt-clock-panel { display:flex; flex-direction:column; align-items:center; gap:10px; }
+  .rt-clock-lbl { font-size:11px; font-weight:600; letter-spacing:1px; color:rgba(255,255,255,0.45); text-transform:uppercase; }
+  #rt-clk { width:100%; max-width:290px; height:auto; display:block; cursor:crosshair; }
+  .rt-sched { display:flex; flex-direction:column; gap:12px; }
+  .rt-sched-title { font-family:'ThmanyahSerifDisplay',sans-serif; font-size:22px; font-weight:900; color:#fff; line-height:1.25; }
+  .rt-sched-title small { display:block; font-size:13px; font-weight:400; color:rgba(255,255,255,0.45); margin-top:2px; }
+  .rt-fixed-lbl { font-size:12px; color:rgba(255,255,255,0.45); line-height:1.9; }
+  .rt-cats-lbl { font-size:12px; color:rgba(255,255,255,0.45); line-height:1.9; }
+  .rt-sep { height:1px; background:rgba(255,255,255,0.1); }
+  .rt-rows { display:flex; flex-direction:column; gap:9px; }
+  .rt-row { display:flex; align-items:center; gap:7px; direction:ltr; }
+  .rt-swatch { width:11px; height:11px; border-radius:50%; flex-shrink:0; cursor:pointer; box-shadow:0 0 0 2px transparent; transition:box-shadow .15s; }
+  .rt-swatch:hover { box-shadow:0 0 0 3px rgba(255,255,255,.3); }
+  .rt-rlabel { font-family:'ThmanyahSans',sans-serif; font-size:13px; font-weight:700; color:#fff; flex:1; text-align:right;
+    background:none; border:none; outline:none; border-bottom:1px solid transparent; cursor:text; direction:rtl; transition:border-color .2s; }
+  .rt-rlabel:focus { border-bottom-color:var(--brand-red); }
+  .rt-rlabel[readonly] { cursor:default; }
+  .rt-tinp { font-family:'ThmanyahSans',sans-serif; font-size:12px; font-weight:500; color:#1a1a1a;
+    background:rgba(255,255,255,0.9); border:1.5px solid rgba(255,255,255,0.3); border-radius:8px;
+    padding:5px 7px; width:80px; text-align:center; outline:none; transition:border-color .2s; direction:ltr; }
+  .rt-tinp:focus { border-color:var(--brand-red); }
+  .rt-arr { color:rgba(255,255,255,0.35); font-size:11px; flex-shrink:0; }
+  .rt-rdel { background:none; border:none; cursor:pointer; color:rgba(255,255,255,0.25); font-size:17px; line-height:1; padding:0 1px; flex-shrink:0; transition:color .15s; }
+  .rt-rdel:hover { color:#E05555; }
+  .rt-spacer { width:18px; flex-shrink:0; }
+  .rt-add-btn { font-family:'ThmanyahSans',sans-serif; font-size:13px; font-weight:700; color:rgba(255,255,255,0.45);
+    background:none; border:2px dashed rgba(255,255,255,0.15); border-radius:12px;
+    padding:10px; width:100%; cursor:pointer; text-align:center; transition:all .2s; direction:rtl; }
+  .rt-add-btn:hover { border-color:var(--brand-red); color:var(--brand-red); }
+  .rt-legend { display:flex; flex-wrap:wrap; gap:6px; margin-top:4px; }
+  .rt-lpill { display:flex; align-items:center; gap:5px; padding:4px 10px;
+    background:rgba(255,255,255,0.08); border-radius:20px; font-size:11px; font-weight:600; color:#fff; }
+  .rt-ldot { width:7px; height:7px; border-radius:50%; flex-shrink:0; }
+  .rt-picker { position:fixed; background:#fff; border-radius:14px; padding:10px 8px;
+    box-shadow:0 8px 40px rgba(0,0,0,.25); z-index:500; display:none; min-width:180px; direction:rtl; }
+  .rt-picker.open { display:block; }
+  .rt-pick-item { display:flex; align-items:center; gap:8px; padding:8px 10px; border-radius:9px;
+    cursor:pointer; transition:background .15s; font-size:13px; font-weight:600; color:#1a1a1a; }
+  .rt-pick-item:hover { background:#F5F5F5; }
+  .rt-pick-dot { width:10px; height:10px; border-radius:50%; flex-shrink:0; }
+  .rt-tip { position:fixed; background:#1A1A1A; color:#fff; padding:5px 11px; border-radius:8px;
+    font-size:12px; font-family:'ThmanyahSans',sans-serif; pointer-events:none; z-index:600;
+    opacity:0; transition:opacity .12s; direction:rtl; white-space:nowrap; }
+  .rt-tip.show { opacity:1; }
+  @media(max-width:780px) {
+    .rt-card { grid-template-columns:1fr; padding:22px 18px; margin:12px; gap:24px; }
+    .rt-clock-panel { order:1; } .rt-sched { order:2; }
+    #rt-clk { max-width:240px; }
+  }
+
+  /* ===== YEAR PLANNER FORM ===== */
+  .plan-section { background:#fff; border-radius:20px; padding:28px; margin-bottom:20px; border:1.5px solid var(--border); box-shadow:0 2px 12px var(--shadow); }
+  .plan-section-hdr { display:flex; align-items:flex-start; gap:14px; margin-bottom:20px; }
+  .plan-sec-num { width:36px; height:36px; border-radius:50%; background:var(--brand-red); color:#fff; font-family:'ThmanyahSerifDisplay',sans-serif; font-weight:900; font-size:16px; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+  .plan-section-hdr h3 { font-family:'ThmanyahSerifDisplay',sans-serif; font-size:20px; font-weight:700; color:var(--brand-dark); margin:0 0 4px; }
+  .plan-section-hdr p { font-size:13px; color:var(--text-muted); margin:0; }
+  .plan-inputs { display:flex; flex-direction:column; gap:10px; }
+  .plan-inputs label { font-size:13px; font-weight:700; color:var(--brand-dark); font-family:'ThmanyahSans',sans-serif; }
+  .plan-input { width:100%; padding:12px 16px; border:1.5px solid var(--border); border-radius:12px; font-family:'ThmanyahSans',sans-serif; font-size:15px; color:var(--text-main); background:var(--bg2); outline:none; transition:border-color .2s; direction:rtl; }
+  .plan-input:focus { border-color:var(--brand-red); background:#fff; }
+  .plan-textarea { width:100%; padding:14px 16px; border:1.5px solid var(--border); border-radius:12px; font-family:'ThmanyahSans',sans-serif; font-size:14px; line-height:1.9; color:var(--text-main); background:var(--bg2); outline:none; transition:border-color .2s; direction:rtl; resize:vertical; }
+  .plan-textarea:focus { border-color:var(--brand-red); background:#fff; }
+  .wheel-inputs { display:flex; flex-direction:column; gap:10px; }
+  .wheel-row { display:flex; align-items:center; gap:10px; }
+  .wheel-row span:first-child { width:160px; font-size:13px; font-family:'ThmanyahSans',sans-serif; color:var(--text-main); flex-shrink:0; }
+  .wheel-row input[type=range] { flex:1; accent-color:var(--brand-red); }
+  .wheel-val { width:26px; font-size:14px; font-weight:700; color:var(--brand-red); font-family:'ThmanyahSans',sans-serif; text-align:center; }
+  .monthly-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(140px,1fr)); gap:10px; }
+  .month-cell { display:flex; flex-direction:column; gap:4px; }
+  .month-cell label { font-size:12px; font-weight:700; color:var(--text-muted); font-family:'ThmanyahSans',sans-serif; }
+  .month-cell input { padding:9px 12px; border:1.5px solid var(--border); border-radius:10px; font-family:'ThmanyahSans',sans-serif; font-size:13px; color:var(--text-main); background:var(--bg2); outline:none; direction:rtl; transition:border-color .2s; }
+  .month-cell input:focus { border-color:var(--brand-red); background:#fff; }
+
+  /* ===== PLAN OUTPUT (print-ready) ===== */
+  .plan-output-card { background:#fff; border-radius:20px; border:1.5px solid var(--border); padding:36px; box-shadow:0 4px 24px var(--shadow); }
+  .plan-output-card h2 { font-family:'ThmanyahSerifDisplay',sans-serif; font-size:28px; font-weight:900; color:var(--brand-dark); margin-bottom:6px; }
+  .plan-out-sec { margin-top:28px; padding-top:20px; border-top:1px solid var(--border); }
+  .plan-out-sec h3 { font-family:'ThmanyahSerifDisplay',sans-serif; font-size:18px; color:var(--brand-red); margin-bottom:12px; }
+  .plan-out-body { font-family:'ThmanyahSans',sans-serif; font-size:14px; line-height:2; color:var(--text-main); white-space:pre-line; }
+  .plan-goal-card { background:var(--red-light); border-radius:12px; padding:14px 16px; margin-bottom:10px; }
+  .plan-goal-card strong { font-family:'ThmanyahSerifDisplay',sans-serif; font-size:16px; color:var(--brand-dark); }
+  .plan-goal-card span { display:block; font-size:12px; color:var(--text-muted); margin-top:3px; }
+  .plan-month-row { display:flex; flex-wrap:wrap; gap:8px; }
+  .plan-month-pill { background:var(--brand-dark); color:var(--brand-yellow); border-radius:10px; padding:6px 12px; font-size:12px; font-family:'ThmanyahSans',sans-serif; font-weight:700; }
+
+  /* ===== RESULTS PAGE ===== */
+  .results-hero { background:linear-gradient(135deg,var(--brand-dark),#1a1a1a); border-radius:20px; padding:36px; color:#fff; text-align:center; margin-bottom:24px; }
+  .results-hero img { width:90px; height:90px; border-radius:50%; object-fit:cover; border:3px solid var(--brand-yellow); margin-bottom:16px; }
+  .results-hero h2 { font-family:'ThmanyahSerifDisplay',sans-serif; font-size:26px; font-weight:900; color:var(--brand-yellow); }
+  .results-hero p { font-size:14px; color:rgba(255,255,255,0.6); margin-top:6px; }
+  .results-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(280px,1fr)); gap:20px; margin-bottom:24px; }
+  .res-card { background:#fff; border-radius:18px; padding:24px; border:1.5px solid var(--border); box-shadow:0 2px 12px var(--shadow); }
+  .res-card h3 { font-family:'ThmanyahSerifDisplay',sans-serif; font-size:17px; color:var(--brand-dark); margin-bottom:14px; }
+  .res-big-num { font-family:'ThmanyahSerifDisplay',sans-serif; font-size:52px; font-weight:900; line-height:1; }
+  .res-sub { font-size:13px; color:var(--text-muted); margin-top:4px; }
+  .res-skills-list { display:flex; flex-direction:column; gap:8px; }
+  .res-skill-row { display:flex; justify-content:space-between; align-items:center; padding:8px 0; border-bottom:1px solid var(--border); }
+  .res-skill-row:last-child { border-bottom:none; }
+  .res-skill-name { font-size:13px; font-family:'ThmanyahSans',sans-serif; }
+  .res-skill-score { font-size:14px; font-weight:700; font-family:'ThmanyahSerifDisplay',sans-serif; color:var(--brand-red); }
+
+  /* ===== PRINT ===== */
+  @media print {
+    #progress-bar-container,#main-nav,#page-results .btn-primary,.btn-gold,#login-screen { display:none!important; }
+    .plan-output-card { box-shadow:none; border:1px solid #ccc; padding:20px; }
+    body { background:#fff!important; }
+    #annual-plan-output { display:block!important; }
+    #planning-form { display:none!important; }
+  }
+
+  /* ===== DARK MODE ===== */
+  body.dark-mode { --brand-bg:#111; --bg:#111; --bg2:#1c1c1c; --parchment:#111; --parchment2:#1c1c1c; --text-main:#e8e8e8; --text-muted:#888; --border:rgba(255,255,255,0.08); }
+  body.dark-mode .page-section { background:var(--bg); }
+  body.dark-mode .quiz-card, body.dark-mode .src-card { background:#1c1c1c; border-color:rgba(255,255,255,0.08); }
+  body.dark-mode .quiz-opt { background:#222; color:#e8e8e8; border-color:#333; }
+  body.dark-mode .quiz-opt:hover { background:#2a2a2a; border-color:var(--brand-red); }
+  body.dark-mode .step-body { background:#1c1c1c; }
+</style>
+</head>
+<body>
+
+<!-- ===================== LOGIN SCREEN ===================== -->
+<div id="login-screen">
+  <div class="login-studio-name">المدونة ستوديو</div>
+  <h1 class="login-title">من هنا نبدأ</h1>
+  <p class="login-subtitle">اختر اسمك لتبدأ رحلتك في العام الجديد</p>
+  <div class="members-grid" id="members-grid"></div>
+</div>
+
+<!-- PROGRESS BAR -->
+<div id="progress-bar-container">
+  <button id="theme-toggle" onclick="toggleTheme()" title="تبديل المظهر" style="background:none;border:none;cursor:pointer;font-size:20px;padding:2px 6px;line-height:1;flex-shrink:0;">🌙</button>
+  <img id="user-avatar-bar" src="" alt="">
+  <div id="user-name-display">المبدع</div>
+  <div id="progress-track"><div id="progress-fill"></div></div>
+  <div id="progress-label">0 / 5 محطات</div>
+  <div class="readiness-badge" id="readiness-badge">0%</div>
+</div>
+
+<!-- NAV (4 stages only) -->
+<nav id="main-nav">
+  <button class="nav-btn" onclick="showPage('page-lecture')">🎥 معنى الحياة</button>
+  <button class="nav-btn" onclick="showPage('page-skills')">🃏 المهارات</button>
+  <button class="nav-btn" onclick="showPage('page-routine')">⏰ مصمم الروتين</button>
+  <button class="nav-btn" onclick="showPage('page-planning')">📓 مخطط العام</button>
+</nav>
+
+<!-- ===================== PAGE: HOME ===================== -->
+<section class="page-section active" id="page-home">
+  <div id="hero">
+    <div style="display:flex; flex-direction:column; align-items:center; gap:16px; position:relative; z-index:1;">
+      <img id="hero-avatar" src="" alt="" style="width:96px; height:96px; border-radius:50%; object-fit:cover; border:3px solid var(--brand-yellow); display:none; box-shadow:0 0 0 6px rgba(244,200,44,0.15);">
+      <h1 id="hero-greeting">من هنا نبدأ</h1>
+      <p id="hero-subtext" style="font-family:'ThmanyahSans',sans-serif; font-size:15px; color:rgba(255,255,255,0.55); margin:0;">رحلتك نحو عام جديد — المدونة ستوديو</p>
+    </div>
+  </div>
+
+  <div class="content-wrap" style="text-align:center; padding:48px 24px 60px;">
+    <p style="font-family:'ThmanyahSans',sans-serif; font-size:17px; color:var(--text-muted); max-width:520px; margin:0 auto 36px; line-height:2.2;">
+      بين يديكم محطات ستساعدك على الاستعداد للعام الجديد، وتصميم خطة وروتين عملي بإذن الله
+    </p>
+    <button class="btn-primary" onclick="startJourney()" style="font-size:18px; padding:16px 48px; border-radius:16px; font-family:'ThmanyahSerifDisplay',sans-serif; font-weight:700; letter-spacing:0.5px;">
+      ابدأ رحلتك ←
+    </button>
+    <div style="margin-top:40px; display:flex; justify-content:center; gap:10px; flex-wrap:wrap;">
+      <span style="padding:7px 16px; background:var(--bg2); border-radius:20px; font-size:13px; color:var(--text-muted); font-family:'ThmanyahSans',sans-serif;">🎥 معنى الحياة</span>
+      <span style="padding:7px 16px; background:var(--bg2); border-radius:20px; font-size:13px; color:var(--text-muted); font-family:'ThmanyahSans',sans-serif;">🃏 اختبار المهارات</span>
+      <span style="padding:7px 16px; background:var(--bg2); border-radius:20px; font-size:13px; color:var(--text-muted); font-family:'ThmanyahSans',sans-serif;">⏰ مصمم الروتين</span>
+      <span style="padding:7px 16px; background:var(--bg2); border-radius:20px; font-size:13px; color:var(--text-muted); font-family:'ThmanyahSans',sans-serif;">📓 مخطط العام</span>
+    </div>
+    <!-- Results CTA — appears when all stages done -->
+    <div id="results-cta" style="display:none;margin-top:32px;">
+      <button onclick="showResults()" style="background:linear-gradient(135deg,var(--brand-teal),var(--brand-blue));color:white;border:none;padding:16px 40px;border-radius:16px;font-family:'ThmanyahSerifDisplay',sans-serif;font-size:18px;font-weight:700;cursor:pointer;box-shadow:0 6px 24px rgba(59,185,171,0.35);">🏆 اعرض نتائجي الكاملة</button>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== PAGE: LECTURE ===================== -->
+<section class="page-section" id="page-lecture">
+  <div class="content-wrap">
+
+    <!-- Video -->
+    <div class="section-header">
+      <div class="section-icon">🎥</div>
+      <div>
+        <h2>معنى الحياة في الواقع المعاصر</h2>
+        <p>الشيخ إبراهيم الطويل — أكاديمية غراس العلم</p>
+      </div>
+    </div>
+
+    <div class="video-container">
+      <iframe src="https://www.youtube.com/embed/Qpy6IoYOyZI" allowfullscreen allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>
+    </div>
+
+    <!-- Unified Quiz -->
+    <div id="lecture-quiz">
+      <div style="background:linear-gradient(135deg,var(--brand-dark),#1a1a1a); color:white; border-radius:18px; padding:24px; margin-bottom:28px;">
+        <h3 style="font-size:20px; color:var(--brand-yellow); margin-bottom:8px;">📋 اختبر نفسك — عشرة أسئلة</h3>
+        <p style="font-size:14px; opacity:0.8;">أجب على الأسئلة العشرة ثم اضغط "اعرض نتيجتي" لتظهر لك نتيجتان: مدى السُّمية ومدى استيعابك لمعنى الحياة الحقيقي.</p>
+      </div>
+
+      <!-- GROUP 1: Poison questions -->
+      <div class="quiz-group-label">🧪 الجزء الأول — مدى تأثير مفاهيم الغرب عليك</div>
+      <p style="font-size:13px; color:var(--text-muted); margin-bottom:20px; padding-right:4px;">لا توجد إجابات صواب وخطأ — اختر ما يعبّر عن تفكيرك الفعلي بصدق.</p>
+
+      <div class="quiz-card" data-q="0">
+        <div class="quiz-q">١. لما تشوف شخصاً ناجحاً على السوشيال ميديا عنده متابعين كثر وإنجازات... ماذا يخطر ببالك أول شيء؟</div>
+        <div class="quiz-options">
+          <div class="quiz-opt" onclick="selectPoison(this,0,3)"><span class="opt-letter">أ</span> أتمنى يكون عندي نفس النجاح والشهرة</div>
+          <div class="quiz-opt" onclick="selectPoison(this,0,2)"><span class="opt-letter">ب</span> أتساءل عن جودة عمله ونفعه للناس</div>
+          <div class="quiz-opt" onclick="selectPoison(this,0,1)"><span class="opt-letter">ج</span> أفكر في خدمة دينه وأمته من وراء منصبه</div>
+          <div class="quiz-opt" onclick="selectPoison(this,0,0)"><span class="opt-letter">د</span> أسأل: هل هو راضٍ عن نفسه أمام الله؟</div>
+        </div>
+      </div>
+
+      <div class="quiz-card" data-q="1">
+        <div class="quiz-q">٢. ما الذي يجعلك تشعر بأنك "ناجح" فعلاً؟</div>
+        <div class="quiz-options">
+          <div class="quiz-opt" onclick="selectPoison(this,1,3)"><span class="opt-letter">أ</span> تحقيق أهداف مادية ومكانة اجتماعية مرموقة</div>
+          <div class="quiz-opt" onclick="selectPoison(this,1,2)"><span class="opt-letter">ب</span> تحقيق ذاتي والتعبير عن نفسي بحرية</div>
+          <div class="quiz-opt" onclick="selectPoison(this,1,1)"><span class="opt-letter">ج</span> أن أكون سعيداً وأحيط بمن أحبهم</div>
+          <div class="quiz-opt" onclick="selectPoison(this,1,0)"><span class="opt-letter">د</span> أن أكون عبداً صالحاً وأثّرت في الناس للخير</div>
+        </div>
+      </div>
+
+      <div class="quiz-card" data-q="2">
+        <div class="quiz-q">٣. حين تشاهد فيلماً أو مسلسلاً يرسّخ فكرة "تحقيق الذات" فوق كل اعتبار... كيف يؤثر فيك؟</div>
+        <div class="quiz-options">
+          <div class="quiz-opt" onclick="selectPoison(this,2,3)"><span class="opt-letter">أ</span> أتأثر به وربما أطبّق بعض أفكاره دون أن أعي</div>
+          <div class="quiz-opt" onclick="selectPoison(this,2,2)"><span class="opt-letter">ب</span> أستمتع به لكن أعرف أن في مشكلة</div>
+          <div class="quiz-opt" onclick="selectPoison(this,2,1)"><span class="opt-letter">ج</span> أشاهده بوعي نقدي وأرفض ما يخالف قيمي</div>
+          <div class="quiz-opt" onclick="selectPoison(this,2,0)"><span class="opt-letter">د</span> لا أشاهد هذا النوع أصلاً أو أوقف المشاهدة فور انتباهي</div>
+        </div>
+      </div>
+
+      <div class="quiz-card" data-q="3">
+        <div class="quiz-q">٤. لو خيّرتك بين وظيفة تحبها براتب متوسط أو وظيفة تكرهها براتب عالٍ... ماذا ستختار؟</div>
+        <div class="quiz-options">
+          <div class="quiz-opt" onclick="selectPoison(this,3,3)"><span class="opt-letter">أ</span> الراتب العالي بكل تأكيد، الدنيا بحاجة للمال</div>
+          <div class="quiz-opt" onclick="selectPoison(this,3,2)"><span class="opt-letter">ب</span> الوظيفة المحبوبة لأن سعادتي تأتي أولاً</div>
+          <div class="quiz-opt" onclick="selectPoison(this,3,1)"><span class="opt-letter">ج</span> أوزن الأمر بحسب نفعه لأهلي وأمتي</div>
+          <div class="quiz-opt" onclick="selectPoison(this,3,0)"><span class="opt-letter">د</span> أسأل: أيهما يجعلني أؤدي حق الله خيراً؟</div>
+        </div>
+      </div>
+
+      <div class="quiz-card" data-q="4">
+        <div class="quiz-q">٥. عندما تنجح في إنجاز ما، ما الذي تشعر بحاجة لفعله؟</div>
+        <div class="quiz-options">
+          <div class="quiz-opt" onclick="selectPoison(this,4,3)"><span class="opt-letter">أ</span> أنشره فوراً على السوشيال ميديا وأنتظر التفاعل</div>
+          <div class="quiz-opt" onclick="selectPoison(this,4,2)"><span class="opt-letter">ب</span> أشاركه مع أقرب الناس إليّ</div>
+          <div class="quiz-opt" onclick="selectPoison(this,4,1)"><span class="opt-letter">ج</span> أحمد الله وأتساءل كيف أستثمره في شيء أكبر</div>
+          <div class="quiz-opt" onclick="selectPoison(this,4,0)"><span class="opt-letter">د</span> أحمد الله ثم أسجل الدرس المستفاد وأمضي</div>
+        </div>
+      </div>
+
+      <!-- Divider -->
+      <div class="quiz-group-divider">
+        <span class="quiz-group-divider-text">الجزء الثاني</span>
+      </div>
+
+      <!-- GROUP 2: Comprehension questions -->
+      <div class="quiz-group-label">💡 الجزء الثاني — مدى استيعابك لمعنى الحياة الحقيقي</div>
+      <p style="font-size:13px; color:var(--text-muted); margin-bottom:20px; padding-right:4px;">أسئلة عن محتوى المحاضرة — هناك إجابة صحيحة لكل سؤال، والتغذية الراجعة تظهر فور اختيارك.</p>
+
+      <div class="quiz-card" data-q="0">
+        <div class="quiz-q">٦. ما الذي يصنع "معنى الحياة" عند الإنسان وفق ما شرحه الشيخ؟</div>
+        <div class="quiz-options">
+          <div class="quiz-opt" onclick="selectComp(this,0,'a')"><span class="opt-letter">أ</span> قراراته الشخصية ورغباته الفردية</div>
+          <div class="quiz-opt correct-ans" onclick="selectComp(this,0,'b')"><span class="opt-letter">ب</span> السردية الكبرى التي يؤمن بها ويحياها</div>
+          <div class="quiz-opt" onclick="selectComp(this,0,'c')"><span class="opt-letter">ج</span> ثقافته وبيئته الاجتماعية فقط</div>
+          <div class="quiz-opt" onclick="selectComp(this,0,'d')"><span class="opt-letter">د</span> إنجازاته الدنيوية وطموحاته المستقبلية</div>
+        </div>
+        <div class="quiz-feedback" id="comp-fb-0"></div>
+      </div>
+
+      <div class="quiz-card" data-q="1">
+        <div class="quiz-q">٧. ما مفهوم "وَتَوشة معنى الحياة" الذي طرحه الشيخ؟</div>
+        <div class="quiz-options">
+          <div class="quiz-opt" onclick="selectComp(this,1,'a')"><span class="opt-letter">أ</span> تغيير الإنسان لقناعاته بقرار واعٍ ومتعمد</div>
+          <div class="quiz-opt" onclick="selectComp(this,1,'b')"><span class="opt-letter">ب</span> ظاهرة الكتب التي تشرح معنى الحياة</div>
+          <div class="quiz-opt correct-ans" onclick="selectComp(this,1,'c')"><span class="opt-letter">ج</span> تسلل معانٍ حياتية معينة إلى عقل الإنسان ووجدانه دون أن يشعر</div>
+          <div class="quiz-opt" onclick="selectComp(this,1,'d')"><span class="opt-letter">د</span> حوار فكري بين الشرق والغرب حول معنى الحياة</div>
+        </div>
+        <div class="quiz-feedback" id="comp-fb-1"></div>
+      </div>
+
+      <div class="quiz-card" data-q="2">
+        <div class="quiz-q">٨. ما أول مقترح ذكره الشيخ لمواجهة أزمة معنى الحياة؟</div>
+        <div class="quiz-options">
+          <div class="quiz-opt" onclick="selectComp(this,2,'a')"><span class="opt-letter">أ</span> الابتعاد الكلي عن السوشيال ميديا</div>
+          <div class="quiz-opt correct-ans" onclick="selectComp(this,2,'b')"><span class="opt-letter">ب</span> الوحي القرآني كبوصلة ثابتة مع التدبر والتطبيق</div>
+          <div class="quiz-opt" onclick="selectComp(this,2,'c')"><span class="opt-letter">ج</span> دراسة الفلسفة الغربية لمواجهتها</div>
+          <div class="quiz-opt" onclick="selectComp(this,2,'d')"><span class="opt-letter">د</span> الهجرة من البيئات المتأثرة بالغرب</div>
+        </div>
+        <div class="quiz-feedback" id="comp-fb-2"></div>
+      </div>
+
+      <div class="quiz-card" data-q="3">
+        <div class="quiz-q">٩. كيف وصف الشيخ ظاهرة تصوير الفلوجات اليومية ونشرها؟</div>
+        <div class="quiz-options">
+          <div class="quiz-opt" onclick="selectComp(this,3,'a')"><span class="opt-letter">أ</span> وسيلة تعليمية مفيدة وإيجابية</div>
+          <div class="quiz-opt" onclick="selectComp(this,3,'b')"><span class="opt-letter">ب</span> تعبير جميل عن الحياة الأسرية</div>
+          <div class="quiz-opt correct-ans" onclick="selectComp(this,3,'c')"><span class="opt-letter">ج</span> دليل على أزمة معنى الحياة والبحث عن اعتراف الآخرين لملء الفراغ الوجودي</div>
+          <div class="quiz-opt" onclick="selectComp(this,3,'d')"><span class="opt-letter">د</span> حرية شخصية لا علاقة لها بمعنى الحياة</div>
+        </div>
+        <div class="quiz-feedback" id="comp-fb-3"></div>
+      </div>
+
+      <div class="quiz-card" data-q="4">
+        <div class="quiz-q">١٠. ما القناة الأولى التي انتقلت من خلالها مقاربات الغرب لمعنى الحياة إلينا؟</div>
+        <div class="quiz-options">
+          <div class="quiz-opt" onclick="selectComp(this,4,'a')"><span class="opt-letter">أ</span> السوشيال ميديا ومنصات التواصل</div>
+          <div class="quiz-opt correct-ans" onclick="selectComp(this,4,'b')"><span class="opt-letter">ب</span> التعليم الغربي وأنظمته التي تبنيناها</div>
+          <div class="quiz-opt" onclick="selectComp(this,4,'c')"><span class="opt-letter">ج</span> الأفلام والمسلسلات الغربية</div>
+          <div class="quiz-opt" onclick="selectComp(this,4,'d')"><span class="opt-letter">د</span> الكتب والمصنفات الفلسفية</div>
+        </div>
+        <div class="quiz-feedback" id="comp-fb-4"></div>
+      </div>
+
+      <!-- Single Submit -->
+      <div class="quiz-submit-row">
+        <button class="btn-primary" onclick="submitCombinedQuiz()">اعرض نتيجتي 📊</button>
+      </div>
+
+      <!-- Dual Results -->
+      <div class="dual-result" id="combined-result">
+        <div class="result-panel" id="result-poison-panel">
+          <div class="result-panel-icon">🧪</div>
+          <div class="result-panel-title">مدى السُّمية</div>
+          <div class="result-panel-score" id="poison-pct">—</div>
+          <div class="result-panel-msg" id="poison-msg-panel"></div>
+          <div class="result-panel-detail" id="poison-detail-panel"></div>
+        </div>
+        <div class="result-panel" id="result-comp-panel">
+          <div class="result-panel-icon">💡</div>
+          <div class="result-panel-title">مدى الاستيعاب</div>
+          <div class="result-panel-score" id="comp-score-panel">—</div>
+          <div class="result-panel-msg" id="comp-msg-panel"></div>
+          <div class="result-panel-detail" id="comp-detail-panel"></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ===================== PAGE: SKILLS ===================== -->
+<section class="page-section" id="page-skills">
+  <div class="content-wrap">
+    <div class="section-header">
+      <div class="section-icon">🃏</div>
+      <div>
+        <h2>بطاقات المهارات الإبداعية</h2>
+        <p>اختر مهاراتك، اختبر نفسك، واحصل على بطاقة تقييم احترافية لكل مهارة</p>
+      </div>
+    </div>
+
+    <!-- STEP 1: Select skills -->
+    <div id="skills-selector">
+      <div class="skills-quiz-intro">
+        <h3 style="font-family:'ThmanyahSerifDisplay',sans-serif; font-size:20px; margin-bottom:10px; color:var(--gold-light);">ما هي مهاراتك الإبداعية؟</h3>
+        <p style="font-size:14px; opacity:0.8; margin-bottom:12px;">اختر كل المهارات التي تمتلكها — حتى لو بمستوى بسيط. ستخوض اختباراً مخصصاً لكل مهارة تختارها.</p>
+        <div id="selected-count-badge" style="background:rgba(255,255,255,0.12); border-radius:8px; padding:6px 14px; display:inline-block; font-size:13px;">لم تختر شيئاً بعد</div>
+      </div>
+      <div class="skills-grid" id="skills-checkboxes"></div>
+      <div class="quiz-submit-row">
+        <button class="btn-primary" onclick="startSkillsQuiz()">ابدأ اختبار المهارات 🎯</button>
+      </div>
+    </div>
+
+    <!-- STEP 2: Quiz per skill -->
+    <div id="skills-quiz-container" style="display:none;">
+      <!-- Skill tabs -->
+      <div id="skill-tabs" style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom:20px; padding-bottom:16px; border-bottom:1px solid var(--border);"></div>
+
+      <!-- Quiz card -->
+      <div id="sq-card" style="background:white; border-radius:18px; border:1.5px solid var(--border); overflow:hidden; box-shadow:0 4px 16px var(--shadow);">
+        <!-- Quiz header -->
+        <div id="sq-header" style="padding:20px 24px; border-bottom:1px solid var(--border);">
+          <div style="display:flex; align-items:center; gap:12px; margin-bottom:12px;">
+            <div id="sq-icon" style="font-size:28px;"></div>
+            <div>
+              <div id="sq-skill-name" style="font-family:'ThmanyahSerifDisplay',sans-serif; font-weight:700; font-size:18px; color:var(--green-deep);"></div>
+              <div id="sq-role" style="font-size:12px; color:var(--text-muted); margin-top:2px;"></div>
+            </div>
+          </div>
+          <!-- Progress bar -->
+          <div style="height:5px; background:var(--parchment2); border-radius:3px; overflow:hidden;">
+            <div id="sq-prog" style="height:100%; background:var(--green-mid); border-radius:3px; transition:width 0.3s; width:0%;"></div>
+          </div>
+          <div id="sq-counter" style="font-size:12px; color:var(--text-muted); margin-top:6px;"></div>
+        </div>
+
+        <!-- Question body -->
+        <div style="padding:20px 24px;">
+          <div id="sq-type-badge" style="margin-bottom:10px;"></div>
+          <div id="sq-qtext" style="font-family:'ThmanyahSerifDisplay',sans-serif; font-weight:600; font-size:16px; color:var(--text-main); margin-bottom:6px; line-height:1.6;"></div>
+          <div id="sq-hint" style="font-size:12px; color:var(--text-muted); margin-bottom:16px; font-style:italic;"></div>
+          <div id="sq-body"></div>
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-top:20px; padding-top:16px; border-top:1px solid var(--border);">
+            <button class="btn-gold" id="sq-prev" onclick="sqPrev()" disabled style="padding:10px 18px; border-radius:10px; font-size:14px;">السابق</button>
+            <button class="btn-primary" id="sq-next" onclick="sqNext()" style="padding:10px 22px; border-radius:10px; font-size:14px;">التالي</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 3: Player cards results -->
+    <div id="player-cards-section" style="display:none;">
+      <div style="background:linear-gradient(135deg, var(--green-deep), #234d35); border-radius:18px; padding:24px; color:white; margin-bottom:24px; text-align:center;">
+        <div id="skill-count-badge" style="font-size:56px; font-family:'ThmanyahSerifDisplay',sans-serif; font-weight:900; color:var(--gold-light); line-height:1;"></div>
+        <div style="font-size:15px; opacity:0.8; margin-top:4px;">مهارة إبداعية</div>
+        <div id="profile-name" style="font-size:14px; color:var(--gold-light); margin-top:8px;"></div>
+        <div id="overall-score-display" style="margin-top:14px; background:rgba(255,255,255,0.1); border-radius:12px; padding:10px 20px; display:inline-block;">
+          <span style="font-size:13px; opacity:0.7;">المتوسط العام: </span>
+          <span id="overall-score-num" style="font-size:22px; font-weight:700; color:var(--gold-light);"></span>
+          <span style="font-size:13px; opacity:0.7;"> / 100</span>
+        </div>
+      </div>
+
+      <div id="player-cards-grid" style="display:grid; grid-template-columns:repeat(auto-fill, minmax(280px,1fr)); gap:20px;"></div>
+
+      <div style="display:flex; gap:12px; justify-content:center; margin-top:28px; flex-wrap:wrap;">
+        <button class="btn-gold" onclick="retakeAllQuizzes()" style="padding:12px 24px; border-radius:12px; font-size:14px;">🔄 أعد الاختبارات</button>
+        <button class="btn-primary" onclick="resetSkills()" style="padding:12px 24px; border-radius:12px; font-size:14px;">← اختر مهارات مختلفة</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== PAGE: ROUTINE ===================== -->
+<section class="page-section" id="page-routine">
+
+  <!-- Mode tabs + color switcher -->
+  <div class="rt-header">
+    <div class="rt-brand">المدونة ستوديو</div>
+    <div class="rt-title">صمّم روتينك</div>
+  </div>
+
+  <div class="rt-modes-bar" id="rt-modes-bar">
+    <button class="rt-mode-btn on" id="rt-btn-0" onclick="rt_activateMode(0)">اليوم المعتاد ★</button>
+    <button class="rt-mode-btn"  id="rt-btn-1" onclick="rt_activateMode(1)">يوم الراحة ★</button>
+    <button class="rt-mode-btn rt-add-mode" id="rt-add-btn" onclick="rt_addMode()" title="أضف روتيناً جديداً">+ روتين</button>
+  </div>
+
+  <!-- background color switcher -->
+  <div class="rt-color-bar">
+    <span class="rt-color-lbl">لون الخلفية:</span>
+    <button class="rt-clr-btn" style="background:#262626;border-color:#555" onclick="rt_setBg('#262626','#1a1a1a')" title="داكن"></button>
+    <button class="rt-clr-btn" style="background:#3BB9AB" onclick="rt_setBg('#3BB9AB','#2a9088')" title="فيروزي"></button>
+    <button class="rt-clr-btn" style="background:#086FB4" onclick="rt_setBg('#086FB4','#055a93')" title="أزرق"></button>
+    <button class="rt-clr-btn" style="background:#F04D39" onclick="rt_setBg('#F04D39','#d43d2a')" title="أحمر"></button>
+    <button class="rt-clr-btn" style="background:#F4C82C;border-color:#c9a010" onclick="rt_setBg('#F4C82C','#c9a010','#1a1a1a')" title="أصفر"></button>
+    <button class="rt-clr-btn" style="background:#FAF9F7;border-color:#ccc;box-shadow:inset 0 0 0 1px #ddd" onclick="rt_setBg('#FAF9F7','#e8e7e4','#262626')" title="أبيض"></button>
+  </div>
+
+  <div class="rt-card" id="rt-card">
+    <div class="rt-clock-panel">
+      <div class="rt-clock-lbl" id="rt-clk-lbl">اليوم المعتاد</div>
+      <svg id="rt-clk" viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
+        <g id="rt-face-bg"></g>
+        <g id="rt-arcs"></g>
+        <g id="rt-overlay"></g>
+      </svg>
+    </div>
+
+    <div class="rt-sched">
+      <div class="rt-sched-title">
+        <span id="rt-s-emoji">🌱</span> صمّم روتينك
+        <small>ولا تنسى</small>
+      </div>
+      <div class="rt-fixed-lbl">الصلاة على وقتها – ورد قرآن – ورد ذكر</div>
+      <div class="rt-sep"></div>
+      <div class="rt-cats-lbl" id="rt-cats-lbl">النوم – العمل – طلب علم – الرياضة – إطلاع في مجالك – العامل الاجتماعي – الترويح</div>
+      <div class="rt-sep"></div>
+
+      <!-- rows containers for each mode (shown/hidden by js) -->
+      <div id="rt-rows-container"></div>
+
+      <button class="rt-add-btn" onclick="rt_addRow()">+ إضافة نشاط</button>
+      <div class="rt-legend" id="rt-legend"></div>
+      <div class="rt-sep"></div>
+      <button class="btn-primary" onclick="rt_saveRoutine()" style="width:100%;padding:14px;font-family:'ThmanyahSans',sans-serif;font-size:15px;border-radius:14px;margin-top:6px;">✓ هذا روتيني — احفظه</button>
+      <div id="rt-saved-msg" style="display:none;margin-top:12px;text-align:center;color:var(--brand-teal);font-weight:700;font-size:14px;">✅ تم حفظ روتينك! تقدّم للمرحلة التالية →</div>
+    </div>
+  </div>
+
+  <!-- Type picker popup -->
+  <div class="rt-picker" id="rt-picker"></div>
+  <!-- Tooltip -->
+  <div class="rt-tip" id="rt-tip"></div>
+</section>
+
+
+<!-- ===================== PAGE: RESULTS ===================== -->
+<section class="page-section" id="page-results">
+  <div class="content-wrap" id="results-wrap">
+    <!-- built dynamically by showResults() -->
+  </div>
+</section>
+
+<!-- ===================== PAGE: PLANNING ===================== -->
+<section class="page-section" id="page-planning">
+  <div class="content-wrap">
+    <div class="section-header">
+      <div class="section-icon">📓</div>
+      <div>
+        <h2>مخطط العام</h2>
+        <p>سجّل إجاباتك، وسيتشكّل مخططك السنوي جاهزاً للطباعة</p>
+      </div>
+    </div>
+
+    <!-- PLANNING FORM -->
+    <div id="planning-form">
+
+      <!-- ① مساحة التفريغ -->
+      <div class="plan-section">
+        <div class="plan-section-hdr">
+          <span class="plan-sec-num">١</span>
+          <div>
+            <h3>مساحة التفريغ 🌀</h3>
+            <p>قبل التخطيط — فرّغ ما في رأسك بحرية تامة</p>
+          </div>
+        </div>
+        <textarea class="plan-textarea" id="plan-dump" placeholder="أفكار، مخاوف، أحلام، أسئلة... اكتب أي شيء" rows="4"></textarea>
+      </div>
+
+      <!-- ② مراجعة العام -->
+      <div class="plan-section">
+        <div class="plan-section-hdr">
+          <span class="plan-sec-num">٢</span>
+          <div>
+            <h3>مراجعة العام المنصرم 🪞</h3>
+            <p>راجع قبل أن تخطط — هذا أساس التخطيط الصادق</p>
+          </div>
+        </div>
+        <div class="plan-inputs">
+          <label>✅ أبرز ٣ إنجازات حققتها</label>
+          <textarea class="plan-textarea" id="plan-wins" placeholder="١- ..." rows="3"></textarea>
+          <label>❌ أبرز ٣ أشياء لم تنجزها</label>
+          <textarea class="plan-textarea" id="plan-misses" placeholder="١- ..." rows="3"></textarea>
+          <label>📖 أهم درس تعلمته</label>
+          <input class="plan-input" id="plan-lesson" placeholder="اكتب الدرس الأهم هنا..." type="text">
+          <label>🔥 شيء يجب أن تتوقف عنه</label>
+          <input class="plan-input" id="plan-stop" placeholder="ما الذي يعيقك وتريد إيقافه؟" type="text">
+        </div>
+      </div>
+
+      <!-- ③ عجلة الحياة -->
+      <div class="plan-section">
+        <div class="plan-section-hdr">
+          <span class="plan-sec-num">٣</span>
+          <div>
+            <h3>عجلة الحياة ⭕</h3>
+            <p>قيّم رضاك عن كل مجال من ١ إلى ١٠</p>
+          </div>
+        </div>
+        <div class="wheel-inputs">
+          <div class="wheel-row"><span>🕌 الدين والروح</span><input type="range" min="1" max="10" value="7" oninput="wheel_update(this)" data-wkey="religion"><span class="wheel-val">7</span></div>
+          <div class="wheel-row"><span>👨‍👩‍👧 الأسرة والعلاقات</span><input type="range" min="1" max="10" value="7" oninput="wheel_update(this)" data-wkey="family"><span class="wheel-val">7</span></div>
+          <div class="wheel-row"><span>💰 المال والعمل</span><input type="range" min="1" max="10" value="6" oninput="wheel_update(this)" data-wkey="money"><span class="wheel-val">6</span></div>
+          <div class="wheel-row"><span>💪 الصحة والجسم</span><input type="range" min="1" max="10" value="6" oninput="wheel_update(this)" data-wkey="health"><span class="wheel-val">6</span></div>
+          <div class="wheel-row"><span>🧠 التعلم والتطوير</span><input type="range" min="1" max="10" value="7" oninput="wheel_update(this)" data-wkey="learning"><span class="wheel-val">7</span></div>
+          <div class="wheel-row"><span>🤝 الصداقة والشبكة</span><input type="range" min="1" max="10" value="6" oninput="wheel_update(this)" data-wkey="social"><span class="wheel-val">6</span></div>
+          <div class="wheel-row"><span>🎨 الإبداع والإنتاج</span><input type="range" min="1" max="10" value="7" oninput="wheel_update(this)" data-wkey="creative"><span class="wheel-val">7</span></div>
+          <div class="wheel-row"><span>🌍 الأثر والرسالة</span><input type="range" min="1" max="10" value="6" oninput="wheel_update(this)" data-wkey="impact"><span class="wheel-val">6</span></div>
+        </div>
+        <canvas id="wheel-canvas" width="260" height="260" style="display:block;margin:20px auto 0;"></canvas>
+      </div>
+
+      <!-- ④ الأهداف الكبرى -->
+      <div class="plan-section">
+        <div class="plan-section-hdr">
+          <span class="plan-sec-num">٤</span>
+          <div>
+            <h3>الأهداف الكبرى 🎯</h3>
+            <p>اختر ٣ أهداف فقط تستحق أن تبني حياتك حولها</p>
+          </div>
+        </div>
+        <div class="plan-inputs">
+          <label>الهدف الأول</label>
+          <input class="plan-input" id="goal1" placeholder="الهدف بجملة واحدة واضحة..." type="text">
+          <input class="plan-input" id="goal1-date" placeholder="الموعد النهائي: يوم/شهر" type="text" style="margin-top:6px;">
+          <label>الهدف الثاني</label>
+          <input class="plan-input" id="goal2" placeholder="الهدف الثاني..." type="text">
+          <input class="plan-input" id="goal2-date" placeholder="الموعد النهائي" type="text" style="margin-top:6px;">
+          <label>الهدف الثالث</label>
+          <input class="plan-input" id="goal3" placeholder="الهدف الثالث..." type="text">
+          <input class="plan-input" id="goal3-date" placeholder="الموعد النهائي" type="text" style="margin-top:6px;">
+        </div>
+      </div>
+
+      <!-- ⑤ الخطة الشهرية -->
+      <div class="plan-section">
+        <div class="plan-section-hdr">
+          <span class="plan-sec-num">٥</span>
+          <div>
+            <h3>نيّة كل شهر 📅</h3>
+            <p>اختر لكل شهر كلمةً تجمع همّك وتوجّه طاقتك — كلمة واحدة تُحكم بها بوصلة الشهر وتُذكّرك بما جئت من أجله</p>
+          </div>
+        </div>
+        <div class="monthly-grid" id="monthly-grid">
+          <!-- built by JS -->
+        </div>
+      </div>
+
+      <!-- ⑥ الالتزام -->
+      <div class="plan-section">
+        <div class="plan-section-hdr">
+          <span class="plan-sec-num">٦</span>
+          <div>
+            <h3>الالتزام والمساءلة ✍️</h3>
+            <p>اكتب عهدك مع نفسك</p>
+          </div>
+        </div>
+        <div class="plan-inputs">
+          <label>شريك المساءلة</label>
+          <input class="plan-input" id="plan-partner" placeholder="اسم شخص يعرف أهدافك ويتابعك..." type="text">
+          <label>عهدك مع الله</label>
+          <textarea class="plan-textarea" id="plan-pledge" placeholder="أعاهد الله أن أجاهد نفسي على..." rows="3"></textarea>
+        </div>
+      </div>
+
+      <!-- Generate button -->
+      <div class="quiz-submit-row" style="margin-top:32px;">
+        <button class="btn-primary" onclick="generateAnnualPlan()" style="font-size:17px;padding:16px 40px;border-radius:16px;">✨ توليد مخططي السنوي</button>
+      </div>
+    </div>
+
+    <!-- GENERATED PLAN OUTPUT -->
+    <div id="annual-plan-output" style="display:none;">
+      <div class="plan-output-card" id="plan-output-content">
+        <!-- built by JS -->
+      </div>
+      <div style="display:flex;gap:12px;justify-content:center;margin-top:28px;flex-wrap:wrap;">
+        <button class="btn-primary" onclick="printAnnualPlan()" style="padding:13px 30px;border-radius:14px;font-size:15px;">🖨️ طباعة / تصدير PDF</button>
+        <button class="btn-gold" onclick="document.getElementById('annual-plan-output').style.display='none';document.getElementById('planning-form').style.display='block';" style="padding:13px 30px;border-radius:14px;font-size:15px;">✏️ تعديل</button>
+      </div>
+      <!-- زر النتائج الكاملة — يظهر دائماً هنا بعد توليد المخطط -->
+      <div style="margin-top:32px;text-align:center;padding:28px;background:linear-gradient(135deg,#1a1a1a 0%,#2a2a2a 100%);border-radius:20px;border:2px solid var(--brand-yellow);">
+        <div style="color:var(--brand-yellow);font-size:13px;font-weight:700;letter-spacing:1px;margin-bottom:10px;opacity:0.85;">🎉 أكملتَ المحطات الأربع!</div>
+        <div style="color:#fff;font-size:16px;font-weight:600;margin-bottom:20px;line-height:1.6;">الآن يمكنك رؤية تقريرك الكامل<br>يجمع كل ما أنجزته في رحلتك</div>
+        <button onclick="showResults()" style="background:linear-gradient(135deg,var(--brand-teal),var(--brand-blue));color:white;border:none;padding:16px 44px;border-radius:16px;font-family:'ThmanyahSerifDisplay',sans-serif;font-size:18px;font-weight:700;cursor:pointer;box-shadow:0 6px 24px rgba(59,185,171,0.4);transition:transform 0.2s;" onmouseover="this.style.transform='scale(1.04)'" onmouseout="this.style.transform='scale(1)'">🏆 اعرض نتائجي الكاملة</button>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<script>
+// ============================================================
+// STATE
+// ============================================================
+let creatorName = 'المبدع';
+let completedTasks = new Set();
+let poisonAnswers = {};
+let compAnswers = {};
+let surveyData = {};
+let selectedSkills = new Set();
+let playerRatings = {};
+let currentPlanningStep = 0;
+let totalTasks = 0;
+
+// Progress tracking — 5 items: name + 4 stages
+let progress = {
+  nameSet: false,
+  lectureDone: false,   // both quizzes submitted
+  skillsDone: false,
+  routineDone: false,
+  planningDone: false,
+  // legacy aliases (kept for internal calls)
+  lectureWatched: false,
+  poisonDone: false,
+  compDone: false,
+};
+
+// ============================================================
+// INIT DATA
+// ============================================================
+const SKILL_FIELDS = {
+  writing: {
+    label:'الكتابة الإبداعية', icon:'✍️', role:'Creative Writer — كاتب إبداعي',
+    dims:['الأسلوب والصياغة','البنية السردية','الإبداع والأصالة','التأثير العاطفي','الانضباط والإنتاج'],
+    qs:[
+      {type:'mcq',dim:2,text:'قبل أن تبدأ الكتابة الإبداعية، ما أول شيء تفعله؟',hint:'',
+       choices:['أفتح الملف وأبدأ مباشرة','أكتب أفكاراً عشوائية أولاً','أحدد الفكرة الجوهرية والمشاعر التي أريد إيقاظها','أبحث عن قصص مشابهة للاستلهام'],
+       scores:[0,2,3,1]},
+      {type:'scale',dim:0,text:'هل تستطيع كتابة جملة افتتاحية تجذب القارئ من أول سطر؟',hint:'1 = أصارع المقدمات كثيراً، 5 = أكتبها بثقة وتأثير',min:'أصارع المقدمات',max:'بثقة وتأثير'},
+      {type:'scenario',dim:1,text:'قرأت قصة وشعرت أنها "جيدة لكنها مسطحة" — ما المشكلة على الأرجح؟',hint:'',
+       choices:['المعلومات غير دقيقة','الشخصيات بلا نمو أو تحول داخلي','الأحداث سريعة جداً','اللغة صعبة'],
+       scores:[0,3,1,1]},
+      {type:'scale',dim:3,text:'هل يشعر القراء بالتأثر عند قراءة أعمالك؟',hint:'1 = لم أتلقَّ ردود فعل عاطفية، 5 = أتلقى تعليقات تأثر دائماً',min:'لا تأثر يُذكر',max:'تأثر واضح'},
+      {type:'mcq',dim:2,text:'ما الذي يميز النص الإبداعي حقاً عن غيره؟',hint:'',
+       choices:['الكلمات الكبيرة والجمل المعقدة','زاوية نظر مختلفة أو صورة غير متوقعة','الإطالة والتفصيل الكثير','الحوادث المتسارعة'],
+       scores:[0,3,1,1]},
+      {type:'scenario',dim:4,text:'مررت بأسبوع لم تكتب فيه شيئاً بسبب الكسل — ماذا تفعل؟',hint:'',
+       choices:['أنتظر حتى تعود الرغبة','أجبر نفسك على كتابة ١٠ دقائق يومياً ولو هراء','أتذكر لماذا أحب الكتابة وأعود تدريجياً','أغير الموضوع لشيء أسهل'],
+       scores:[0,2,3,1]},
+      {type:'scale',dim:1,text:'هل تبني هيكل القصة (بداية تصاعد ذروة حل) قبل الكتابة؟',hint:'1 = لا أخطط للبنية أبداً، 5 = دائماً ومع تفصيل',min:'لا أخطط',max:'دائماً'},
+      {type:'mcq',dim:0,text:'أي الجملتين أقوى أسلوباً؟',hint:'',
+       choices:['"كان حزيناً جداً بعد ما سمع الخبر"','"تصدّع شيء ما في صدره حين وصل الصوت إلى أذنيه"','"شعر بالحزن الشديد لما علم بالأمر"','"كان مكتئباً جداً في تلك اللحظة"'],
+       scores:[0,3,0,0]},
+      {type:'scale',dim:4,text:'كم مرة تكتب إبداعياً خارج المهام المطلوبة في الأسبوع؟',hint:'1 = نادراً جداً، 5 = يومياً أو شبه يومي',min:'نادراً',max:'يومياً'},
+      {type:'scenario',dim:3,text:'أعطيت قارئاً قصتك فقال "جميلة بس ما حسيت بشيء" — ماذا تراجع أولاً؟',hint:'',
+       choices:['الأخطاء اللغوية','التفاصيل الحسية والمشاعر الداخلية للشخصية','طول القصة','الأحداث الخارجية'],
+       scores:[0,3,1,0]}
+    ]
+  },
+  content: {
+    label:'كتابة المحتوى', icon:'📝', role:'Content Writer — كاتب محتوى رقمي',
+    dims:['الأسلوب والوضوح','البنية والتنظيم','الاستهداف والجمهور','تحسين محركات البحث','الالتزام بالتعليمات'],
+    qs:[
+      {type:'mcq',dim:2,text:'قبل كتابة أي محتوى، ما أهم سؤال تطرحه؟',hint:'',
+       choices:['ما طول المقال المطلوب؟','من الجمهور المستهدف وماذا يريد أن يعرف؟','ما الكلمات التي سأستخدمها؟','هل ثمة صور مطلوبة؟'],
+       scores:[0,3,1,0]},
+      {type:'scale',dim:0,text:'هل تستطيع تبسيط مفهوم معقد بجمل واضحة ومفهومة؟',hint:'1 = أجد صعوبة في التبسيط، 5 = أشرح الصعب ببساطة دائماً',min:'صعوبة في التبسيط',max:'أبسّط بثقة'},
+      {type:'scenario',dim:1,text:'قرأت محتوى "جيد" لكن القارئ لن يكمله — ما المشكلة؟',hint:'',
+       choices:['المعلومات غير صحيحة','العناوين الفرعية والفقرات غير منظمة تجعل القراءة ثقيلة','اللغة ضعيفة','الموضوع ممل أصلاً'],
+       scores:[0,3,1,0]},
+      {type:'scale',dim:3,text:'هل تعرف أساسيات تحسين محركات البحث (SEO) وتطبقها؟',hint:'1 = لا أعرف SEO، 5 = أطبقه بثقة في كل مقال',min:'لا أعرفه',max:'أطبقه دائماً'},
+      {type:'mcq',dim:0,text:'أي الجمل أفضل في محتوى رقمي؟',hint:'',
+       choices:['"المنتج ذو جودة عالية جداً ومفيد للمستخدمين بشكل كبير"','"يوفر لك 3 ساعات أسبوعياً من العمل المتكرر"','"المنتج يتميز بالجودة والنفع للجميع"','"كثير من الناس يحبون هذا المنتج كثيراً"'],
+       scores:[0,3,0,0]},
+      {type:'scenario',dim:4,text:'أعطاك القائد brief تفصيلياً لكنك تعتقد أن فكرة مختلفة أفضل — ماذا تفعل؟',hint:'',
+       choices:['أكتب ما في رأسي وأقنعه لاحقاً','أنفذ الـ brief تماماً دون تعليق','أنفذه وأرفق نسخة بديلة بملاحظة قصيرة','أرفض وأشرح موقفي مباشرة'],
+       scores:[1,2,3,0]},
+      {type:'scale',dim:1,text:'هل تكتب outline أو هيكلاً قبل الكتابة الكاملة؟',hint:'1 = لا أفعل أبداً، 5 = دائماً وبتفصيل',min:'لا أفعله',max:'دائماً'},
+      {type:'mcq',dim:2,text:'ما أهم شيء في عنوان المقال؟',hint:'',
+       choices:['أن يكون طويلاً ومفصلاً','أن يثير فضول القارئ ويعده بفائدة واضحة','أن يحتوي على كلمات مفتاحية كثيرة','أن يكون مثيراً للجدل'],
+       scores:[0,3,1,1]},
+      {type:'scale',dim:4,text:'هل تلتزم بالمواعيد النهائية في تسليم المحتوى؟',hint:'1 = غالباً أتأخر، 5 = دائماً في الموعد أو قبله',min:'غالباً أتأخر',max:'دائماً في الوقت'},
+      {type:'scenario',dim:3,text:'سلّمت مقالاً وجاء feedback أن الطول ضعف المطلوب — ماذا يعني ذلك؟',hint:'',
+       choices:['القائد مبالغ في التفاصيل','لم أقرأ التعليمات بعناية','الموضوع لا يحتاج أكثر من ذلك','المقال كان يفيض بالأفكار الجيدة'],
+       scores:[0,3,1,0]}
+    ]
+  },
+  animation: {
+    label:'الأنيميشن', icon:'🎬', role:'Animator — مصمم حركة',
+    dims:['التوقيت والإيقاع','التعبير والشخصية','إتقان البرامج','مبادئ الإنميشن','السرعة والإنتاج'],
+    qs:[
+      {type:'mcq',dim:3,text:'عندما تشاهد مقطع إنميشن يعجبك، ما أول شيء تلاحظه؟',hint:'',
+       choices:['حركة العيون والتعبير العاطفي','توقيت الحركة وإحساس الوزن','الإضاءة والألوان','الموسيقى والمؤثرات الصوتية'],
+       scores:[2,3,1,0]},
+      {type:'scale',dim:0,text:'كم مرة تراجع تايمنج المشهد بعد انتهائه؟',hint:'1 = نادراً، 5 = دائماً وبشكل مكثف',min:'نادراً',max:'دائماً'},
+      {type:'scenario',dim:1,text:'طُلب منك تحريك شخصية فرحة جداً — ماذا تفعل أولاً؟',hint:'',
+       choices:['أبدأ مباشرة بالحركة في البرنامج','أرسم poses سريعة على ورق لأفهم الشخصية','أبحث عن مرجع بشري مشابه','أبدأ بالوجه لأن الفرح يبدأ هناك'],
+       scores:[0,2,1,3]},
+      {type:'scale',dim:2,text:'كيف تقيّم إتقانك للبرنامج الرئيسي؟',hint:'1 = أعرف الأساسيات فقط، 5 = أتقن shortcuts وأدوات متقدمة',min:'مبتدئ',max:'متقدم'},
+      {type:'mcq',dim:3,text:'ما مبدأ الإنميشن الذي تفهمه أكثر من غيره؟',hint:'',
+       choices:['Squash & Stretch','Anticipation — التوقع قبل الحركة','Follow Through — استكمال الحركة','Slow In / Slow Out — التسارع والتباطؤ'],
+       scores:[1,2,2,3]},
+      {type:'scenario',dim:0,text:'تلاحظ أن الحركة تبدو "آلية" — ما تشخيصك؟',hint:'',
+       choices:['المشكلة في الألوان','كل الحركات بنفس السرعة — يحتاج Ease','الشخصية لا تعبر بعيونها','البرنامج فيه مشكلة'],
+       scores:[0,3,2,0]},
+      {type:'scale',dim:4,text:'كم ثانية إنميشن تنتج في يوم عمل كامل؟',hint:'1 = أقل من ثانية، 5 = أكثر من 5 ثوانٍ جاهزة',min:'< ثانية',max:'> 5 ثوانٍ'},
+      {type:'mcq',dim:1,text:'شخصية تقول "لا أريد" — كيف تعبّر عن ذلك بجسمها؟',hint:'',
+       choices:['أحرك الرأس جانبياً فقط','الكتفان يرتفعان والرأس ينحني للأمام قليلاً','أضيف تعبيراً على الوجه فقط','أحرك اليدين فقط'],
+       scores:[1,3,2,0]},
+      {type:'scale',dim:2,text:'هل تستخدم Graph Editor لضبط الحركة؟',hint:'1 = لا أعرفه، 5 = أتحكم فيه بدقة',min:'لا أعرفه',max:'أتقنه'},
+      {type:'scenario',dim:4,text:'طُلب منك تسليم 30 ثانية خلال يومين — ماذا تفعل؟',hint:'',
+       choices:['أرفض لأنه مستحيل','أقبل وأعمل بلا نوم','أبدأ بـ animatic ثم أوزع الوقت بذكاء','أطلب مساعدة بلا تخطيط'],
+       scores:[0,1,3,1]}
+    ]
+  },
+  illustration: {
+    label:'الرسم الطامس', icon:'🎨', role:'Digital Illustrator — رسام رقمي',
+    dims:['التشريح والتناسب','الخط والتحكم','الإضاءة والظل','الأسلوب الخاص','السرعة والإنتاجية'],
+    qs:[
+      {type:'mcq',dim:0,text:'رسمت شخصية وبدت يدها غريبة — ما أول شيء تفعله؟',hint:'',
+       choices:['أمحوها وأرسمها أسرع','أرجع لمرجع يد حقيقية أو صورة','أصغّر حجم اليد','أضيف ظلاً أكثر'],
+       scores:[0,3,1,0]},
+      {type:'scale',dim:1,text:'هل خطوطك ثابتة وواضحة من أول رسمة؟',hint:'1 = خطوطي متقطعة دائماً، 5 = ثابتة من أول مرة',min:'متقطعة',max:'ثابتة'},
+      {type:'scenario',dim:2,text:'تريد رسم كرة تبدو ثلاثية الأبعاد — ماذا تحتاج؟',hint:'',
+       choices:['تدرج لوني مع highlight وظل واضح','رسم خطوط داخلية','تلوين بلون واحد داكن','رسم خط وسطي فقط'],
+       scores:[3,0,1,0]},
+      {type:'scale',dim:0,text:'كيف تقيّم فهمك للتشريح البشري (عظام، مفاصل، عضلات)؟',hint:'1 = لا أعرف الأساسيات، 5 = أفهمه بعمق',min:'لا أعرفه',max:'أفهمه بعمق'},
+      {type:'mcq',dim:3,text:'ما تعريف الأسلوب الخاص في الرسم؟',hint:'',
+       choices:['رسم بطريقة غريبة ومختلفة','قرارات بصرية متكررة تجعل أعمالك قابلة للتعرف عليها','تقليد رسام مشهور','ألوان غير تقليدية فقط'],
+       scores:[1,3,0,0]},
+      {type:'scenario',dim:1,text:'تريد رسم خط منحنٍ طويل بشكل سلس — ما الأفضل؟',hint:'',
+       choices:['أرسمه ببطء شديد','بحركة واحدة من الكتف لا المعصم','على مراحل متعددة قصيرة','أكبّر الـ canvas'],
+       scores:[0,3,1,1]},
+      {type:'scale',dim:2,text:'هل تحدد مصدر الضوء أولاً قبل رسم الظلال؟',hint:'1 = أضع الظلال عشوائياً، 5 = دائماً من مصدر محدد',min:'عشوائياً',max:'بدقة'},
+      {type:'mcq',dim:4,text:'كم وقت تحتاج لإنجاز رسمة شخصية كاملة بجودة جيدة؟',hint:'',
+       choices:['أقل من ساعة','ساعة إلى ثلاث','أربع ساعات فأكثر','لا أعرف — يتفاوت كثيراً'],
+       scores:[3,2,1,0]},
+      {type:'scale',dim:3,text:'هل يتعرف الناس على رسوماتك دون رؤية اسمك؟',hint:'1 = لا — أسلوبي غير محدد، 5 = نعم — مميز جداً',min:'غير محدد',max:'مميز جداً'},
+      {type:'scenario',dim:4,text:'عميل يريد ١٠ شخصيات خلال يومين — ما نهجك؟',hint:'',
+       choices:['أرفض فوراً','أرسم كل شخصية من الصفر','أبني نظام أساس للشخصية وأطبق التنويعات','أرسم بسرعة وبلا جودة'],
+       scores:[0,0,3,0]}
+    ]
+  },
+  drawing: {
+    label:'الرسم العام', icon:'🖌️', role:'Artist — فنان بصري',
+    dims:['الملاحظة والتمثيل','التقنية والخامات','التركيب والتصميم','التعبير الفني','الانتظام والممارسة'],
+    qs:[
+      {type:'mcq',dim:0,text:'ما الفرق بين الرسم من المخيلة والرسم من مرجع؟',hint:'',
+       choices:['المرجع يضعف الإبداع دائماً','المرجع يُدرّب العين والدماغ على الدقة وهو أساسي','المخيلة أهم في كل الأحوال','لا فرق كبير بينهما'],
+       scores:[0,3,1,0]},
+      {type:'scale',dim:1,text:'هل تجرب خامات وأدوات جديدة للرسم بانتظام؟',hint:'1 = أعمل بنفس الأداة دائماً، 5 = أجرب باستمرار',min:'نفس الأداة',max:'أجرب باستمرار'},
+      {type:'scenario',dim:2,text:'رسمت لوحة لكن شعرت أن "شيئاً ما ناقص" — ما أول شيء تفحصه؟',hint:'',
+       choices:['الألوان المستخدمة','التوازن البصري ونقطة التركيز','حجم العناصر','التفاصيل الدقيقة'],
+       scores:[1,3,1,0]},
+      {type:'scale',dim:4,text:'كم مرة تجلس للرسم خارج المهام المطلوبة؟',hint:'1 = نادراً جداً، 5 = يومياً تقريباً',min:'نادراً',max:'يومياً'},
+      {type:'mcq',dim:3,text:'ما أهم ما تريد أن يشعر به الناظر حين يرى عملك؟',hint:'',
+       choices:['يشعر أنك تقني بارع','يتوقف ويشعر بشيء ما داخله','يتذكر تقنية محددة','يعرف أنك قضيت وقتاً طويلاً'],
+       scores:[1,3,0,0]},
+      {type:'scenario',dim:0,text:'تريد رسم يد بشرية من زاوية صعبة — ما منهجك؟',hint:'',
+       choices:['أتجنب هذه الزاوية','أصوّر يدي أو أبحث عن مرجع مشابه','أخمّن وأكمل','أبسّط الشكل بمستطيلات وأبني عليها'],
+       scores:[0,2,0,3]},
+      {type:'scale',dim:1,text:'هل تستطيع التحكم في درجة الضغط والخفة في خطوطك؟',hint:'1 = خطوطي بنفس السماكة دائماً، 5 = تحكم كامل',min:'بنفس السماكة',max:'تحكم كامل'},
+      {type:'mcq',dim:2,text:'ما مبدأ "اللقطة الذهبية" في التصميم؟',hint:'',
+       choices:['وضع العنصر الرئيسي دائماً في المنتصف','تقسيم اللوحة بخطوط ثلاثة أفقياً وثلاثة رأسياً ووضع المهم عند تقاطعاتها','اختيار ألوان ذهبية','توسيع حجم العنصر الرئيسي'],
+       scores:[0,3,0,0]},
+      {type:'scale',dim:4,text:'هل تحتفظ بدفتر رسم تمارسه يومياً؟',hint:'1 = لا أملك دفتراً، 5 = أملأ الدفاتر بانتظام',min:'لا دفتر',max:'أملأ دفاتر'},
+      {type:'scenario',dim:3,text:'شخص علّق على رسمتك "تقنياً ممتاز لكن بارد" — ما معنى ذلك؟',hint:'',
+       choices:['المنتقد لا يفهم الفن','رسمتك دقيقة لكنها تفتقر للروح والتعبير الشخصي','ألوانك غير دافئة','يحتاج الرسم إضاءة أكثر'],
+       scores:[0,3,1,0]}
+    ]
+  },
+  motion: {
+    label:'الموشن جرافيك', icon:'🌀', role:'Motion Designer — مصمم موشن',
+    dims:['الإيقاع والتوقيت','التصميم البصري','سرد القصة بصرياً','إتقان الأدوات','الأثر والتأثير'],
+    qs:[
+      {type:'mcq',dim:0,text:'ما الذي يجعل الموشن جرافيك "يشعر" بالاحترافية؟',hint:'',
+       choices:['كثرة المؤثرات والتأثيرات','توقيت الحركات مع الصوت وإحساس الوزن','دقة وضوح الألوان','سرعة الحركة'],
+       scores:[1,3,1,0]},
+      {type:'scale',dim:3,text:'كيف تقيّم إتقانك لـ After Effects أو برنامج موشن رئيسي؟',hint:'1 = أعرف الأساسيات فقط، 5 = أتقن expressions وأدوات متقدمة',min:'مبتدئ',max:'متقدم جداً'},
+      {type:'scenario',dim:2,text:'طُلب منك شرح فكرة معقدة بموشن ٣٠ ثانية — بماذا تبدأ؟',hint:'',
+       choices:['أفتح البرنامج وأبدأ مباشرة','أرسم storyboard وأحدد الرسالة الجوهرية أولاً','أبحث عن موشن مشابه وأستلهم','أختار الألوان أولاً'],
+       scores:[0,3,1,0]},
+      {type:'scale',dim:0,text:'هل تنتبه للـ easing في حركاتك (ليس خط مستقيم)؟',hint:'1 = لا أعرف الفرق، 5 = أضبطه بدقة في كل مشهد',min:'لا أعرفه',max:'أضبطه بدقة'},
+      {type:'mcq',dim:1,text:'عندما تصمم موشن، من أين تبدأ بصرياً؟',hint:'',
+       choices:['من اختيار خطوط الـ font','من بناء الـ style frame — الصورة الثابتة التي تمثل روح التصميم','من تحريك العناصر مباشرة','من اختيار موسيقى الخلفية'],
+       scores:[1,3,0,0]},
+      {type:'scenario',dim:4,text:'شاهد العميل الموشن وقال "ما حسيت بشيء" — ما الأرجح؟',hint:'',
+       choices:['البرنامج به مشكلة','الحركة دقيقة لكن لا تخدم قصة أو رسالة واضحة','الألوان غير مناسبة','السرعة بطيئة جداً'],
+       scores:[0,3,1,1]},
+      {type:'scale',dim:1,text:'هل تبني نظام ألوان وخطوط ثابت لكل مشروع؟',hint:'1 = أختار عشوائياً، 5 = نظام كامل دائماً',min:'عشوائياً',max:'نظام كامل'},
+      {type:'mcq',dim:3,text:'ما استخدام الـ expressions في After Effects؟',hint:'',
+       choices:['لإضافة مؤثرات صوتية','لربط الخصائص ببعضها وأتمتة الحركة بكود بسيط','لتغيير الألوان','لتصدير الفيديو'],
+       scores:[0,3,0,0]},
+      {type:'scale',dim:2,text:'هل تفكر في "قصة بصرية" قبل أن تفكر في الحركة؟',hint:'1 = أبدأ بالحركة مباشرة، 5 = القصة أولاً دائماً',min:'الحركة أولاً',max:'القصة أولاً'},
+      {type:'scenario',dim:4,text:'موشن تسليمه غداً وأنت في منتصف الطريق — ماذا تفعل؟',hint:'',
+       choices:['أطلب تمديداً فوراً','أحدد أهم المشاهد وأركز عليها، والباقي يبسّط','أعمل طوال الليل بلا خطة','أسلم ما عندي وأعتذر'],
+       scores:[1,3,0,0]}
+    ]
+  },
+  editing: {
+    label:'المونتاج', icon:'🎞️', role:'Video Editor — مونتير',
+    dims:['الإيقاع والتدفق','السرد البصري','الاحترافية التقنية','الصوت والموسيقى','السرعة والإنتاج'],
+    qs:[
+      {type:'mcq',dim:1,text:'ما أهم مهارة في المونتاج الجيد؟',hint:'',
+       choices:['إتقان برنامج المونتاج','فهم القصة وكيفية خلق الإيقاع المناسب لها','استخدام transitions كثيرة','دقة الصورة'],
+       scores:[1,3,1,0]},
+      {type:'scale',dim:0,text:'هل تشعر بالإيقاع الصح للقطع بدون تعليمات؟',hint:'1 = أحتاج توجيهاً دائماً، 5 = أشعر بالإيقاع تلقائياً',min:'أحتاج توجيهاً',max:'تلقائياً'},
+      {type:'scenario',dim:3,text:'مشهد حزين والموسيقى الخلفية سريعة — ماذا تفعل؟',hint:'',
+       choices:['أستمر لأن المخرج اختارها','أبحث عن قطعة موسيقية تخدم المشهد العاطفي','أخفّض الصوت فقط','أغير إيقاع القطع ليناسب الموسيقى'],
+       scores:[0,3,1,1]},
+      {type:'scale',dim:2,text:'هل تتعامل مع الـ color grading باحترافية؟',hint:'1 = لا أعرف الأساسيات، 5 = أطبق LUTs وأبني look خاص',min:'لا أعرفه',max:'أطبقه بإتقان'},
+      {type:'mcq',dim:1,text:'متى يكون الـ transition المناسب "لا شيء" أي cut مباشر؟',hint:'',
+       choices:['عندما لا أجد transition يعجبني','دائماً — الـ cut المباشر هو الأقوى في معظم المشاهد','عندما أكون مستعجلاً','فقط في المشاهد السريعة'],
+       scores:[0,3,0,1]},
+      {type:'scenario',dim:4,text:'طُلب منك مونتاج ١٠ دقائق في ٤ ساعات — ما نهجك؟',hint:'',
+       choices:['أرفض لأنه غير واقعي','أراجع المواد أولاً وأحدد الـ rough cut ثم أصقل','أعمل عشوائياً وأرى ما يخرج','أطلب مساعدة فوراً'],
+       scores:[0,3,0,1]},
+      {type:'scale',dim:3,text:'هل تنتبه لمستويات الصوت وتوازنها في مشاريعك؟',hint:'1 = الصوت آخر اهتمامي، 5 = أعمل audio mix دقيق دائماً',min:'آخر اهتمامي',max:'أولوية دائمة'},
+      {type:'mcq',dim:0,text:'ما الـ J-cut وL-cut في المونتاج؟',hint:'',
+       choices:['أنواع transitions بصرية','تقنيات يسبق فيها الصوت الصورة أو العكس لتسلسل سلس','ضغط الفيديو','أسماء لبرامج مونتاج'],
+       scores:[0,3,0,0]},
+      {type:'scale',dim:2,text:'هل تعرف keyboard shortcuts أساسية لبرنامجك بثقة؟',hint:'1 = أعمل بالماوس فقط، 5 = shortcuts كل شيء',min:'ماوس فقط',max:'shortcuts دائماً'},
+      {type:'scenario',dim:1,text:'شاهدت مونتاجك ووجدت أن المشاهد "تقفز" بشكل مزعج — ما السبب؟',hint:'',
+       choices:['جودة الكاميرا ضعيفة','jump cuts غير مقصودة بسبب زوايا متشابهة جداً','الإضاءة غير متناسقة','الموسيقى لا تناسب'],
+       scores:[0,3,1,0]}
+    ]
+  },
+  voice: {
+    label:'التمثيل الصوتي', icon:'🎙️', role:'Voice Actor — مؤدّي صوتي',
+    dims:['وضوح النطق','التعبير العاطفي','التنوع الصوتي','الالتزام بالنص','جودة التسجيل'],
+    qs:[
+      {type:'mcq',dim:1,text:'قبل أداء مشهد حزين — كيف تستعد؟',hint:'',
+       choices:['أقرأ النص وأبدأ مباشرة','أستحضر إحساساً حقيقياً من تجربتي الشخصية','أقلد مؤدياً آخر أعجبني','أسرع لأكمل التسجيل'],
+       scores:[0,3,1,0]},
+      {type:'scale',dim:0,text:'هل تمارس تمارين النطق والإحماء قبل التسجيل؟',hint:'1 = لا أعرف ما هي، 5 = لا أبدأ بدونها',min:'لا أعرفها',max:'دائماً'},
+      {type:'scenario',dim:2,text:'طُلب منك صوت شخصية شريرة كوميدية — كيف توصفه قبل التسجيل؟',hint:'',
+       choices:['عميق ومخيف بالكامل','يجمع الشر والسخرية — ذكاء مع طفولية خفية','مرتفع وصراخ','هادئ جداً'],
+       scores:[1,3,0,1]},
+      {type:'scale',dim:3,text:'إذا أخطأت كلمة في منتصف التسجيل — هل تعود للبداية أم تكمل؟',hint:'1 = أعود دائماً للبداية، 5 = أكمل وأسجل الجزء منفصلاً',min:'البداية دائماً',max:'أكمل بذكاء'},
+      {type:'mcq',dim:0,text:'ما أشيع مشكلة نطق عند المؤدين العرب؟',hint:'',
+       choices:['الكلام السريع جداً','إدغام الحروف وابتلاع نهايات الكلمات','استخدام الفصحى','ضعف الصوت العام'],
+       scores:[1,3,0,0]},
+      {type:'scale',dim:1,text:'هل تستطيع البكاء أو الضحك بشكل حقيقي أمام الميكروفون؟',hint:'1 = أجد صعوبة كبيرة، 5 = يخرج طبيعياً حين أحتاجه',min:'صعب جداً',max:'طبيعي'},
+      {type:'scenario',dim:2,text:'صوتك الطبيعي لا يناسب الشخصية المطلوبة — ماذا تفعل؟',hint:'',
+       choices:['أعتذر وأقول إنه ليس مجالي','أعدّل الـ pitch وطريقة التنفس للوصول','أسجل بصوتي الطبيعي وأترك للـ post','أكرر عشرات المرات حتى يقبله'],
+       scores:[0,3,1,2]},
+      {type:'scale',dim:2,text:'كم نطاقاً صوتياً مختلفاً تستطيع تقديمه بشكل مقنع؟',hint:'1 = صوتي الطبيعي فقط، 5 = أكثر من 5 أصوات مختلفة',min:'صوتي فقط',max:'5 أصوات+'},
+      {type:'mcq',dim:3,text:'المخرج طلب "أبطأ قليلاً" ثلاث مرات — ماذا يجب أن تراجع؟',hint:'',
+       choices:['المخرج مخطئ','لديّ عادة التسريع تحت الضغط يجب أن أعيها','الميكروفون يشوّه الصوت','النص طويل جداً'],
+       scores:[0,3,0,0]},
+      {type:'scale',dim:4,text:'هل بيئة تسجيلك تقلل الضوضاء بشكل كافٍ؟',hint:'1 = أسجل في أي مكان، 5 = بيئة معزولة صوتياً',min:'أي مكان',max:'معزولة صوتياً'}
+    ]
+  },
+  directing: {
+    label:'الإخراج', icon:'🎭', role:'Director — مخرج إبداعي',
+    dims:['الرؤية الإبداعية','قيادة الفريق','السرد البصري','إدارة المشهد','اتخاذ القرار'],
+    qs:[
+      {type:'mcq',dim:0,text:'ما أهم شيء يفكر فيه المخرج قبل أي لقطة؟',hint:'',
+       choices:['نوع الكاميرا المستخدمة','الشعور الذي يريده المشاهد أن يحس به في هذه اللحظة','الضوء والألوان','حوار الشخصيات'],
+       scores:[1,3,1,0]},
+      {type:'scale',dim:1,text:'هل تستطيع إيصال رؤيتك للفريق بوضوح؟',hint:'1 = أجد صعوبة في التعبير، 5 = رؤيتي واضحة للجميع دائماً',min:'صعوبة في التعبير',max:'واضح دائماً'},
+      {type:'scenario',dim:3,text:'في يوم التصوير، الممثل يؤدي بشكل مختلف عما تصورت — ماذا تفعل؟',hint:'',
+       choices:['أطلب منه التوقف وأصف ما أريد بدقة','أدعه يكمل وأرى ما يخرج قبل الحكم','أغير اللقطة بالكامل','أشتد عليه'],
+       scores:[2,3,1,0]},
+      {type:'scale',dim:0,text:'هل تعد visual treatment أو مرجعاً بصرياً لكل مشروع؟',hint:'1 = أبدأ بدون مرجع، 5 = دائماً وبتفصيل',min:'بدون مرجع',max:'دائماً مفصّل'},
+      {type:'mcq',dim:2,text:'ما وظيفة زاوية الكاميرا في الإخراج؟',hint:'',
+       choices:['فقط لإظهار الممثل بشكل جيد','توصيل الشعور والسلطة والعلاقة بين الشخصيات دون كلام','اختيار جمالي لا أكثر','تسهيل عمل التصوير'],
+       scores:[0,3,1,0]},
+      {type:'scenario',dim:4,text:'الفريق اختلف على قرار مهم في التصوير — ماذا تفعل؟',hint:'',
+       choices:['أتركهم يتفقون وحدهم','أستمع للآراء ثم أتخذ القرار بوضوح وسرعة','أطلب رأي العميل','أؤجل القرار'],
+       scores:[0,3,1,0]},
+      {type:'scale',dim:1,text:'هل تستطيع تحفيز فريقك في أصعب اللحظات؟',hint:'1 = أجد صعوبة، 5 = أحوّل الضغط لطاقة إيجابية',min:'صعوبة',max:'أحوّل الضغط'},
+      {type:'mcq',dim:0,text:'ما الفرق بين المخرج القوي والضعيف؟',hint:'',
+       choices:['المخرج القوي يتحكم في كل التفاصيل','المخرج القوي يمتلك رؤية واضحة ويثق بفريقه لتنفيذها','المخرج القوي ينفذ رغبة العميل بالضبط','المخرج القوي يعرف أكثر التقنيات'],
+       scores:[1,3,0,0]},
+      {type:'scale',dim:3,text:'هل تعد shot list دقيقة قبل التصوير؟',hint:'1 = لا أعد شيئاً، 5 = shot list تفصيلية دائماً',min:'لا أعد شيئاً',max:'تفصيلية دائماً'},
+      {type:'scenario',dim:4,text:'مشهد مهم لم يخرج كما أردت وليس هناك وقت للإعادة — ماذا تفعل؟',hint:'',
+       choices:['أصر على الإعادة مهما كلّف','أحلل ما لديه بإبداع ويرى المونتاج ماذا يستطيع','أقبل بالنتيجة بصمت','أوجّه اللوم للفريق'],
+       scores:[1,3,0,0]}
+    ]
+  },
+  threed: {
+    label:'الثري دي', icon:'🧊', role:'3D Artist — فنان ثلاثي الأبعاد',
+    dims:['النمذجة والشكل','الإضاءة والمواد','التحريك والـ rig','الإنتاجية والبيبلاين','التفكير ثلاثي الأبعاد'],
+    qs:[
+      {type:'mcq',dim:4,text:'ما أصعب تحدٍّ في التفكير ثلاثي الأبعاد للمبتدئين؟',hint:'',
+       choices:['تعلم البرنامج','تخيّل الشكل من كل الزوايا قبل النمذجة','اختيار الألوان','سرعة الـ render'],
+       scores:[1,3,1,0]},
+      {type:'scale',dim:0,text:'هل تحافظ على نظافة الـ topology (توزيع الـ polygons) في نماذجك؟',hint:'1 = لا أفهم الـ topology، 5 = أبني topology نظيفة دائماً',min:'لا أفهمه',max:'أبنيه بإتقان'},
+      {type:'scenario',dim:1,text:'نموذجك يبدو "بلاستيكياً" وغير واقعي — ما السبب الأرجح؟',hint:'',
+       choices:['النمذجة ضعيفة','إعدادات الـ material والـ roughness غير صحيحة','الإضاءة ضعيفة جداً','المشهد بسيط'],
+       scores:[1,2,3,0]},
+      {type:'scale',dim:1,text:'هل تفهم الفرق بين PBR materials وكيفية ضبطها؟',hint:'1 = لا أعرف ما هو، 5 = أضبطه بثقة',min:'لا أعرفه',max:'أضبطه بثقة'},
+      {type:'mcq',dim:2,text:'ما أهم خطوة قبل تحريك شخصية ثلاثية الأبعاد؟',hint:'',
+       choices:['تلوينها أولاً','التأكد من أن الـ rig صحيح والـ weights موزعة بشكل سليم','إضافة الإضاءة','اختيار الكاميرا'],
+       scores:[0,3,1,0]},
+      {type:'scenario',dim:3,text:'مشروع كبير والـ render بطيء جداً — ماذا تفعل؟',hint:'',
+       choices:['أنتظر بصبر','أحسّن إعدادات الـ render وأخفض samples أو أستخدم render farm','أغير البرنامج','أبسّط المشهد بشكل عشوائي'],
+       scores:[0,3,0,1]},
+      {type:'scale',dim:0,text:'هل تستطيع نمذجة كائنات عضوية (وجه، يد) باحترافية؟',hint:'1 = أجد صعوبة كبيرة، 5 = أنمذجها بثقة',min:'أجد صعوبة',max:'بثقة كاملة'},
+      {type:'mcq',dim:1,text:'ما وظيفة الـ HDRI في مشهد ثلاثي الأبعاد؟',hint:'',
+       choices:['لإضافة ألوان للخلفية','توفير إضاءة بيئية واقعية وانعكاسات طبيعية','لتسريع الـ render','لإنشاء ظلال ناعمة فقط'],
+       scores:[0,3,0,1]},
+      {type:'scale',dim:4,text:'هل تستطيع تخيّل الشكل الثلاثي الأبعاد من رسم ثنائي الأبعاد فقط؟',hint:'1 = أجد صعوبة دائماً، 5 = أتصوره بوضوح',min:'صعوبة',max:'بوضوح تام'},
+      {type:'scenario',dim:3,text:'نمذجت شخصية وعند الـ rig لم تتحرك بشكل طبيعي — ما المشكلة؟',hint:'',
+       choices:['الـ rig خطأ دائماً','على الأرجح توزيع الـ skin weights غير صحيح في مناطق المفاصل','الـ mesh بها مشكلة','البرنامج قديم'],
+       scores:[0,3,1,0]}
+    ]
+  },
+  marketing: {
+    label:'التسويق', icon:'📢', role:'Marketer — مسوّق رقمي',
+    dims:['فهم الجمهور','الرسالة والمحتوى','تحليل البيانات','الاستراتيجية','الإبداع في التسويق'],
+    qs:[
+      {type:'mcq',dim:0,text:'ما أهم سؤال قبل أي حملة تسويقية؟',hint:'',
+       choices:['ما الميزانية المتاحة؟','من هو الجمهور المستهدف وما مشكلته التي نحلها؟','ما المنصات التي سنستخدمها؟','ما شكل الإعلان؟'],
+       scores:[1,3,1,0]},
+      {type:'scale',dim:2,text:'هل تقرأ وتحلل بيانات الحملات بانتظام؟',hint:'1 = لا أفهم التحليل، 5 = أبني قرارات على البيانات دائماً',min:'لا أفهمه',max:'أحلل دائماً'},
+      {type:'scenario',dim:1,text:'إعلانك وصل لكثيرين لكن لا أحد اشترى — ما المشكلة على الأرجح؟',hint:'',
+       choices:['المنصة خاطئة','الرسالة أو العرض لا يقنع الجمهور المستهدف بالتحول للشراء','الإعلان قبيح بصرياً','الميزانية منخفضة'],
+       scores:[1,3,1,0]},
+      {type:'scale',dim:3,text:'هل تبني استراتيجية واضحة قبل بدء أي حملة؟',hint:'1 = أبدأ عشوائياً، 5 = استراتيجية مكتوبة دائماً',min:'عشوائياً',max:'استراتيجية دائماً'},
+      {type:'mcq',dim:4,text:'ما أقوى طريقة لاختبار فاعلية إعلانين مختلفين؟',hint:'',
+       choices:['السؤال للناس أيهم أجمل','A/B Testing — تشغيل الاثنين على جمهور موزع وقياس النتائج','رأي الفريق','تقييم المصمم'],
+       scores:[0,3,1,0]},
+      {type:'scenario',dim:0,text:'منتجك جيد لكن لا أحد يشتريه — كيف تبدأ التشخيص؟',hint:'',
+       choices:['أخفّض السعر فوراً','أعيد فهم الجمهور ومشكلته وكيف يرى المنتج','أغير شكل الإعلان','أزيد الإنفاق الإعلاني'],
+       scores:[1,3,1,0]},
+      {type:'scale',dim:1,text:'هل تكتب copy (نصوص إعلانية) تقنع وتحرك المشاعر؟',hint:'1 = نصوصي عادية، 5 = أكتب copy قوي يحرّك',min:'عادية',max:'قوي ومؤثر'},
+      {type:'mcq',dim:2,text:'ما معنى الـ CTR في الإعلانات الرقمية؟',hint:'',
+       choices:['نسبة تكلفة الإعلان','نسبة النقر على الإعلان من إجمالي من شاهده','عدد مرات ظهور الإعلان','معدل الشراء'],
+       scores:[0,3,0,0]},
+      {type:'scale',dim:4,text:'هل تجد طرقاً إبداعية مختلفة للوصول للجمهور خارج الطرق التقليدية؟',hint:'1 = أتبع ما يفعله الآخرون، 5 = أجرب باستمرار',min:'أتبع الآخرين',max:'أجرب باستمرار'},
+      {type:'scenario',dim:3,text:'الحملة تعمل لكن التكلفة مرتفعة — ماذا تفعل؟',hint:'',
+       choices:['أوقفها فوراً','أحلل أي الإعلانات أفضل وأوقف الأضعف وأضاعف الأقوى','أخفّض الميزانية الكلية','أغير المنصة'],
+       scores:[0,3,1,1]}
+    ]
+  },
+  design: {
+    label:'التصميم', icon:'🖥️', role:'Graphic Designer — مصمم جرافيك',
+    dims:['التوازن البصري','نظرية الألوان','التايبوغرافي','إتقان الأدوات','الإبداع والأسلوب'],
+    qs:[
+      {type:'mcq',dim:0,text:'نظرت لتصميم وشعرت أنه "ثقيل" من جهة — ما أول شيء تفحصه؟',hint:'',
+       choices:['الألوان','توزيع العناصر والـ white space','حجم الخط','الصور'],
+       scores:[1,3,1,0]},
+      {type:'scale',dim:1,text:'هل تبني palette ألوان كاملة أم تختار بعشوائية؟',hint:'1 = أختار بعشوائية، 5 = أبني نظام ألوان محدد دائماً',min:'عشوائياً',max:'نظام كامل'},
+      {type:'scenario',dim:2,text:'تصميم فيه خطان مختلفان — متى يكون ذلك صحيحاً؟',hint:'',
+       choices:['دائماً — يعطي تنوعاً','عندما يخدمان وظيفتين: عنوان وجسم نص','أفضّل خطاً واحداً دائماً','يعتمد على لون الخلفية'],
+       scores:[1,3,2,0]},
+      {type:'scale',dim:3,text:'هل تستطيع العمل بسرعة مع shortcuts في برنامجك؟',hint:'1 = بطيء في المهام البسيطة، 5 = سريع جداً بـ shortcuts',min:'بطيء',max:'سريع جداً'},
+      {type:'mcq',dim:1,text:'العميل أعطاك لونين متعاكسين — ماذا تفعل؟',hint:'',
+       choices:['أستخدمهما بالتساوي','أجعل أحدهما dominant والآخر accent','أتجاهل أحدهما','أطلب تغيير الألوان'],
+       scores:[0,3,1,0]},
+      {type:'scenario',dim:4,text:'طُلب منك تصميم "إبداعي وجريء" — ما أول خطوة؟',hint:'',
+       choices:['أفتح البرنامج فوراً','أجمع مراجع بصرية في Pinterest','أسأل عن التعريف الدقيق لـ "إبداعي وجريء" عند هذا العميل','أجرب ألواناً زاهية'],
+       scores:[0,1,3,2]},
+      {type:'scale',dim:2,text:'هل تهتم بـ leading وtracking للمسافات بين الأسطر والحروف؟',hint:'1 = لا أتعامل معها، 5 = أضبطها بدقة دائماً',min:'لا أتعامل معها',max:'أضبطها دائماً'},
+      {type:'mcq',dim:0,text:'ما مفهوم الـ visual hierarchy؟',hint:'',
+       choices:['ترتيب الألوان من الفاتح للغامق','توجيه عين المشاهد لأهم المعلومات أولاً','العنوان دائماً في الأعلى','استخدام الخطوط الرأسية'],
+       scores:[0,3,1,0]},
+      {type:'scale',dim:4,text:'كم مرة تخرج من الطريق المعتاد وتجرب أسلوباً جديداً؟',hint:'1 = نادراً، 5 = باستمرار وأحب التجريب',min:'نادراً',max:'باستمرار'},
+      {type:'scenario',dim:3,text:'تحتاج تأثيراً لا تعرف طريقة عمله — ماذا تفعل؟',hint:'',
+       choices:['أتخلى عن الفكرة','أبحث في YouTube وأتعلمه','أطلب من زميل','أستبدله بتأثير أعرفه حتى لو أضعف'],
+       scores:[0,3,2,1]}
+    ]
+  },
+  coding: {
+    label:'البرمجة والتقنية', icon:'💻', role:'Developer — مطوّر تقني',
+    dims:['حل المشكلات','جودة الكود','التعلم المستمر','العمل في الفريق','الإبداع التقني'],
+    qs:[
+      {type:'mcq',dim:0,text:'واجهت bug لا تجد سببه — ما منهجك؟',hint:'',
+       choices:['أسأل زميلاً فوراً','أعيد كتابة الكود من البداية','أقسّم المشكلة وأختبر كل جزء (debugging منهجي)','أبحث في Google مباشرة بنفس error message'],
+       scores:[1,0,3,2]},
+      {type:'scale',dim:1,text:'هل تكتب كوداً نظيفاً يفهمه غيرك؟',hint:'1 = كودي فوضوي وصعب القراءة، 5 = نظيف وموثّق دائماً',min:'فوضوي',max:'نظيف وموثّق'},
+      {type:'scenario',dim:2,text:'ظهرت تقنية جديدة في مجالك — ماذا تفعل؟',hint:'',
+       choices:['أتجاهلها حتى تنتشر','أبحث عنها وأجرب مشروعاً صغيراً بها','أنتظر حتى يطلبها العمل','أسأل زميلاً عنها فقط'],
+       scores:[0,3,1,1]},
+      {type:'scale',dim:1,text:'هل تكتب tests للكود الذي تكتبه؟',hint:'1 = لا أكتب tests أبداً، 5 = أكتبها باستمرار',min:'لا أكتب tests',max:'دائماً'},
+      {type:'mcq',dim:4,text:'أُعطيت مشكلة تقنية بطريقة مبتكرة — ما موقفك؟',hint:'',
+       choices:['أتمسك بالحل التقليدي لأنه أثبت نجاحه','أدرس الحل الإبداعي وأقيّم مزاياه ومخاطره بموضوعية','أرفض الأفكار غير المثبتة','أتبنى الجديد فوراً دون تفكير'],
+       scores:[1,3,0,0]},
+      {type:'scenario',dim:3,text:'زميلك كتب كوداً يعمل لكنه سيء التنظيم — ماذا تفعل؟',hint:'',
+       choices:['أتجاهله — يعمل وكفى','أعيد كتابته بدون علمه','أتحدث معه بلطف وأقترح تحسينات مشتركة','أشكوه للمدير'],
+       scores:[0,0,3,0]},
+      {type:'scale',dim:0,text:'هل تستطيع حل مشاكل برمجية جديدة لم تقابلها من قبل؟',hint:'1 = أجد صعوبة كبيرة، 5 = أحلها بمنهجية',min:'صعوبة كبيرة',max:'بمنهجية'},
+      {type:'mcq',dim:2,text:'ما أفضل طريقة لمواكبة التطور في مجال التقنية؟',hint:'',
+       choices:['قراءة الأخبار التقنية فقط','بناء مشاريع جانبية صغيرة وتطبيق كل جديد','الانتظار حتى يصبح مطلوباً في الوظائف','متابعة التويتر فقط'],
+       scores:[1,3,0,0]},
+      {type:'scale',dim:4,text:'هل تبني أدوات أو مشاريع تقنية من أجل حل مشكلة تواجهها؟',hint:'1 = لا أبني إلا ما يُطلب، 5 = أبني باستمرار لمشاكل خاصة',min:'ما يُطلب فقط',max:'أبني باستمرار'},
+      {type:'scenario',dim:3,text:'مشروع طُلب منك تسليمه في ٣ أيام وهو يحتاج أسبوعاً — ماذا تفعل؟',hint:'',
+       choices:['أقبل وأعمل ليل نهار','أفاوض بصراحة ووضوح على حجم العمل والوقت اللازم','أسلّم شيئاً غير مكتمل','أرفض فوراً'],
+       scores:[0,3,1,0]}
+    ]
+  },
+  management: {
+    label:'الإدارة والإشراف', icon:'🗂️', role:'Team Lead — قائد فريق إبداعي',
+    dims:['التخطيط والتنظيم','التواصل والقيادة','إدارة الأولويات','تطوير الفريق','حل النزاعات'],
+    qs:[
+      {type:'mcq',dim:0,text:'ما أهم شيء في إدارة مشروع إبداعي بنجاح؟',hint:'',
+       choices:['السيطرة على كل التفاصيل','توزيع المهام بوضوح مع متابعة منتظمة دون تدخل زائد','الاجتماع اليومي','موافقة الجميع على كل قرار'],
+       scores:[1,3,1,0]},
+      {type:'scale',dim:1,text:'هل تستطيع تحفيز الفريق في أوقات الضغط الشديد؟',hint:'1 = أجد صعوبة، 5 = أحوّل الضغط لطاقة إيجابية',min:'أجد صعوبة',max:'أحوّل الضغط'},
+      {type:'scenario',dim:4,text:'عضوان في الفريق في خلاف يعطل العمل — ماذا تفعل؟',hint:'',
+       choices:['أتجاهل ما لم يصبح مشكلة رسمية','أفصل بينهما في المهام وحسب','ألتقي بكل منهما على حدة ثم معاً للوصول لحل','أتخذ جانب أحدهما'],
+       scores:[0,1,3,0]},
+      {type:'scale',dim:0,text:'هل تضع خططاً بديلة (Plan B) لكل مهمة مهمة؟',hint:'1 = نادراً، 5 = دائماً ومع التفاصيل',min:'نادراً',max:'دائماً'},
+      {type:'mcq',dim:2,text:'عندك ٥ مهام عاجلة وفريق محدود — ما منهجك؟',hint:'',
+       choices:['أبدأ بالأسهل لإنجاز شيء سريعاً','أحدد الأعلى تأثيراً والأكثر إلحاحاً وأبدأ بها','أوزع المهام بالتساوي','أنتظر حتى يوضح الأولويات أحد آخر'],
+       scores:[0,3,1,0]},
+      {type:'scenario',dim:3,text:'عضو في فريقك يتأخر باستمرار في التسليم — ماذا تفعل؟',hint:'',
+       choices:['أتحمّل العبء عنه','أتحدث معه لفهم السبب وأبني معه خطة تطوير','أتجاهله وأتوقع أن يتحسن وحده','أرفعه للإدارة فوراً'],
+       scores:[0,3,1,0]},
+      {type:'scale',dim:1,text:'هل تعطي feedback بناء وواضح لفريقك بانتظام؟',hint:'1 = نادراً أو تجنّباً للصراع، 5 = بناء وصريح دائماً',min:'نادراً',max:'بناء ودائم'},
+      {type:'mcq',dim:3,text:'كيف تطور مهارات فريقك على المدى البعيد؟',hint:'',
+       choices:['أرسلهم لكورسات','أعطيهم مهاماً أصعب تدريجياً مع دعمي','أنتظر حتى يطوروا أنفسهم','أعين أشخاصاً أكثر خبرة'],
+       scores:[1,3,0,0]},
+      {type:'scale',dim:2,text:'هل تستطيع تحديد ما هو عاجل مما هو مهم فوراً؟',hint:'1 = أعالج الأمور كما تأتي، 5 = أصنّفها بوضوح دائماً',min:'كما تأتي',max:'أصنّفها بوضوح'},
+      {type:'scenario',dim:4,text:'العميل غيّر متطلبات المشروع في منتصف الطريق — ماذا تفعل؟',hint:'',
+       choices:['أرفض التغيير لأن العقد محدد','أقبل وأضغط على الفريق','أقيّم التأثير وأتفاوض على الوقت والميزانية الإضافية','أتجاهل الطلب'],
+       scores:[0,0,3,0]}
+    ]
+  },
+  research: {
+    label:'البحث والتدقيق', icon:'🔍', role:'Researcher — باحث ومدقق',
+    dims:['دقة المصادر','المنهجية البحثية','التدقيق اللغوي','التحليل النقدي','سرعة البحث'],
+    qs:[
+      {type:'mcq',dim:0,text:'ما أهم معيار لتقييم مصداقية مصدر؟',hint:'',
+       choices:['عدد المشتركين أو المتابعين','هوية الكاتب، تاريخ النشر، وجود مراجع موثّقة','جمال الموقع أو التصميم','أن تجده في Google'],
+       scores:[0,3,0,1]},
+      {type:'scale',dim:1,text:'هل تبني خطة بحثية قبل البدء في أي بحث؟',hint:'1 = أبدأ بعشوائية، 5 = خطة واضحة دائماً',min:'عشوائياً',max:'خطة دائماً'},
+      {type:'scenario',dim:3,text:'قرأت معلومة تبدو صحيحة في مصدر واحد — ماذا تفعل؟',hint:'',
+       choices:['أستخدمها فوراً','أبحث عن مصدر ثانٍ مستقل يؤكدها قبل الاستخدام','أبحث عن المعلومة الأكثر انتشاراً','أتجاهلها وأبحث عن بديل'],
+       scores:[0,3,1,0]},
+      {type:'scale',dim:2,text:'هل تلاحظ الأخطاء الإملائية والنحوية بشكل تلقائي أثناء القراءة؟',hint:'1 = نادراً، 5 = أكاد لا أتجاوز خطأً واحداً',min:'نادراً',max:'تلقائياً دائماً'},
+      {type:'mcq',dim:3,text:'كيف تتعامل مع معلومة لا تستطيع التحقق منها؟',hint:'',
+       choices:['أضعها وأشير لعدم يقيني منها','أحذفها','أستخدمها مع ذكر أنها غير مؤكدة بوضوح','أسأل متخصصاً'],
+       scores:[1,2,3,2]},
+      {type:'scenario',dim:4,text:'لديك ساعة لبحث معقد — كيف تنظم وقتك؟',hint:'',
+       choices:['أبدأ بأول نتيجة في Google وأعمق','أحدد المصطلحات الرئيسية وأبحث بكلمات مفتاحية مختلفة بشكل منهجي','أسأل شخصاً متخصصاً فوراً','أقرأ أطول مقال أجده'],
+       scores:[0,3,1,0]},
+      {type:'scale',dim:2,text:'هل تدقق في علامات الترقيم والأسلوب اللغوي بدقة؟',hint:'1 = أركز على المحتوى فقط، 5 = أدقق كل شيء',min:'المحتوى فقط',max:'كل شيء'},
+      {type:'mcq',dim:1,text:'ما الفرق بين المصدر الأولي والثانوي؟',hint:'',
+       choices:['الأولي أقدم والثانوي أحدث','الأولي هو الدراسة الأصلية، الثانوي هو من يتحدث عنها','الأولي من جهة حكومية والثانوي خاصة','لا فرق عملياً'],
+       scores:[0,3,0,0]},
+      {type:'scale',dim:4,text:'هل تجد المعلومة التي تبحث عنها بسرعة وكفاءة؟',hint:'1 = يستغرق مني وقتاً طويلاً، 5 = أجدها بكفاءة عالية',min:'وقت طويل',max:'بكفاءة'},
+      {type:'scenario',dim:0,text:'وجدت تعارضاً بين مصدرين موثوقين في نفس المعلومة — ماذا تفعل؟',hint:'',
+       choices:['آخذ بالأحدث دائماً','أذكر الرأيين وأشرح سبب التعارض إن أمكن','أتجاهل المعلومة كلياً','آخذ برأي المؤسسة الأكبر'],
+       scores:[1,3,0,1]}
+    ]
+  },
+  storyboard: {
+    label:'الستوري بورد', icon:'📋', role:'Storyboard Artist — رسام قصصي',
+    dims:['التكوين والإطارات','التدفق والسرد','التعبير والمشاعر','سرعة الإنتاج','التواصل مع المخرج'],
+    qs:[
+      {type:'mcq',dim:0,text:'ما أهم عامل في تصميم إطار storyboard واحد؟',hint:'',
+       choices:['دقة الرسم وجماله','وضوح ما يحدث وما يشعر به المشاهد في هذه اللحظة','عدد الشخصيات','الألوان المستخدمة'],
+       scores:[1,3,0,0]},
+      {type:'scale',dim:1,text:'هل تستطيع رسم تسلسل مشاهد يُفهم دون كلام؟',hint:'1 = يحتاج الكثير من الشرح، 5 = واضح تماماً وحده',min:'يحتاج شرحاً',max:'واضح وحده'},
+      {type:'scenario',dim:4,text:'المخرج يريد تغيير كامل للـ storyboard بعد انتهائه — ما موقفك؟',hint:'',
+       choices:['أرفض لأن الجهد ضاع','أفهم التغييرات وأسأل عن الأسباب قبل البدء','أبدأ فوراً دون نقاش','أشتكي للمنتج'],
+       scores:[0,3,1,0]},
+      {type:'scale',dim:0,text:'هل تفكر في حركة الكاميرا وليس الرسمة الثابتة فقط؟',hint:'1 = أرسم ثابتاً دائماً، 5 = أفكر بالكاميرا دائماً',min:'ثابت دائماً',max:'أفكر بالكاميرا'},
+      {type:'mcq',dim:2,text:'كيف تُعبّر عن صدمة شخصية بدون حوار في إطار واحد؟',hint:'',
+       choices:['أضع علامة "!" أو "؟"','وجه فارغ التعبير، عيون واسعة، وضعية الجسم متصلّبة','أرسم الشخصية تسقط','أستخدم ألواناً داكنة فقط'],
+       scores:[0,3,1,1]},
+      {type:'scenario',dim:1,text:'يجب أن تُظهر مرور ٣ سنوات في ٣ إطارات فقط — كيف؟',hint:'',
+       choices:['أكتب "٣ سنوات بعدها" في الإطار','أرسم: نمو شجرة، تغير ملابس الشخصية، بيئة مختلفة — كل إطار يمثل مرحلة','أرسم تقويماً يتحرك','أضيف نجوم وخطوط للدلالة على الوقت'],
+       scores:[0,3,1,0]},
+      {type:'scale',dim:3,text:'كم إطار storyboard تستطيع رسمه في ساعة بجودة معقولة؟',hint:'1 = أقل من 5، 5 = أكثر من 20 إطاراً',min:'< 5 إطارات',max:'> 20 إطاراً'},
+      {type:'mcq',dim:0,text:'ما الفرق بين establishing shot ومedium shot في الـ storyboard؟',hint:'',
+       choices:['الأول أجمل من الثاني','Establishing تضع المشهد في سياقه المكاني، Medium تُقرّب للشخصيات والتفاصيل','لا فرق وظيفي بينهما','الأول للداخل والثاني للخارج'],
+       scores:[0,3,0,0]},
+      {type:'scale',dim:4,text:'هل تتواصل بفاعلية مع المخرج لفهم رؤيته قبل الرسم؟',hint:'1 = أبدأ دون أسئلة كافية، 5 = أسأل حتى أفهم كل شيء',min:'أبدأ بسرعة',max:'أسأل حتى أفهم'},
+      {type:'scenario',dim:2,text:'شخصية تعبّر عن فرحة حزينة (مثل بكاء فرح) — كيف ترسمها؟',hint:'',
+       choices:['أرسمها تضحك فقط','أرسمها تبكي فقط','أجمع ابتسامة مع دموع واسترخاء في الجسد — مزج دقيق','أضع تعبيراً محايداً'],
+       scores:[0,0,3,1]}
+    ]
+  },
+  pm: {
+    label:'إدارة المشاريع', icon:'📌', role:'Project Manager — مدير مشاريع',
+    dims:['التخطيط والجدولة','إدارة المخاطر','التواصل مع الأطراف','تتبع التقدم','حل المشكلات'],
+    qs:[
+      {type:'mcq',dim:0,text:'ما أول شيء تفعله عند تسلّم مشروع جديد؟',hint:'',
+       choices:['توزيع المهام مباشرة','تحديد النطاق والأهداف والمعنيين والمخاطر المبكرة','تحديد الميزانية','البدء بالتنفيذ سريعاً'],
+       scores:[1,3,1,0]},
+      {type:'scale',dim:1,text:'هل تحدد المخاطر المحتملة قبل بدء المشروع؟',hint:'1 = لا أفكر بالمخاطر مسبقاً، 5 = أضع خطط طوارئ دائماً',min:'لا أفكر مسبقاً',max:'خطط طوارئ دائماً'},
+      {type:'scenario',dim:4,text:'اكتشفت في منتصف المشروع أن أحد الأهداف غير قابل للتحقق — ماذا تفعل؟',hint:'',
+       choices:['أخفي الأمر وأحاول','أبلّغ أصحاب المصلحة فوراً مع بدائل مقترحة','أواصل وأرى','أوقف المشروع'],
+       scores:[0,3,1,0]},
+      {type:'scale',dim:0,text:'هل تبني Gantt chart أو جدولاً زمنياً واضحاً لكل مشروع؟',hint:'1 = لا، 5 = دائماً ومحدّث باستمرار',min:'لا أبنيه',max:'دائماً ومحدّث'},
+      {type:'mcq',dim:2,text:'لماذا يُعدّ التواصل المنتظم مع أصحاب المصلحة أساسياً؟',hint:'',
+       choices:['لإثبات أنك تعمل','لمحاذاة التوقعات وتجنب المفاجآت المكلفة في النهاية','لملء الوقت','لكسب رضاهم الشخصي'],
+       scores:[0,3,0,1]},
+      {type:'scenario',dim:3,text:'الفريق أبلغك أن مهمة ستتأخر أسبوعاً — ماذا تفعل فوراً؟',hint:'',
+       choices:['تقبّل وأبلّغ العميل فقط','أحلل السبب، أرى هل يمكن تعويض الوقت، ثم أبلّغ المعنيين','أضغط على الفريق للإسراع','أتجاهل إن لم يؤثر على التسليم النهائي'],
+       scores:[1,3,1,0]},
+      {type:'scale',dim:3,text:'هل تتابع تقدم المهام بشكل منتظم دون أن تكون ميكروإداراً؟',hint:'1 = إما أتابع بكثافة أو أترك تماماً، 5 = توازن دقيق',min:'غير متوازن',max:'توازن دقيق'},
+      {type:'mcq',dim:1,text:'ما تعريف scope creep في إدارة المشاريع؟',hint:'',
+       choices:['تجاوز الميزانية','إضافة متطلبات جديدة غير متفق عليها تؤخر المشروع','تغيير الفريق','تأخير الجدول الزمني'],
+       scores:[0,3,0,1]},
+      {type:'scale',dim:2,text:'هل تعرف كيف تدير توقعات العميل بصراحة وبناءً؟',hint:'1 = أجد صعوبة في قول لا، 5 = أدير التوقعات بمهارة',min:'صعوبة في قول لا',max:'بمهارة دائماً'},
+      {type:'scenario',dim:4,text:'مشروعان في نفس الوقت بنفس الأولوية وفريق واحد — ماذا تفعل؟',hint:'',
+       choices:['أوزع الفريق بالتساوي','أتفاوض مع أصحاب المصلحة لتحديد أيهما فعلاً أعلى أولوية','أتمنى أن ينتهي أحدهما بنفسه','أضيف موارد بدون تخطيط'],
+       scores:[0,3,0,1]}
+    ]
+  }
+};
+
+
+// ===== SKILLS LIST =====
+const SKILLS = [
+  { id: 'writing', label: 'الكتابة الإبداعية', icon: '✍️' },
+  { id: 'content', label: 'كتابة المحتوى', icon: '📝' },
+  { id: 'animation', label: 'الأنيميشن', icon: '🎬' },
+  { id: 'illustration', label: 'الرسم الطامس', icon: '🎨' },
+  { id: 'drawing', label: 'الرسم العام', icon: '🖌️' },
+  { id: 'motion', label: 'الموشن', icon: '🌀' },
+  { id: 'editing', label: 'المونتاج والمونتير', icon: '🎞️' },
+  { id: 'voice', label: 'التمثيل الصوتي', icon: '🎙️' },
+  { id: 'directing', label: 'الإخراج', icon: '🎭' },
+  { id: 'threed', label: 'الثري دي', icon: '🧊' },
+  { id: 'marketing', label: 'التسويق', icon: '📢' },
+  { id: 'design', label: 'التصميم', icon: '🖥️' },
+  { id: 'coding', label: 'البرمجة والتقنية', icon: '💻' },
+  { id: 'management', label: 'الإدارة والإشراف', icon: '🗂️' },
+  { id: 'research', label: 'البحث والتدقيق اللغوي والعلمي', icon: '🔍' },
+  { id: 'storyboard', label: 'الستوري بورد', icon: '📋' },
+  { id: 'pm', label: 'إدارة المشاريع', icon: '📌' }
+];
+
+const TASKS = [
+  { id: 't1', text: 'ترتيب سطح مكتب الجهاز والملفات', cat: '💻 التقنية' },
+  { id: 't2', text: 'تغيير خلفيات الجهاز لتكون محفّزة', cat: '🎨 الهوية' },
+  { id: 't3', text: 'تنظيف وترتيب غرفتك ومساحة العمل', cat: '🏠 البيئة' },
+  { id: 't4', text: 'توثيق مخطط العام الجديد في دفتر', cat: '📓 التخطيط' },
+  { id: 't5', text: 'حذف الصور والملفات الغير ضرورية', cat: '💾 التخلص' },
+  { id: 't6', text: 'مراجعة قائمة التطبيقات وحذف غير المفيدة', cat: '📱 التقنية' },
+  { id: 't7', text: 'كتابة ثلاثة أهداف كبرى للعام', cat: '🎯 الأهداف' },
+  { id: 't8', text: 'تحديد 3 مهارات تريد تطويرها هذا العام', cat: '🌱 التطوير' },
+  { id: 't9', text: 'إعداد مكان ثابت للعمل الإبداعي', cat: '🏠 البيئة' },
+  { id: 't10', text: 'قراءة كتاب أو استكمال كتاب متوقف', cat: '📚 المعرفة' },
+  { id: 't11', text: 'تخصيص دفتر خاص بأفكارك ومشاريعك', cat: '📓 التخطيط' },
+  { id: 't12', text: 'تحديد وقت ثابت للقرآن يومياً', cat: '🕌 الروحاني' },
+  { id: 't13', text: 'كتابة مراجعة ذاتية للعام المنصرم', cat: '🪞 التأمل' },
+  { id: 't14', text: 'تنظيم بريدك الإلكتروني وأرشفته', cat: '📧 التنظيم' },
+  { id: 't15', text: 'تحديد شخص تتعلم منه أو تتعاون معه', cat: '🤝 العلاقات' }
+];
+
+const PLANNING_STEPS = [
+  {
+    icon: '🌀',
+    title: 'مساحة التفريغ',
+    desc: 'قبل أن تبدأ بالتخطيط — فرّغ ما في رأسك',
+    tip: 'اكتب أي شيء يخطر على بالك بحرية تامة. لا رقيب، لا ترتيب.',
+    body: `<div style="position:relative;">
+    <textarea id="dump-textarea"
+      placeholder="اكتب أي شيء يخطر على بالك... أفكار، مخاوف، أحلام، أسئلة"
+      style="width:100%;min-height:300px;border:2px dashed var(--border);border-radius:16px;padding:20px;font-family:'ThmanyahSans',sans-serif;font-size:15px;line-height:1.9;resize:vertical;background:var(--bg2);color:var(--text-main);direction:rtl;outline:none;transition:border-color 0.2s;"
+      oninput="onDumpInput(this)"></textarea>
+    <div id="dump-counter" style="position:absolute;bottom:14px;left:14px;font-size:12px;color:var(--text-muted);font-family:'ThmanyahSans',sans-serif;pointer-events:none;">0 كلمة</div>
+  </div>
+  <div id="dump-full-msg" style="display:none;margin-top:14px;text-align:center;padding:16px;background:var(--red-light);border-radius:12px;color:#a02a1a;font-weight:700;font-family:'ThmanyahSerifDisplay',sans-serif;font-size:17px;">امتلأت المساحة 😵 — احتفظ بصورة وابدأ من جديد</div>
+  <div id="dump-next-row" style="display:none;margin-top:20px;text-align:center;gap:12px;justify-content:center;flex-wrap:wrap;">
+    <button class="btn-primary" onclick="clearDump()">احتفظ بها وابدأ من جديد 🔄</button>
+  </div>`
+  },
+  {
+    title: 'مراجعة العام المنصرم',
+    subtitle: 'قبل أن تخطط، راجع',
+    desc: 'لا تبدأ العام الجديد قبل أن تفهم العام الذي انتهى. هذه المرحلة هي أساس التخطيط الصادق.',
+    tip: 'خصص ٣٠ دقيقة هادئة. أغلق هاتفك، خذ دفترك وقلمك، واجلس مع نفسك.',
+    items: [
+      { icon: '✅', text: 'ما أبرز ٣ إنجازات حققتها هذا العام؟' },
+      { icon: '❌', text: 'ما أبرز ٣ أشياء لم تنجزها وكنت تريدها؟' },
+      { icon: '📖', text: 'ما أهم درس تعلمته هذا العام؟' },
+      { icon: '🔥', text: 'ما الشيء الذي يجب أن تتوقف عنه فوراً؟' }
+    ]
+  },
+  {
+    title: 'عجلة الحياة',
+    subtitle: 'قيّم حياتك في ٨ مجالات',
+    desc: 'ارسم دائرة على الورق وقسّمها ل٨ أقسام. في كل قسم اكتب رقماً من ١ إلى ١٠ يمثل رضاك عن هذا الجانب.',
+    tip: 'الهدف ليس أن تكون جميع الأقسام ١٠. الهدف أن ترى أين الخلل لتوازنه.',
+    wheel: true
+  },
+  {
+    title: 'تحديد الأهداف الكبرى',
+    subtitle: 'ثلاثة أهداف تغيّر مسارك',
+    desc: 'اختر ٣ أهداف كبرى فقط — لا أكثر. أهداف تستحق أن تبني حياتك حولها هذا العام.',
+    tip: 'الهدف الجيد يجيب على السؤال: لو حققت هذا الهدف، ماذا سيتغير في حياتي؟ إذا كانت الإجابة "لا شيء كبير"، فليس هدفاً كافياً.',
+    items: [
+      { icon: '🎯', text: 'اكتب الهدف الأول بجملة واحدة واضحة' },
+      { icon: '📅', text: 'حدد تاريخاً نهائياً بدقة (يوم / شهر)' },
+      { icon: '📊', text: 'كيف تقيس تقدمك نحوه أسبوعياً؟' },
+      { icon: '⚡', text: 'ما الخطوة الأولى التي تستطيع فعلها اليوم؟' }
+    ]
+  },
+  {
+    title: 'الخطة الشهرية',
+    subtitle: 'بدّد الأهداف الكبرى لخطوات صغيرة',
+    desc: 'خصص صفحة لكل شهر. في كل شهر: ماذا ستنجز؟ ما الكلمة الرئيسية لهذا الشهر؟',
+    tip: 'لا تحاول ملء كل الأشهر الآن. ابدأ بالأشهر الثلاثة الأولى فقط. الأشهر الباقية ستتضح مع الزمن.',
+    items: [
+      { icon: '📌', text: 'يناير: أشهر البدايات — ركّز على بناء العادات' },
+      { icon: '📌', text: 'فبراير: شهر الاختبار — هل الخطة تسير؟' },
+      { icon: '📌', text: 'مارس: أول تقييم ربعي — كيف جاءت النتائج؟' },
+      { icon: '🔁', text: 'كرر التقييم كل ٣ أشهر وعدّل المسار' }
+    ]
+  },
+  {
+    title: 'الروتين اليومي على الورق',
+    subtitle: 'رسم يومك المثالي',
+    desc: 'ارسم ساعات يومك من الاستيقاظ للنوم كخط زمني. لوّن كل كتلة بلون: أصفر للعبادة، أزرق للإنتاج، أخضر للجسد، رمادي للراحة.',
+    tip: 'اليوم المرسوم أقوى من اليوم المكتوب. حين ترى يومك كألوان، تشعر بالتوازن أو الخلل فوراً.',
+    items: [
+      { icon: '🟡', text: 'أصفر: وقت العبادة والقرآن والأذكار' },
+      { icon: '🔵', text: 'أزرق: وقت الإنتاج الإبداعي المركّز' },
+      { icon: '🟢', text: 'أخضر: رياضة وطعام وصحة' },
+      { icon: '⚪', text: 'رمادي: راحة وتواصل اجتماعي' }
+    ]
+  },
+  {
+    title: 'الالتزام والمساءلة',
+    subtitle: 'من يراك تُكمل؟',
+    desc: 'الخطة الوحيدة التي تنجح هي التي عليها مساءلة. حدد شريك مساءلة وموعداً أسبوعياً.',
+    tip: 'اكتب في أعلى صفحة الأهداف: "أعاهد الله أن أجاهد نفسي على هذا" — هذه أقوى أداة مساءلة.',
+    items: [
+      { icon: '🤝', text: 'حدد شريك مساءلة واحداً تثق به' },
+      { icon: '📞', text: 'حدد موعداً أسبوعياً للمراجعة معه' },
+      { icon: '📔', text: 'احتفظ بمجلة يومية قصيرة (٣ أسطر يكفي)' },
+      { icon: '🏆', text: 'حدد مكافأة لنفسك عند تحقيق الأهداف الربعية' }
+    ]
+  }
+];
+
+// ============================================================
+// UTILS
+// ============================================================
+function showPage(id) {
+  // stage lock: lecture=0, skills=1, routine=2, planning=3
+  const stageOrder = ['page-lecture','page-skills','page-routine','page-planning'];
+  const stageIdx = stageOrder.indexOf(id);
+  const stageUnlocked = [true, progress.lectureDone, progress.skillsDone, progress.routineDone];
+  if (stageIdx > 0 && !stageUnlocked[stageIdx]) {
+    alert('أكمل المرحلة السابقة أولاً ✋');
+    return;
+  }
+
+  document.querySelectorAll('.page-section').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  // nav map: page-home has no nav tab; lecture=0, skills=1, routine=2, planning=3
+  const navMap = { 'page-lecture':0, 'page-skills':1, 'page-routine':2, 'page-planning':3 };
+  if (navMap[id] !== undefined) {
+    document.querySelectorAll('.nav-btn')[navMap[id]].classList.add('active');
+  }
+  if (id === 'page-lecture') progress.lectureWatched = true;
+  if (id === 'page-routine') { setTimeout(()=>{ rt_render(); rt_renderRows(); rt_renderLegend(); },50); }
+  updateProgress();
+  window.scrollTo(0, 0);
+}
+
+function switchTab(tabId, btn) {
+  const parent = btn.closest('.content-wrap') || btn.parentElement;
+  const siblings = btn.parentElement.querySelectorAll('.tab-btn');
+  siblings.forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  const section = btn.closest('.page-section') || document.getElementById('page-lecture') || document.getElementById('page-routine');
+  const panes = (section || document).querySelectorAll('.tab-pane');
+  panes.forEach(p => p.classList.remove('active'));
+  const target = document.getElementById(tabId);
+  if (target) target.classList.add('active');
+}
+
+function updateProgress() {
+  const items = [
+    progress.nameSet, progress.lectureDone,
+    progress.skillsDone, progress.routineDone, progress.planningDone
+  ];
+  const done = items.filter(Boolean).length;
+  const total = items.length;
+  const pct = Math.round((done / total) * 100);
+  document.getElementById('progress-fill').style.width = pct + '%';
+  document.getElementById('progress-label').textContent = done + ' / ' + total + ' محطات';
+  document.getElementById('readiness-badge').textContent = pct + '%';
+  updateNavLocks();
+  // Show results CTA on home page when all stages complete
+  const allDone = progress.lectureDone && progress.skillsDone && progress.routineDone && progress.planningDone;
+  const cta = document.getElementById('results-cta');
+  if (cta) cta.style.display = allDone ? 'block' : 'none';
+}
+
+function updateNavLocks() {
+  const btns = document.querySelectorAll('#main-nav .nav-btn');
+  // lecture always unlocked, rest need previous stage
+  const unlocked = [true, progress.lectureDone, progress.skillsDone, progress.routineDone];
+  btns.forEach((b,i) => { if(unlocked[i] !== undefined) b.classList.toggle('locked', !unlocked[i]); });
+}
+
+// ============================================================
+// NAME
+// ============================================================
+function setCreatorName() {
+  const val = document.getElementById('creator-name') ? document.getElementById('creator-name').value.trim() : '';
+  if (!val) return;
+  creatorName = val;
+  document.getElementById('user-name-display').textContent = creatorName;
+  progress.nameSet = true;
+  updateProgress();
+  showPage('page-lecture');
+}
+
+// ============================================================
+// POISON QUIZ
+// ============================================================
+let poisonSelected = {};
+function selectPoison(el, qIdx, score) {
+  el.closest('.quiz-card').querySelectorAll('.quiz-opt').forEach(o => o.classList.remove('selected'));
+  el.classList.add('selected');
+  poisonSelected[qIdx] = score;
+}
+
+// ============================================================
+// COMPREHENSION QUIZ
+// ============================================================
+const COMP_CORRECT = { 0: 'b', 1: 'c', 2: 'b', 3: 'c', 4: 'b' };
+const COMP_EXPLAIN = {
+  0: 'السردية الكبرى هي المنظومة الفكرية والإيمانية التي تجيب عن أسئلة الوجود الكبرى، وهي من تصنع معنى الحياة.',
+  1: 'الوَتوشة هي تسرّب المعاني بشكل غير واعٍ عبر التعرض المستمر للمحتوى — دون قرار واعٍ من الإنسان.',
+  2: 'القرآن هو الحل الأول والأعمق — كبوصلة ثابتة تعطيك السردية الكبرى الصحيحة مع التدبر والتطبيق.',
+  3: 'الفلوجات دليل على الفراغ الوجودي والحاجة لاعتراف الآخرين — وهذا من أعراض أزمة معنى الحياة.',
+  4: 'التعليم الغربي وأنظمته هو أول القنوات التي ذكرها الشيخ، ثم الإعلام، ثم السوشيال ميديا.'
+};
+
+let compSelected = {};
+function selectComp(el, qIdx, ans) {
+  el.closest('.quiz-card').querySelectorAll('.quiz-opt').forEach(o => o.classList.remove('selected','correct','wrong'));
+  el.classList.add('selected');
+  compSelected[qIdx] = ans;
+  // لا feedback فوري — يظهر عند الإرسال
+}
+
+function submitCombinedQuiz() {
+  if (Object.keys(poisonSelected).length < 5) {
+    alert('يرجى الإجابة على أسئلة الجزء الأول (١ – ٥)');
+    return;
+  }
+  if (Object.keys(compSelected).length < 5) {
+    alert('يرجى الإجابة على أسئلة الجزء الثاني (٦ – ١٠)');
+    return;
+  }
+
+  // --- Poison panel ---
+  const total = Object.values(poisonSelected).reduce((a, b) => a + b, 0);
+  const pct = Math.round((total / 15) * 100);
+
+  let poisonMsg, poisonDetail, poisonClass;
+  if (pct >= 80) {
+    poisonMsg = '⚠️ تسمم عالٍ';
+    poisonDetail = 'تأثير الثقافة الغربية عميق في تفكيرك — تحتاج جرعة قرآنية مكثفة وإعادة صياغة لمعنى الحياة في وجدانك.';
+    poisonClass = 'panel-red';
+  } else if (pct >= 50) {
+    poisonMsg = '🔶 تسمم متوسط';
+    poisonDetail = 'وعيك موجود لكن الأثر يظهر في قراراتك — الوعي النقدي المستمر سيساعدك على التصحيح.';
+    poisonClass = 'panel-yellow';
+  } else if (pct >= 25) {
+    poisonMsg = '🟡 تسمم خفيف';
+    poisonDetail = 'وعيك الإسلامي يحميك في الغالب — عمّق علاقتك بالقرآن لتقوية مناعتك الفكرية.';
+    poisonClass = 'panel-teal';
+  } else {
+    poisonMsg = '✅ مناعة قوية';
+    poisonDetail = 'معنى الحياة الإسلامي راسخ في تفكيرك — هذه نعمة تستحق الشكر والمحافظة عليها.';
+    poisonClass = 'panel-blue';
+  }
+
+  // --- Comprehension panel ---
+  let correct = 0;
+  for (let i = 0; i < 5; i++) {
+    if (compSelected[i] === COMP_CORRECT[i]) correct++;
+  }
+  const compMsgs = [
+    'يُنصح بمشاهدة المحاضرة مرة أخرى 🔄',
+    'فهم أولي — يحتاج مراجعة أعمق 📖',
+    'فهم جيد — استمر في التدبر 👍',
+    'ممتاز! استيعاب قوي للمحاضرة 🌟',
+    'رائع! فهمت المحاضرة بعمق كبير 🏆'
+  ];
+  const compDetails = [
+    'راجع الفقرات الرئيسية في المحاضرة عن السردية الكبرى والوَتوشة.',
+    'أعِد الاستماع للمحاضرة مع التركيز على المفاهيم الأساسية.',
+    'استمر في التفكر والربط بين المفاهيم التي طرحها الشيخ.',
+    'يمكنك الانتقال للخطوات التالية بثقة — الفهم راسخ.',
+    'شارك ما فهمته مع غيرك — نشر الفهم الصحيح عبادة.'
+  ];
+  const compClass = correct >= 4 ? 'panel-teal' : correct >= 2 ? 'panel-blue' : 'panel-yellow';
+
+  // --- Render ---
+  document.getElementById('poison-pct').textContent = pct + '%';
+  document.getElementById('poison-msg-panel').textContent = poisonMsg;
+  document.getElementById('poison-detail-panel').textContent = poisonDetail;
+  const poisonPanel = document.getElementById('result-poison-panel');
+  poisonPanel.className = 'result-panel ' + poisonClass;
+
+  document.getElementById('comp-score-panel').textContent = correct + ' / 5';
+  document.getElementById('comp-msg-panel').textContent = compMsgs[correct];
+  document.getElementById('comp-detail-panel').textContent = compDetails[correct];
+  const compPanel = document.getElementById('result-comp-panel');
+  compPanel.className = 'result-panel ' + compClass;
+
+  // أظهر فيدباك أسئلة الاستيعاب بعد الإرسال
+  const allCards = document.querySelectorAll('#lecture-quiz .quiz-card');
+  const compCards = Array.from(allCards).slice(5); // الأسئلة 6-10
+  for (let i = 0; i < 5; i++) {
+    if (!compCards[i]) continue;
+    const isCorrect = compSelected[i] === COMP_CORRECT[i];
+    compCards[i].querySelectorAll('.quiz-opt').forEach(o => {
+      if (o.classList.contains('selected')) o.classList.add(isCorrect ? 'correct' : 'wrong');
+      if (!isCorrect && o.classList.contains('correct-ans')) o.classList.add('correct');
+    });
+    const fb = document.getElementById('comp-fb-' + i);
+    if (fb) { fb.textContent = COMP_EXPLAIN[i]; fb.className = 'quiz-feedback show ' + (isCorrect ? 'good' : 'bad'); }
+  }
+
+  const resultDiv = document.getElementById('combined-result');
+  resultDiv.classList.add('show');
+
+  progress.poisonDone = true;
+  progress.compDone = true;
+  progress.lectureDone = true;
+  updateProgress();
+  resultDiv.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+// ============================================================
+// SKILLS QUIZ ENGINE (17 specializations)
+// ============================================================
+let sqCurrentSkillIndex = 0;
+let sqCurrentQ = 0;
+let sqAnswers = {}; // { skillId: { qIdx: answer } }
+let sqResults = {}; // { skillId: { overall, finals, level } }
+let sqSkillList = []; // ordered list of selected skill ids
+
+function initSkills() {
+  const grid = document.getElementById('skills-checkboxes');
+  grid.innerHTML = '';
+  SKILLS.forEach(skill => {
+    const div = document.createElement('div');
+    div.className = 'skill-check';
+    div.innerHTML = `<span class="skill-check-icon">☐</span><span class="skill-name">${skill.icon} ${skill.label}</span>`;
+    div.onclick = () => {
+      const checked = selectedSkills.has(skill.id);
+      if (checked) {
+        selectedSkills.delete(skill.id);
+        div.classList.remove('checked');
+        div.querySelector('.skill-check-icon').textContent = '☐';
+      } else {
+        selectedSkills.add(skill.id);
+        div.classList.add('checked');
+        div.querySelector('.skill-check-icon').textContent = '✓';
+      }
+      const badge = document.getElementById('selected-count-badge');
+      if (badge) badge.textContent = selectedSkills.size > 0 ? `${selectedSkills.size} مهارة محددة` : 'لم تختر شيئاً بعد';
+    };
+    grid.appendChild(div);
+  });
+}
+
+function startSkillsQuiz() {
+  if (selectedSkills.size === 0) { alert('اختر مهارة واحدة على الأقل'); return; }
+  sqSkillList = SKILLS.filter(s => selectedSkills.has(s.id)).map(s => s.id);
+  sqCurrentSkillIndex = 0;
+  sqCurrentQ = 0;
+  sqAnswers = {};
+  sqResults = {};
+  document.getElementById('skills-selector').style.display = 'none';
+  document.getElementById('skills-quiz-container').style.display = 'block';
+  buildSkillTabs();
+  sqRenderQ();
+}
+
+function buildSkillTabs() {
+  const container = document.getElementById('skill-tabs');
+  container.innerHTML = '';
+  sqSkillList.forEach((sid, idx) => {
+    const sk = SKILLS.find(s => s.id === sid);
+    const fd = SKILL_FIELDS[sid];
+    const btn = document.createElement('button');
+    btn.className = 'skill-tab-btn' + (idx === sqCurrentSkillIndex ? ' active' : (sqResults[sid] ? ' done' : ''));
+    btn.textContent = `${sk.icon} ${sk.label}`;
+    btn.id = `stab-${sid}`;
+    btn.onclick = () => {
+      if (sqResults[sid] || sid === sqSkillList[sqCurrentSkillIndex]) {
+        sqJumpToSkill(idx);
+      }
+    };
+    container.appendChild(btn);
+  });
+}
+
+function sqJumpToSkill(idx) {
+  sqCurrentSkillIndex = idx;
+  sqCurrentQ = 0;
+  if (!sqAnswers[sqSkillList[idx]]) sqAnswers[sqSkillList[idx]] = {};
+  buildSkillTabs();
+  sqRenderQ();
+}
+
+function sqRenderQ() {
+  const sid = sqSkillList[sqCurrentSkillIndex];
+  const fd = SKILL_FIELDS[sid];
+  const sk = SKILLS.find(s => s.id === sid);
+  if (!sqAnswers[sid]) sqAnswers[sid] = {};
+
+  const q = fd.qs[sqCurrentQ];
+  const total = fd.qs.length;
+
+  document.getElementById('sq-icon').textContent = sk.icon;
+  document.getElementById('sq-skill-name').textContent = fd.label;
+  document.getElementById('sq-role').textContent = fd.role;
+  document.getElementById('sq-prog').style.width = Math.round((sqCurrentQ / total) * 100) + '%';
+  document.getElementById('sq-counter').textContent = `السؤال ${sqCurrentQ + 1} من ${total}`;
+
+  const typeMap = { mcq: ['اختيار من متعدد', 'badge-mcq'], scale: ['مقياس تقييم', 'badge-scale'], scenario: ['سيناريو عملي', 'badge-scenario'] };
+  const [tl, tc] = typeMap[q.type];
+  document.getElementById('sq-type-badge').innerHTML = `<span class="sq-type-badge ${tc}">${tl}</span>`;
+  document.getElementById('sq-qtext').textContent = q.text;
+  document.getElementById('sq-hint').textContent = q.hint || '';
+  document.getElementById('sq-prev').disabled = sqCurrentQ === 0 && sqCurrentSkillIndex === 0;
+  document.getElementById('sq-next').textContent = (sqCurrentQ === total - 1) ? (sqCurrentSkillIndex === sqSkillList.length - 1 ? 'عرض النتائج 🎉' : 'المهارة التالية →') : 'التالي';
+
+  const body = document.getElementById('sq-body');
+  body.innerHTML = '';
+
+  if (q.type === 'mcq' || q.type === 'scenario') {
+    const saved = sqAnswers[sid][sqCurrentQ];
+    body.innerHTML = q.choices.map((c, i) => `<div class="sq-choice${saved === i ? ' selected' : ''}" onclick="sqSelectChoice(${i})"><span class="sq-choice-letter">${['أ','ب','ج','د'][i]}</span>${c}</div>`).join('');
+  } else {
+    const val = sqAnswers[sid][sqCurrentQ] ?? 3;
+    body.innerHTML = `<div class="sq-scale-row"><div class="sq-scale-val" id="sq-sv">${val}</div><input type="range" min="1" max="5" step="1" value="${val}" oninput="sqUpdateScale(this.value)"></div><div class="sq-scale-labels"><span>${q.min}</span><span>${q.max}</span></div>`;
+    if (sqAnswers[sid][sqCurrentQ] === undefined) sqAnswers[sid][sqCurrentQ] = 3;
+  }
+}
+
+function sqSelectChoice(i) {
+  const sid = sqSkillList[sqCurrentSkillIndex];
+  sqAnswers[sid][sqCurrentQ] = i;
+  document.querySelectorAll('.sq-choice').forEach((c, idx) => c.classList.toggle('selected', idx === i));
+}
+
+function sqUpdateScale(v) {
+  const sid = sqSkillList[sqCurrentSkillIndex];
+  sqAnswers[sid][sqCurrentQ] = parseInt(v);
+  const sv = document.getElementById('sq-sv');
+  if (sv) sv.textContent = v;
+}
+
+function sqNext() {
+  const sid = sqSkillList[sqCurrentSkillIndex];
+  const fd = SKILL_FIELDS[sid];
+  const q = fd.qs[sqCurrentQ];
+  if (q.type !== 'scale' && sqAnswers[sid][sqCurrentQ] === undefined) return;
+  if (q.type === 'scale' && sqAnswers[sid][sqCurrentQ] === undefined) sqAnswers[sid][sqCurrentQ] = 3;
+
+  if (sqCurrentQ < fd.qs.length - 1) {
+    sqCurrentQ++;
+    sqRenderQ();
+  } else {
+    // Compute result for this skill
+    computeSkillResult(sid);
+    // Update tab
+    const tabBtn = document.getElementById(`stab-${sid}`);
+    if (tabBtn) { tabBtn.classList.remove('active'); tabBtn.classList.add('done'); }
+
+    if (sqCurrentSkillIndex < sqSkillList.length - 1) {
+      sqCurrentSkillIndex++;
+      sqCurrentQ = 0;
+      if (!sqAnswers[sqSkillList[sqCurrentSkillIndex]]) sqAnswers[sqSkillList[sqCurrentSkillIndex]] = {};
+      buildSkillTabs();
+      sqRenderQ();
+    } else {
+      showAllResults();
+    }
+  }
+}
+
+function sqPrev() {
+  if (sqCurrentQ > 0) { sqCurrentQ--; sqRenderQ(); }
+  else if (sqCurrentSkillIndex > 0) {
+    sqCurrentSkillIndex--;
+    const fd = SKILL_FIELDS[sqSkillList[sqCurrentSkillIndex]];
+    sqCurrentQ = fd.qs.length - 1;
+    buildSkillTabs();
+    sqRenderQ();
+  }
+}
+
+function computeSkillResult(sid) {
+  const fd = SKILL_FIELDS[sid];
+  const ans = sqAnswers[sid] || {};
+  const dimScores = fd.dims.map(() => ({ total: 0, count: 0 }));
+  fd.qs.forEach((q, qi) => {
+    const a = ans[qi];
+    if (a === undefined) return;
+    let raw = 0;
+    if (q.type === 'scale') raw = ((a - 1) / 4) * 100;
+    else raw = (q.scores[a] / 3) * 100;
+    dimScores[q.dim].total += raw;
+    dimScores[q.dim].count++;
+  });
+  const finals = dimScores.map(d => d.count ? Math.round(d.total / d.count) : 50);
+  const overall = Math.round(finals.reduce((a, b) => a + b, 0) / finals.length);
+  const lvlData = overall >= 85 ? { text: 'محترف', bg: '#EAF3DE', col: '#3B6D11' }
+    : overall >= 70 ? { text: 'متقدم', bg: '#E6F1FB', col: '#185FA5' }
+    : overall >= 55 ? { text: 'متوسط', bg: '#EEEDFE', col: '#534AB7' }
+    : { text: 'مبتدئ', bg: '#FAECE7', col: '#993C1D' };
+  sqResults[sid] = { overall, finals, level: lvlData };
+}
+
+function showAllResults() {
+  // Compute any missing
+  sqSkillList.forEach(sid => { if (!sqResults[sid]) computeSkillResult(sid); });
+
+  document.getElementById('skills-quiz-container').style.display = 'none';
+  const section = document.getElementById('player-cards-section');
+  section.style.display = 'block';
+  document.getElementById('skill-count-badge').textContent = sqSkillList.length;
+  document.getElementById('profile-name').textContent = creatorName;
+
+  const overallAll = Math.round(sqSkillList.reduce((s, sid) => s + sqResults[sid].overall, 0) / sqSkillList.length);
+  document.getElementById('overall-score-num').textContent = overallAll;
+
+  const grid = document.getElementById('player-cards-grid');
+  grid.innerHTML = '';
+  sqSkillList.forEach(sid => renderPlayerCard(sid, grid));
+
+  progress.skillsDone = true;
+  updateProgress();
+  section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function renderPlayerCard(sid, grid) {
+  const fd = SKILL_FIELDS[sid];
+  const sk = SKILLS.find(s => s.id === sid);
+  const res = sqResults[sid];
+  if (!res) return;
+  const { overall, finals, level } = res;
+
+  function barColor(v) {
+    return v >= 75 ? '#52B788' : v >= 55 ? '#C9A84C' : '#E85D24';
+  }
+
+  const dimsHtml = fd.dims.map((d, i) => `
+    <div class="src-dim-bar">
+      <div class="src-dim-label"><span>${d}</span><span>${finals[i]}</span></div>
+      <div class="src-bar-bg"><div class="src-bar-fill" style="width:${finals[i]}%; background:${barColor(finals[i])};"></div></div>
+    </div>`).join('');
+
+  // Radar SVG
+  const n = fd.dims.length, cx = 60, cy = 60, r = 44;
+  function pt(idx, rad) {
+    const a = (Math.PI * 2 * idx / n) - Math.PI / 2;
+    return { x: cx + rad * Math.cos(a), y: cy + rad * Math.sin(a) };
+  }
+  let gridSvg = '';
+  [0.25, 0.5, 0.75, 1].forEach(f => {
+    let d = '';
+    for (let i = 0; i < n; i++) { const p = pt(i, r * f); d += (i ? 'L' : 'M') + p.x.toFixed(1) + ',' + p.y.toFixed(1); }
+    gridSvg += `<path d="${d}Z" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="0.5"/>`;
+  });
+  for (let i = 0; i < n; i++) {
+    const p = pt(i, r);
+    gridSvg += `<line x1="${cx}" y1="${cy}" x2="${p.x.toFixed(1)}" y2="${p.y.toFixed(1)}" stroke="rgba(255,255,255,0.1)" stroke-width="0.5"/>`;
+  }
+  let dp = '';
+  for (let i = 0; i < n; i++) { const f = finals[i] / 100; const p = pt(i, r * f); dp += (i ? 'L' : 'M') + p.x.toFixed(1) + ',' + p.y.toFixed(1); }
+  const radarSvg = `<svg viewBox="0 0 120 120" width="100" height="100">${gridSvg}<path d="${dp}Z" fill="#C9A84C" fill-opacity="0.25" stroke="#C9A84C" stroke-width="1.5"/>${finals.map((v, i) => { const p = pt(i, r * v / 100); return `<circle cx="${p.x.toFixed(1)}" cy="${p.y.toFixed(1)}" r="3" fill="#C9A84C"/>`; }).join('')}</svg>`;
+
+  const card = document.createElement('div');
+  card.className = 'skill-result-card';
+  card.innerHTML = `
+    <div class="src-top-bar"></div>
+    <div class="src-body">
+      <div class="src-skill-name">${sk.icon} ${fd.label}</div>
+      <div class="src-role">${fd.role}</div>
+      <div style="text-align:center; margin-bottom:10px;">
+        <div class="src-score-circle">
+          <div class="src-score-num">${overall}</div>
+          <div class="src-score-label">/ 100</div>
+        </div>
+        <div><span class="src-level-chip" style="background:${level.bg}; color:${level.col};">${level.text}</span></div>
+      </div>
+      <div class="src-radar"><div>${radarSvg}</div></div>
+      <div style="margin-top:10px;">${dimsHtml}</div>
+      <textarea class="src-notes" rows="2" placeholder="ملاحظاتك حول هذه المهارة..."></textarea>
+      <button class="src-retake-btn" onclick="retakeSkill('${sid}')">🔄 أعد اختبار هذه المهارة</button>
+    </div>`;
+  grid.appendChild(card);
+}
+
+function retakeSkill(sid) {
+  const idx = sqSkillList.indexOf(sid);
+  if (idx === -1) return;
+  sqAnswers[sid] = {};
+  delete sqResults[sid];
+  sqCurrentSkillIndex = idx;
+  sqCurrentQ = 0;
+  document.getElementById('player-cards-section').style.display = 'none';
+  document.getElementById('skills-quiz-container').style.display = 'block';
+  buildSkillTabs();
+  sqRenderQ();
+}
+
+function retakeAllQuizzes() {
+  sqAnswers = {};
+  sqResults = {};
+  sqCurrentSkillIndex = 0;
+  sqCurrentQ = 0;
+  document.getElementById('player-cards-section').style.display = 'none';
+  document.getElementById('skills-quiz-container').style.display = 'block';
+  buildSkillTabs();
+  sqRenderQ();
+}
+
+function resetSkills() {
+  selectedSkills.clear();
+  sqAnswers = {};
+  sqResults = {};
+  sqSkillList = [];
+  document.getElementById('player-cards-section').style.display = 'none';
+  document.getElementById('skills-quiz-container').style.display = 'none';
+  document.getElementById('skills-selector').style.display = 'block';
+  initSkills();
+}
+
+// ============================================================
+// ROUTINE SURVEY
+// ============================================================
+function selectRadio(groupId, el) {
+  document.querySelectorAll(`#${groupId} .radio-opt`).forEach(o => o.classList.remove('selected'));
+  el.classList.add('selected');
+}
+
+function getRadioVal(groupId) {
+  const sel = document.querySelector(`#${groupId} .radio-opt.selected`);
+  return sel ? sel.dataset.val : null;
+}
+
+function generateRoutine() {
+  const wakeTime = document.getElementById('wake-time').value || '05:30';
+  const focusArea = document.getElementById('focus-area').value;
+  const hours = getRadioVal('hours-group') || '2';
+  const fajr = getRadioVal('fajr-group') || 'mostly';
+  const social = getRadioVal('social-group') || 'mid';
+
+  const [wH, wM] = wakeTime.split(':').map(Number);
+  let cursor = wH * 60 + wM;
+
+  function addMins(mins) {
+    cursor += mins;
+    return formatTime(cursor);
+  }
+  function formatTime(mins) {
+    const h = Math.floor(mins % (24*60) / 60) % 24;
+    const m = mins % 60;
+    return `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}`;
+  }
+
+  const timeline = [];
+  const startLabel = formatTime(cursor);
+  addMins(30);
+  timeline.push({ time: startLabel, title: '🕌 الفجر والأذكار', desc: 'صلاة الفجر + أذكار الصباح + تلاوة القرآن (١٥-٣٠ دق)' });
+
+  const t2 = formatTime(cursor); addMins(20);
+  timeline.push({ time: t2, title: '🏃 رياضة الصباح', desc: 'تمارين خفيفة أو مشي — تنشيط الجسم والذهن' });
+
+  const t3 = formatTime(cursor); addMins(30);
+  timeline.push({ time: t3, title: '🍳 إفطار صحي', desc: 'وجبة غنية بالبروتين وتحضير اليوم' });
+
+  const prodHours = parseInt(hours) || 2;
+  const t4 = formatTime(cursor); addMins(prodHours * 60);
+  const focusLabels = {
+    creative: 'الإنتاج الإبداعي المركّز',
+    learning: 'وقت التعلم والمطالعة',
+    spiritual: 'المراجعة الشرعية والتفسير',
+    business: 'العمل والمشاريع التجارية',
+    fitness: 'التدريب المكثف والصحة',
+    balanced: 'الإنتاج والمهام الأولوية'
+  };
+  timeline.push({ time: t4, title: `⚡ ${focusLabels[focusArea]}`, desc: `وقت التركيز الأعلى — ${prodHours} ساعة بدون إشعارات` });
+
+  const t5 = formatTime(cursor); addMins(45);
+  timeline.push({ time: t5, title: '🕐 الظهر والمهام', desc: 'صلاة الظهر + مهام إدارية ورد الرسائل' });
+
+  const t6 = formatTime(cursor); addMins(60);
+  timeline.push({ time: t6, title: '🍽️ غداء + قيلولة', desc: 'وجبة معتدلة ثم راحة ٢٠ دقيقة (اختياري)' });
+
+  const t7 = formatTime(cursor); addMins(90);
+  timeline.push({ time: t7, title: '🔄 وقت إنتاج ثانوي', desc: 'متابعة المشاريع + مراسلات + تخطيط الغد' });
+
+  const t8 = formatTime(cursor); addMins(30);
+  timeline.push({ time: t8, title: '🕌 المغرب والعشاء', desc: 'صلاة + وجبة خفيفة + وقت عائلي' });
+
+  const maxSocial = social === 'high' ? 45 : social === 'mid' ? 30 : 15;
+  const t9 = formatTime(cursor); addMins(maxSocial);
+  timeline.push({ time: t9, title: `📱 وقت السوشيال (${maxSocial} دق فقط)`, desc: 'متابعة واعية ومحدودة — بدون تصفح عشوائي' });
+
+  const t10 = formatTime(cursor); addMins(60);
+  timeline.push({ time: t10, title: '📚 القراءة والمطالعة', desc: 'كتاب أو محتوى علمي قبل النوم' });
+
+  const t11 = formatTime(cursor); addMins(15);
+  timeline.push({ time: t11, title: '🌙 أذكار النوم', desc: 'أذكار المساء + تدوين ثلاثة أشياء أشكر الله عليها' });
+
+  // Render timeline
+  const tc = document.getElementById('timeline-content');
+  tc.innerHTML = `<h3>يومك المثالي — ${creatorName}</h3>` +
+    timeline.map(b => `
+      <div class="time-block">
+        <div class="time-label">${b.time}</div>
+        <div class="time-content"><h4>${b.title}</h4><p>${b.desc}</p></div>
+      </div>`).join('');
+
+  // Quarterly plan
+  const areas = {
+    creative: [
+      { q: 'الربع الأول', goals: ['إتقان مهارة جديدة', 'إطلاق مشروع أول', 'بناء عادة الإنتاج اليومي'] },
+      { q: 'الربع الثاني', goals: ['تطوير المشروع الأول', 'التواصل مع مبدعين', 'إطلاق محتوى منتظم'] },
+      { q: 'الربع الثالث', goals: ['مراجعة وتحسين', 'مشروع ثانٍ أكبر', 'بناء جمهور'] },
+      { q: 'الربع الرابع', goals: ['تقييم العام كاملاً', 'تحضير خطة السنة القادمة', 'إتمام أبرز هدف'] }
+    ]
+  };
+  const plan = areas[focusArea] || areas['creative'];
+  const qc = document.getElementById('quarterly-content');
+  qc.innerHTML = plan.map(q => `
+    <div class="quarter-card">
+      <h4>📅 ${q.q}</h4>
+      ${q.goals.map(g => `<div class="quarter-goal">• ${g}</div>`).join('')}
+    </div>`).join('');
+
+  document.getElementById('routine-result').classList.add('show');
+  progress.routineDone = true;
+  updateProgress();
+  document.getElementById('routine-result').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+// ============================================================
+// TASKS
+// ============================================================
+function initTasks() {
+  totalTasks = TASKS.length;
+  const list = document.getElementById('tasks-list');
+  list.innerHTML = '';
+  TASKS.forEach(task => {
+    const div = document.createElement('div');
+    div.className = 'task-item' + (completedTasks.has(task.id) ? ' done' : '');
+    div.innerHTML = `
+      <div class="task-checkbox">${completedTasks.has(task.id) ? '✓' : ''}</div>
+      <div class="task-text">${task.text}</div>
+      <div class="task-category">${task.cat}</div>
+    `;
+    div.onclick = () => {
+      if (completedTasks.has(task.id)) {
+        completedTasks.delete(task.id);
+        div.classList.remove('done');
+        div.querySelector('.task-checkbox').textContent = '';
+      } else {
+        completedTasks.add(task.id);
+        div.classList.add('done');
+        div.querySelector('.task-checkbox').textContent = '✓';
+      }
+      if (completedTasks.size > 0) progress.tasksPartial = true;
+      updateProgress();
+    };
+    list.appendChild(div);
+  });
+  updateProgress();
+}
+
+// ============================================================
+// PLANNING STEPS
+// ============================================================
+function initPlanning() {
+  const nav = document.getElementById('steps-nav');
+  const cont = document.getElementById('planning-steps');
+  nav.innerHTML = '';
+  cont.innerHTML = '';
+
+  PLANNING_STEPS.forEach((step, i) => {
+    const dot = document.createElement('div');
+    dot.className = 'step-dot' + (i === 0 ? ' active' : '');
+    dot.textContent = i + 1;
+    dot.onclick = () => goToStep(i);
+    nav.appendChild(dot);
+
+    const panel = document.createElement('div');
+    panel.className = 'planning-step' + (i === 0 ? ' active' : '');
+    panel.id = 'step-' + i;
+
+    let bodyContent = '';
+    if (step.body) {
+      // Custom HTML body (e.g. dump textarea)
+      bodyContent = `<div class="step-tip">${step.tip}</div>` + step.body;
+    } else {
+      bodyContent = `<div class="step-tip">${step.tip}</div>`;
+      if (step.wheel) {
+        const areas = [
+          { icon: '🕌', label: 'الدين والروح' },
+          { icon: '👨‍👩‍👧', label: 'الأسرة' },
+          { icon: '💰', label: 'المال' },
+          { icon: '💪', label: 'الصحة' },
+          { icon: '🧠', label: 'التعلم' },
+          { icon: '🤝', label: 'العلاقات' },
+          { icon: '🎨', label: 'الإبداع' },
+          { icon: '🌍', label: 'الأثر' }
+        ];
+        bodyContent += `<div class="step-visual"><div class="life-wheel">` +
+          areas.map(a => `<div class="wheel-area"><span>${a.icon}</span>${a.label}<br><small style="color:var(--text-muted)">/ 10</small></div>`).join('') +
+          `</div></div>`;
+      } else if (step.items) {
+        bodyContent += `<div class="step-visual">` +
+          step.items.map(it => `
+            <div style="display:flex; gap:10px; margin-bottom:12px; align-items:flex-start;">
+              <span style="font-size:18px;">${it.icon}</span>
+              <span style="font-size:14px; color:var(--text-main); line-height:1.6;">${it.text}</span>
+            </div>`).join('') +
+          `</div>`;
+      }
+    }
+
+    panel.innerHTML = `
+      <div class="step-header">
+        <div class="step-num">الخطوة ${i + 1} من ${PLANNING_STEPS.length}</div>
+        <h3>${step.title}</h3>
+        <p>${step.desc}</p>
+      </div>
+      <div class="step-body">
+        ${bodyContent}
+        <div class="step-nav-row">
+          ${i > 0 ? `<button class="btn-gold" onclick="goToStep(${i-1})">← السابق</button>` : '<span></span>'}
+          ${i < PLANNING_STEPS.length - 1 
+            ? `<button class="btn-primary" onclick="goToStep(${i+1})">التالي →</button>` 
+            : `<button class="btn-primary" onclick="showPage('page-home')">✨ انطلق في عامك!</button>`}
+        </div>
+      </div>`;
+    cont.appendChild(panel);
+  });
+}
+
+function goToStep(idx) {
+  currentPlanningStep = idx;
+  document.querySelectorAll('.planning-step').forEach((p, i) => p.classList.toggle('active', i === idx));
+  document.querySelectorAll('.step-dot').forEach((d, i) => {
+    d.classList.toggle('active', i === idx);
+    d.classList.toggle('done', i < idx);
+  });
+  document.getElementById('step-' + idx).scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+// ============================================================
+// MEMBERS DATABASE
+// ============================================================
+const MEMBERS = [
+  { name: 'الشعيرة',   img: 'MdwnhMembers/الشعيرة.png' },
+  { name: 'أبو بندر',  img: 'MdwnhMembers/أبو بندر.png' },
+  { name: 'جمانة',     img: 'MdwnhMembers/جمانة.png' },
+  { name: 'خالد حسن',  img: 'MdwnhMembers/خالد حسن.png' },
+  { name: 'خالد',      img: 'MdwnhMembers/خالد.png' },
+  { name: 'رجب',       img: 'MdwnhMembers/رجب.png' },
+  { name: 'سحاب',      img: 'MdwnhMembers/سحاب.png' },
+  { name: 'سعيد',      img: 'MdwnhMembers/سعيد.png' },
+  { name: 'شارد',      img: 'MdwnhMembers/شارد.png' },
+  { name: 'شفق',       img: 'MdwnhMembers/شفق.png' },
+  { name: 'طه',        img: 'MdwnhMembers/طه.png' },
+  { name: 'عاصم',      img: 'MdwnhMembers/عاصم.png' },
+  { name: 'علي مجدي',  img: 'MdwnhMembers/علي مجدي.png' },
+  { name: 'عمر',       img: 'MdwnhMembers/عمر.png' },
+  { name: 'فرات',      img: 'MdwnhMembers/فرات.png' },
+  { name: 'مايتو',     img: 'MdwnhMembers/مايتو.png' },
+  { name: 'محمد سمير', img: 'MdwnhMembers/محمد سمير.png' },
+  { name: 'مصطفى',     img: 'MdwnhMembers/مصطفى.png' },
+  { name: 'ملك',       img: 'MdwnhMembers/ملك.png' },
+  { name: 'منة',       img: 'MdwnhMembers/منة.png' },
+  { name: 'مورو',      img: 'MdwnhMembers/مورو.png' },
+  { name: 'نجود',      img: 'MdwnhMembers/نجود.png' },
+  { name: 'ورقاء',     img: 'MdwnhMembers/ورقاء.png' },
+  { name: 'يوسف',      img: 'MdwnhMembers/يوسف.png' },
+];
+
+function toggleTheme() {
+  const dark = document.body.classList.toggle('dark-mode');
+  document.getElementById('theme-toggle').textContent = dark ? '☀️' : '🌙';
+  localStorage.setItem('mdwnah-theme', dark ? 'dark' : 'light');
+}
+
+function startJourney() {
+  showPage('page-lecture');
+  // Make sure lecture nav tab is active
+  const btns = document.querySelectorAll('#main-nav .nav-btn');
+  btns.forEach(b => b.classList.remove('active'));
+  if(btns[0]) btns[0].classList.add('active');
+}
+
+function onDumpInput(el) {
+  const words = el.value.trim() ? el.value.trim().split(/\s+/).length : 0;
+  const counter = document.getElementById('dump-counter');
+  if (counter) counter.textContent = words + ' كلمة';
+  const nextRow = document.getElementById('dump-next-row');
+  const fullMsg = document.getElementById('dump-full-msg');
+  if (words >= 5 && nextRow) nextRow.style.display = 'flex';
+  if (el.value.length >= 900) {
+    el.disabled = true;
+    if (fullMsg) fullMsg.style.display = 'block';
+    if (nextRow) nextRow.style.display = 'flex';
+  }
+}
+
+function clearDump() {
+  const ta = document.getElementById('dump-textarea');
+  if (!ta) return;
+  ta.value = ''; ta.disabled = false;
+  const c = document.getElementById('dump-counter'); if(c) c.textContent = '0 كلمة';
+  const f = document.getElementById('dump-full-msg'); if(f) f.style.display = 'none';
+  const n = document.getElementById('dump-next-row'); if(n) n.style.display = 'none';
+}
+
+function buildMembersGrid() {
+  const grid = document.getElementById('members-grid');
+  MEMBERS.forEach(m => {
+    const card = document.createElement('div');
+    card.className = 'member-card';
+    card.innerHTML = `
+      <img class="member-avatar" src="${m.img}" alt="${m.name}" onerror="this.style.background='#444';this.src=''">
+      <span class="member-name">${m.name}</span>
+    `;
+    card.onclick = () => selectMember(m);
+    grid.appendChild(card);
+  });
+}
+
+function selectMember(member) {
+  creatorName = member.name;
+
+  // Update progress bar
+  document.getElementById('user-name-display').textContent = creatorName;
+  const avatarBar = document.getElementById('user-avatar-bar');
+  avatarBar.src = member.img;
+  avatarBar.classList.add('show');
+
+  // Update hero
+  const heroAvatar = document.getElementById('hero-avatar');
+  if (heroAvatar) {
+    heroAvatar.src = member.img;
+    heroAvatar.style.display = 'block';
+  }
+  const heroGreeting = document.getElementById('hero-greeting');
+  if (heroGreeting) heroGreeting.textContent = 'أهلاً، ' + creatorName;
+
+  // Hide login, show app
+  document.getElementById('login-screen').classList.add('hidden');
+
+  progress.nameSet = true;
+  updateProgress();
+  showPage('page-home');
+}
+
+// ============================================================
+// BOOT
+// ============================================================
+window.addEventListener('DOMContentLoaded', () => {
+  buildMembersGrid();
+  initSkills();
+  initMonthlyGrid();
+  updateProgress();
+  if (localStorage.getItem('mdwnah-theme') === 'dark') {
+    document.body.classList.add('dark-mode');
+    document.getElementById('theme-toggle').textContent = '☀️';
+  }
+});
+
+// ============================================================
+// ROUTINE PLANNER — embedded (rt_ namespace)
+// ============================================================
+const RT_CX=150, RT_CY=150;
+const RT_ARC_IN=45, RT_ARC_OUT=105;
+const RT_FACE_R=108;
+const RT_RING_IN=110, RT_RING_OUT=132;
+const RT_DOT_R=RT_ARC_OUT-4;
+
+const RT_PAL = {
+  sleep:   { label:'النوم',            color:'#2D3070', emoji:'😴' },
+  work:    { label:'العمل',            color:'#4A8FE7', emoji:'💼' },
+  learn:   { label:'طلب علم',          color:'#52A869', emoji:'📚' },
+  sport:   { label:'الرياضة',          color:'#F07B3F', emoji:'🏃' },
+  field:   { label:'إطلاع في مجالك',   color:'#E5BD3C', emoji:'🔍' },
+  social:  { label:'العامل الاجتماعي', color:'#E05555', emoji:'🤝' },
+  leisure: { label:'الترويح',          color:'#94A3B8', emoji:'☕' },
+  free:    { label:'فلها وربك يحلها',  color:'#E07355', emoji:'✨' },
+};
+
+let rt_mode = 0; // index into rt_modes array
+let rt_uid = 20;
+
+// modes array: each has {id, label, state:[...rows]}
+const rt_modes = [
+  {
+    id:'regular', label:'اليوم المعتاد',
+    state:[
+      {id:'s0',type:'sleep',s:'11:00 PM',e:'5:00 AM',fixed:true},
+      {id:'s1',type:'work',s:'',e:''},
+      {id:'s2',type:'learn',s:'',e:''},
+      {id:'s3',type:'sport',s:'',e:''},
+    ]
+  },
+  {
+    id:'rest', label:'يوم الراحة',
+    state:[
+      {id:'r0',type:'sleep',s:'12:00 AM',e:'8:00 AM',fixed:true},
+      {id:'r1',type:'free',s:'',e:''},
+      {id:'r2',type:'leisure',s:'',e:''},
+    ]
+  }
+];
+
+function rt_parseT(s){
+  if(!s||!s.trim())return null;
+  s=s.trim().toUpperCase().replace(/\./g,':');
+  let m=/^(\d{1,2})(?::(\d{2}))?\s*(AM|PM)$/.exec(s);
+  if(m){ let h=+m[1],mn=+(m[2]||0); if(m[3]==='PM'&&h!==12)h+=12; if(m[3]==='AM'&&h===12)h=0; return h+mn/60; }
+  m=/^(\d{1,2}):(\d{2})$/.exec(s); if(m)return+m[1]+(+m[2])/60;
+  m=/^(\d{1,2})$/.exec(s); if(m)return+m[1];
+  return null;
+}
+function rt_fmtT(h){
+  if(h===null)return'';
+  h=((h%24)+24)%24;
+  const hh=Math.floor(h),mn=Math.round((h%1)*60);
+  const ap=hh<12?'AM':'PM';
+  const h12=hh===0?12:hh>12?hh-12:hh;
+  return`${h12}:${mn.toString().padStart(2,'0')} ${ap}`;
+}
+function rt_h2a(h){return h*15-90;}
+function rt_p2xy(r,deg){const rad=deg*Math.PI/180;return[RT_CX+r*Math.cos(rad),RT_CY+r*Math.sin(rad)];}
+function rt_arcPath(ri,ro,sh,eh){
+  let dur=eh-sh; if(dur<0)dur+=24; if(dur<=0||dur>=24)return'';
+  const sa=rt_h2a(sh),ea=rt_h2a(sh+dur);
+  const la=dur>12?1:0;
+  const[ox1,oy1]=rt_p2xy(ro,sa);const[ox2,oy2]=rt_p2xy(ro,ea);
+  const[ix1,iy1]=rt_p2xy(ri,sa);const[ix2,iy2]=rt_p2xy(ri,ea);
+  const f=v=>v.toFixed(2);
+  return`M${f(ox1)} ${f(oy1)} A${ro} ${ro} 0 ${la} 1 ${f(ox2)} ${f(oy2)} L${f(ix2)} ${f(iy2)} A${ri} ${ri} 0 ${la} 0 ${f(ix1)} ${f(iy1)}Z`;
+}
+function rt_svgEl(tag,attrs,txt=''){
+  const e=document.createElementNS('http://www.w3.org/2000/svg',tag);
+  for(const[k,v]of Object.entries(attrs))e.setAttribute(k,v);
+  if(txt)e.textContent=txt;return e;
+}
+
+function rt_drawArcs(){
+  const g=document.getElementById('rt-arcs'); if(!g)return;
+  g.innerHTML='';
+  const rows=rt_modes[rt_mode].state;
+  for(const row of rows){
+    const sh=rt_parseT(row.s),eh=rt_parseT(row.e);
+    if(sh===null||eh===null)continue;
+    const col=RT_PAL[row.type]?.color||'#CCC';
+    const d=rt_arcPath(RT_ARC_IN,RT_ARC_OUT,sh,eh);
+    if(!d)continue;
+    const p=rt_svgEl('path',{d,fill:col,opacity:'0.92','data-id':row.id,'data-type':row.type});
+    g.appendChild(p);
+  }
+}
+
+function rt_drawBase(){
+  const fb=document.getElementById('rt-face-bg'); if(!fb)return;
+  fb.innerHTML='';
+  // Dark outer ring
+  fb.appendChild(rt_svgEl('circle',{cx:RT_CX,cy:RT_CY,r:RT_RING_OUT,fill:'#1a1a1a'}));
+  // White clock face inside arc zone
+  fb.appendChild(rt_svgEl('circle',{cx:RT_CX,cy:RT_CY,r:RT_RING_IN-1,fill:'#fff'}));
+
+  const ov=document.getElementById('rt-overlay'); if(!ov)return;
+  ov.innerHTML='';
+
+  // ── Hour ticks on dark ring ──────────────────────────
+  for(let h=0;h<24;h++){
+    const a=rt_h2a(h);
+    const isMain=(h%6===0);   // 0,6,12,18
+    const isMid=(h%3===0);    // 3,9,15,21
+    // Tick length: main=full ring width, mid=2/3, minor=1/3
+    const r1=isMain?RT_RING_IN+1 : isMid?RT_RING_IN+5 : RT_RING_IN+9;
+    const r2=RT_RING_OUT-2;
+    const sw=isMain?'1.8':isMid?'1.2':'0.7';
+    const sc=isMain?'rgba(255,255,255,0.9)':isMid?'rgba(255,255,255,0.5)':'rgba(255,255,255,0.2)';
+    const[x1,y1]=rt_p2xy(r1,a);const[x2,y2]=rt_p2xy(r2,a);
+    ov.appendChild(rt_svgEl('line',{x1:x1.toFixed(2),y1:y1.toFixed(2),x2:x2.toFixed(2),y2:y2.toFixed(2),stroke:sc,'stroke-width':sw}));
+  }
+
+  // ── Hour labels — all Arabic, all on dark ring ─────
+  // Dark ring: RT_RING_IN(110) → RT_RING_OUT(132). White circle covers 0→109.
+  // Labels must be at radius > 109. Midpoint ≈ 121 = RT_RING_IN+11
+  const ringR=RT_RING_IN+11; // radius 121 — sits on dark ring
+  // Primary labels: ٠, ٦, ١٢, ١٨ — large & bright
+  [{h:0,l:'٠'},{h:6,l:'٦'},{h:12,l:'١٢'},{h:18,l:'١٨'}].forEach(({h,l})=>{
+    const[x,y]=rt_p2xy(ringR,rt_h2a(h));
+    ov.appendChild(rt_svgEl('text',{
+      x:x.toFixed(2),y:y.toFixed(2),
+      'text-anchor':'middle','dominant-baseline':'middle',
+      fill:'#FFFFFF','font-size':'9.5',
+      'font-family':'ThmanyahSans,sans-serif','font-weight':'900'
+    },l));
+  });
+  // Secondary labels: ٣, ٩, ١٥, ٢١ — smaller, dimmer
+  [{h:3,l:'٣'},{h:9,l:'٩'},{h:15,l:'١٥'},{h:21,l:'٢١'}].forEach(({h,l})=>{
+    const[x,y]=rt_p2xy(ringR,rt_h2a(h));
+    ov.appendChild(rt_svgEl('text',{
+      x:x.toFixed(2),y:y.toFixed(2),
+      'text-anchor':'middle','dominant-baseline':'middle',
+      fill:'rgba(255,255,255,0.65)','font-size':'7.5',
+      'font-family':'ThmanyahSans,sans-serif','font-weight':'700'
+    },l));
+  });
+
+  // ── Subtle divider lines across arc zone ──────────
+  for(let h=0;h<24;h++){
+    const a=rt_h2a(h);
+    const[x1,y1]=rt_p2xy(RT_ARC_IN,a);const[x2,y2]=rt_p2xy(RT_ARC_OUT,a);
+    ov.appendChild(rt_svgEl('line',{x1:x1.toFixed(2),y1:y1.toFixed(2),x2:x2.toFixed(2),y2:y2.toFixed(2),stroke:'rgba(0,0,0,0.12)','stroke-width':'0.5'}));
+  }
+
+  // ── Center cover circle (hides arc inner hole) ────
+  ov.appendChild(rt_svgEl('circle',{cx:RT_CX,cy:RT_CY,r:RT_ARC_IN-1,fill:'#F5F5F5'}));
+  ov.appendChild(rt_svgEl('circle',{cx:RT_CX,cy:RT_CY,r:RT_ARC_IN-1,fill:'none',stroke:'rgba(0,0,0,0.06)','stroke-width':'1'}));
+  // Thin border between arc zone and white face
+  ov.appendChild(rt_svgEl('circle',{cx:RT_CX,cy:RT_CY,r:RT_ARC_OUT,fill:'none',stroke:'rgba(0,0,0,0.08)','stroke-width':'1'}));
+
+  // ── Center label (mode name) ──────────────────────
+  const mLabel=rt_modes[rt_mode].label;
+  const words=mLabel.split(' ');
+  const lines=words.length>1?[words.slice(0,Math.ceil(words.length/2)).join(' '),words.slice(Math.ceil(words.length/2)).join(' ')]:[mLabel];
+  lines.forEach((line,i)=>{
+    const yy=RT_CY+(i-(lines.length-1)/2)*11;
+    ov.appendChild(rt_svgEl('text',{
+      x:RT_CX,y:yy,'text-anchor':'middle','dominant-baseline':'middle',
+      fill:'#444','font-size':'8','font-family':'ThmanyahSans,sans-serif','font-weight':'700'
+    },line));
+  });
+
+  // ── Current-time dot ──────────────────────────────
+  const now=new Date();
+  const ch=now.getHours()+now.getMinutes()/60;
+  const[dx,dy]=rt_p2xy(RT_DOT_R,rt_h2a(ch));
+  ov.appendChild(rt_svgEl('circle',{cx:dx.toFixed(2),cy:dy.toFixed(2),r:'4',fill:'#F04D39',stroke:'#fff','stroke-width':'1.5'}));
+  // Small tail line from ring to dot
+  const[tx,ty]=rt_p2xy(RT_ARC_OUT+3,rt_h2a(ch));
+  ov.appendChild(rt_svgEl('line',{x1:tx.toFixed(2),y1:ty.toFixed(2),x2:dx.toFixed(2),y2:dy.toFixed(2),stroke:'#F04D39','stroke-width':'1','stroke-opacity':'0.5'}));
+}
+
+function rt_render(){ rt_drawBase(); rt_drawArcs(); }
+
+function rt_renderRows(){
+  const c=document.getElementById('rt-rows-container'); if(!c)return;
+  c.innerHTML='';
+  const rows=rt_modes[rt_mode].state;
+  const div=document.createElement('div');div.className='rt-rows';
+  rows.forEach(row=>{
+    const pal=RT_PAL[row.type]||RT_PAL.leisure;
+    const rowEl=document.createElement('div');
+    rowEl.className='rt-row';rowEl.dataset.id=row.id;
+    rowEl.innerHTML=`
+      <div class="rt-swatch" style="background:${pal.color}" data-id="${row.id}" title="غيّر النوع"></div>
+      <input class="rt-rlabel" value="${pal.label}" ${row.fixed?'readonly':''} placeholder="النشاط">
+      <input class="rt-tinp" value="${row.e}" placeholder="12:00 AM"
+        oninput="rt_onTime(this,'${row.id}','e')" onblur="rt_blurTime(this,'${row.id}','e')">
+      <span class="rt-arr">←</span>
+      <input class="rt-tinp" value="${row.s}" placeholder="5:00 AM"
+        oninput="rt_onTime(this,'${row.id}','s')" onblur="rt_blurTime(this,'${row.id}','s')">
+      ${row.fixed?'<span class="rt-spacer"></span>':`<button class="rt-rdel" onclick="rt_delRow('${row.id}')" title="حذف">×</button>`}
+    `;
+    rowEl.querySelector('.rt-swatch').addEventListener('click',e=>{e.stopPropagation();rt_openPicker(row.id,e.target);});
+    div.appendChild(rowEl);
+  });
+  c.appendChild(div);
+}
+
+function rt_onTime(el,id,field){
+  const row=rt_modes[rt_mode].state.find(r=>r.id===id);
+  if(row)row[field]=el.value; rt_drawArcs();
+}
+function rt_blurTime(el,id,field){
+  const h=rt_parseT(el.value); if(h!==null)el.value=rt_fmtT(h);
+  const row=rt_modes[rt_mode].state.find(r=>r.id===id);
+  if(row)row[field]=el.value; rt_drawArcs();
+}
+
+function rt_addRow(){
+  const usedTypes=rt_modes[rt_mode].state.map(r=>r.type);
+  const all=Object.keys(RT_PAL).filter(k=>k!=='sleep');
+  const type=all.find(t=>!usedTypes.includes(t))||'leisure';
+  rt_uid++;
+  rt_modes[rt_mode].state.push({id:'u'+rt_uid,type,s:'',e:'',fixed:false});
+  rt_renderRows();rt_renderLegend();
+}
+function rt_delRow(id){
+  rt_modes[rt_mode].state=rt_modes[rt_mode].state.filter(r=>r.id!==id);
+  rt_renderRows();rt_drawArcs();rt_renderLegend();
+}
+
+// ── Type Picker ──
+let rt_pickerTarget=null;
+function rt_openPicker(rowId,swatchEl){
+  const pk=document.getElementById('rt-picker'); if(!pk)return;
+  pk.innerHTML='';
+  const row=rt_modes[rt_mode].state.find(r=>r.id===rowId);
+  if(!row||row.fixed){pk.classList.remove('open');return;}
+  Object.entries(RT_PAL).filter(([k])=>k!=='sleep').forEach(([key,p])=>{
+    const div=document.createElement('div');div.className='rt-pick-item';
+    div.innerHTML=`<div class="rt-pick-dot" style="background:${p.color}"></div>${p.emoji} ${p.label}`;
+    div.onclick=()=>{
+      row.type=key;
+      const rowEl=document.querySelector(`.rt-row[data-id="${rowId}"]`);
+      if(rowEl){rowEl.querySelector('.rt-swatch').style.background=p.color;const lbl=rowEl.querySelector('.rt-rlabel');if(lbl&&!lbl.readOnly)lbl.value=p.label;}
+      pk.classList.remove('open');rt_drawArcs();rt_renderLegend();
+    };
+    pk.appendChild(div);
+  });
+  const rect=swatchEl.getBoundingClientRect();
+  pk.style.top=(rect.bottom+6)+'px';
+  pk.style.right=(window.innerWidth-rect.right-8)+'px';
+  pk.style.left='auto';
+  pk.classList.add('open');
+}
+document.addEventListener('click',()=>{ const pk=document.getElementById('rt-picker'); if(pk)pk.classList.remove('open'); });
+
+// ── Legend ──
+function rt_renderLegend(){
+  const c=document.getElementById('rt-legend'); if(!c)return;
+  c.innerHTML='';
+  const seen=new Set();
+  rt_modes[rt_mode].state.forEach(row=>{
+    if(seen.has(row.type))return;seen.add(row.type);
+    const p=RT_PAL[row.type]||RT_PAL.leisure;
+    const d=document.createElement('div');d.className='rt-lpill';
+    d.innerHTML=`<div class="rt-ldot" style="background:${p.color}"></div>${p.emoji} ${p.label}`;
+    c.appendChild(d);
+  });
+}
+
+// ── Mode switching ──
+function rt_activateMode(idx){
+  rt_mode=idx;
+  document.querySelectorAll('.rt-mode-btn:not(.rt-add-mode)').forEach((b,i)=>b.classList.toggle('on',i===idx));
+  const lbl=document.getElementById('rt-clk-lbl'); if(lbl)lbl.textContent=rt_modes[idx].label;
+  const em=document.getElementById('rt-s-emoji'); if(em)em.textContent=idx===0?'🌱':'🎉';
+  rt_renderRows();rt_renderLegend();rt_render();
+}
+
+// ── Add custom mode ──
+function rt_addMode(){
+  if(rt_modes.length>=4){ alert('الحد الأقصى ٤ روتينات'); return; }
+  const label=prompt('اسم الروتين الجديد:','روتين خاص');
+  if(!label)return;
+  rt_modes.push({id:'custom'+rt_modes.length,label,state:[
+    {id:'c'+Date.now()+'0',type:'sleep',s:'11:00 PM',e:'6:00 AM',fixed:true},
+    {id:'c'+Date.now()+'1',type:'work',s:'',e:''},
+  ]});
+  const bar=document.getElementById('rt-modes-bar');
+  const addBtn=document.getElementById('rt-add-btn');
+  const newIdx=rt_modes.length-1;
+  const btn=document.createElement('button');
+  btn.className='rt-mode-btn';
+  btn.textContent=label+' ★';
+  btn.onclick=()=>rt_activateMode(newIdx);
+  bar.insertBefore(btn,addBtn);
+  rt_activateMode(newIdx);
+}
+
+// ── Background color ──
+function rt_setBg(col1,col2,textCol){
+  document.getElementById('page-routine').style.background=`linear-gradient(160deg,${col1},${col2||col1})`;
+  const card=document.getElementById('rt-card');
+  if(card){
+    // على خلفيات فاتحة (أبيض / أصفر) نُظلّم الكارد ونغمّق النص، وإلا نعيد الافتراضي
+    const isLight = (textCol && textCol !== 'white' && textCol !== '#fff' && textCol !== '#ffffff');
+    card.style.background = isLight ? 'rgba(0,0,0,0.08)' : 'rgba(255,255,255,0.06)';
+    const clr = isLight ? textCol : '';
+    document.querySelectorAll('.rt-sched-title,.rt-rlabel,.rt-fixed-lbl,.rt-cats-lbl,.rt-clock-lbl,.rt-brand,.rt-title,.rt-cats-lbl').forEach(e=>{e.style.color=clr;});
+    // نص تسمية الساعة
+    const clkLbl = document.getElementById('rt-clk-lbl');
+    if(clkLbl) clkLbl.style.color = clr;
+    // حفظ اللون للاستخدام في rt_renderRows
+    card.dataset.textCol = clr;
+  }
+}
+
+// ── Tooltip ──
+(function rt_setupTooltip(){
+  document.addEventListener('mousemove',e=>{
+    const svg=document.getElementById('rt-clk'); if(!svg)return;
+    const tip=document.getElementById('rt-tip'); if(!tip)return;
+    const rect=svg.getBoundingClientRect();
+    const sc=300/rect.width;
+    const mx=(e.clientX-rect.left)*sc,my=(e.clientY-rect.top)*sc;
+    const dx=mx-RT_CX,dy=my-RT_CY,dist=Math.sqrt(dx*dx+dy*dy);
+    if(dist<RT_ARC_IN||dist>RT_ARC_OUT){tip.classList.remove('show');return;}
+    let ang=Math.atan2(dy,dx)*180/Math.PI+90; if(ang<0)ang+=360;
+    const hour=Math.floor(ang/15)%24;
+    let found=null;
+    for(const row of rt_modes[rt_mode].state){
+      const sh=rt_parseT(row.s),eh=rt_parseT(row.e); if(sh===null||eh===null)continue;
+      let dur=eh-sh;if(dur<0)dur+=24;
+      const norm=(h)=>((h%24)+24)%24;
+      const s=norm(sh),en=norm(sh+dur);
+      const inR=s<=en?hour>=s&&hour<en:hour>=s||hour<en;
+      if(inR){found=row;break;}
+    }
+    const pal=found?RT_PAL[found.type]:null;
+    tip.textContent=pal?`${pal.emoji} ${pal.label} — الساعة ${hour}:00`:`الساعة ${hour}:00`;
+    tip.style.left=(e.clientX+12)+'px'; tip.style.top=(e.clientY-34)+'px';
+    tip.classList.add('show');
+  });
+  document.addEventListener('mouseleave',()=>{ const t=document.getElementById('rt-tip');if(t)t.classList.remove('show'); });
+})();
+
+// ── Save routine ──
+function rt_saveRoutine(){
+  progress.routineDone=true;
+  updateProgress();
+  const msg=document.getElementById('rt-saved-msg');
+  if(msg)msg.style.display='block';
+  // auto-advance to planning
+  setTimeout(()=>{ showPage('page-planning'); },1200);
+}
+
+// Refresh current-time dot every minute
+setInterval(()=>{ if(document.getElementById('rt-clk'))rt_drawBase(); },60000);
+
+// ============================================================
+// YEAR PLANNER
+// ============================================================
+// الأشهر الهجرية لعام ١٤٤٨ هـ مع الأرقام العربية
+const MONTHS_AR = [
+  'محرَّم ١٤٤٨',
+  'صفَر ١٤٤٨',
+  'ربيع الأول ١٤٤٨',
+  'ربيع الآخر ١٤٤٨',
+  'جُمادى الأولى ١٤٤٨',
+  'جُمادى الآخرة ١٤٤٨',
+  'رجَب ١٤٤٨',
+  'شعبان ١٤٤٨',
+  'رمضان ١٤٤٨',
+  'شوَّال ١٤٤٨',
+  'ذو القَعدة ١٤٤٨',
+  'ذو الحِجَّة ١٤٤٨',
+];
+
+function initMonthlyGrid(){
+  const grid=document.getElementById('monthly-grid'); if(!grid)return;
+  grid.innerHTML='';
+  MONTHS_AR.forEach((m,i)=>{
+    const cell=document.createElement('div'); cell.className='month-cell';
+    cell.innerHTML=`<label>${m}</label><input type="text" id="month-${i}" placeholder="نيّة الشهر…">`;
+    grid.appendChild(cell);
+  });
+}
+
+function wheel_update(input){
+  const val=input.value;
+  const span=input.parentElement.querySelector('.wheel-val');
+  if(span)span.textContent=val;
+  drawWheelCanvas();
+}
+
+function drawWheelCanvas(){
+  const canvas=document.getElementById('wheel-canvas'); if(!canvas)return;
+  const ctx=canvas.getContext('2d');
+  const W=canvas.width,H=canvas.height;
+  const cx=W/2,cy=H/2,maxR=Math.min(cx,cy)-20;
+  ctx.clearRect(0,0,W,H);
+  const inputs=document.querySelectorAll('.wheel-row input[type=range]');
+  const n=inputs.length;
+  const labels=['الدين','الأسرة','المال','الصحة','التعلم','الصداقة','الإبداع','الأثر'];
+  const colors=['#F04D39','#F4C82C','#3BB9AB','#086FB4','#52A869','#E05555','#4A8FE7','#E07355'];
+  // draw grid circles
+  ctx.strokeStyle='rgba(0,0,0,0.07)';
+  for(let r=2;r<=10;r+=2){
+    ctx.beginPath();
+    for(let i=0;i<n;i++){
+      const a=(i/n)*2*Math.PI-Math.PI/2;
+      const pr=maxR*(r/10);
+      const x=cx+pr*Math.cos(a),y=cy+pr*Math.sin(a);
+      i===0?ctx.moveTo(x,y):ctx.lineTo(x,y);
+    }
+    ctx.closePath(); ctx.stroke();
+  }
+  // draw spokes
+  ctx.strokeStyle='rgba(0,0,0,0.1)';
+  for(let i=0;i<n;i++){
+    const a=(i/n)*2*Math.PI-Math.PI/2;
+    ctx.beginPath();ctx.moveTo(cx,cy);ctx.lineTo(cx+maxR*Math.cos(a),cy+maxR*Math.sin(a));ctx.stroke();
+  }
+  // draw filled polygon
+  ctx.fillStyle='rgba(240,77,57,0.18)';ctx.strokeStyle='rgba(240,77,57,0.7)';ctx.lineWidth=2;
+  ctx.beginPath();
+  inputs.forEach((inp,i)=>{
+    const v=+inp.value/10;
+    const a=(i/n)*2*Math.PI-Math.PI/2;
+    const x=cx+maxR*v*Math.cos(a),y=cy+maxR*v*Math.sin(a);
+    i===0?ctx.moveTo(x,y):ctx.lineTo(x,y);
+  });
+  ctx.closePath();ctx.fill();ctx.stroke();
+  // dot + label
+  inputs.forEach((inp,i)=>{
+    const v=+inp.value/10;
+    const a=(i/n)*2*Math.PI-Math.PI/2;
+    const x=cx+maxR*v*Math.cos(a),y=cy+maxR*v*Math.sin(a);
+    ctx.fillStyle=colors[i];ctx.beginPath();ctx.arc(x,y,4,0,2*Math.PI);ctx.fill();
+    // label
+    const lx=cx+(maxR+14)*Math.cos(a),ly=cy+(maxR+14)*Math.sin(a);
+    ctx.fillStyle='#262626';ctx.font='bold 11px ThmanyahSans,sans-serif';ctx.textAlign='center';ctx.textBaseline='middle';
+    ctx.fillText(labels[i]||'',lx,ly);
+  });
+  ctx.lineWidth=1;
+}
+
+function generateAnnualPlan(){
+  const dump=document.getElementById('plan-dump')?.value||'';
+  const wins=document.getElementById('plan-wins')?.value||'';
+  const misses=document.getElementById('plan-misses')?.value||'';
+  const lesson=document.getElementById('plan-lesson')?.value||'';
+  const stop=document.getElementById('plan-stop')?.value||'';
+  const goal1=document.getElementById('goal1')?.value||'';
+  const goal1d=document.getElementById('goal1-date')?.value||'';
+  const goal2=document.getElementById('goal2')?.value||'';
+  const goal2d=document.getElementById('goal2-date')?.value||'';
+  const goal3=document.getElementById('goal3')?.value||'';
+  const goal3d=document.getElementById('goal3-date')?.value||'';
+  const partner=document.getElementById('plan-partner')?.value||'';
+  const pledge=document.getElementById('plan-pledge')?.value||'';
+  const months=MONTHS_AR.map((_,i)=>({name:MONTHS_AR[i],focus:document.getElementById(`month-${i}`)?.value||''}));
+  const wheelVals={};
+  document.querySelectorAll('.wheel-row input[type=range]').forEach((inp)=>{wheelVals[inp.dataset.wkey]=+inp.value;});
+
+  const output=document.getElementById('plan-output-content');
+  if(!output)return;
+  output.innerHTML=`
+    <div style="text-align:center;margin-bottom:28px;">
+      <img src="${document.getElementById('user-avatar-bar')?.src||''}" style="width:72px;height:72px;border-radius:50%;object-fit:cover;border:3px solid var(--brand-yellow);margin-bottom:12px;">
+      <h2>مخطط ${creatorName} — ١٤٤٨ هـ</h2>
+      <p style="color:var(--text-muted);font-family:'ThmanyahSans',sans-serif;font-size:14px;">المدونة ستوديو · من هنا نبدأ</p>
+    </div>
+    ${dump?`<div class="plan-out-sec"><h3>🌀 التفريغ الأولي</h3><div class="plan-out-body">${dump}</div></div>`:''}
+    <div class="plan-out-sec">
+      <h3>🪞 مراجعة العام المنصرم</h3>
+      ${wins?`<div class="plan-out-body"><strong>الإنجازات:</strong><br>${wins}</div>`:''}
+      ${misses?`<div class="plan-out-body" style="margin-top:10px;"><strong>لم يُنجز:</strong><br>${misses}</div>`:''}
+      ${lesson?`<div class="plan-out-body" style="margin-top:10px;"><strong>أهم درس:</strong> ${lesson}</div>`:''}
+      ${stop?`<div class="plan-out-body" style="margin-top:4px;"><strong>يجب إيقافه:</strong> ${stop}</div>`:''}
+    </div>
+    ${(goal1||goal2||goal3)?`
+    <div class="plan-out-sec">
+      <h3>🎯 الأهداف الكبرى</h3>
+      ${goal1?`<div class="plan-goal-card"><strong>${goal1}</strong><span>${goal1d?'الموعد: '+goal1d:''}</span></div>`:''}
+      ${goal2?`<div class="plan-goal-card"><strong>${goal2}</strong><span>${goal2d?'الموعد: '+goal2d:''}</span></div>`:''}
+      ${goal3?`<div class="plan-goal-card"><strong>${goal3}</strong><span>${goal3d?'الموعد: '+goal3d:''}</span></div>`:''}
+    </div>`:''}
+    <div class="plan-out-sec">
+      <h3>📅 نيّة كل شهر — ١٤٤٨ هـ</h3>
+      <div class="plan-month-row">
+        ${months.map(m=>m.focus?`<div class="plan-month-pill">${m.name}: ${m.focus}</div>`:'').join('')}
+      </div>
+    </div>
+    ${(partner||pledge)?`
+    <div class="plan-out-sec">
+      <h3>✍️ الالتزام والمساءلة</h3>
+      ${partner?`<div class="plan-out-body"><strong>شريك المساءلة:</strong> ${partner}</div>`:''}
+      ${pledge?`<div class="plan-out-body" style="margin-top:8px;padding:14px;background:var(--yellow-light);border-radius:12px;font-style:italic;">"${pledge}"</div>`:''}
+    </div>`:''}
+  `;
+  document.getElementById('planning-form').style.display='none';
+  document.getElementById('annual-plan-output').style.display='block';
+  document.getElementById('annual-plan-output').scrollIntoView({behavior:'smooth',block:'start'});
+
+  progress.planningDone=true;
+  updateProgress();
+}
+
+function printAnnualPlan(){
+  window.print();
+}
+
+// ============================================================
+// RESULTS PAGE
+// ============================================================
+function showResults(){
+  const wrap=document.getElementById('results-wrap');
+  if(!wrap)return;
+
+  // gather lecture results
+  const poisonPct=document.getElementById('poison-pct')?.textContent||'—';
+  const compScore=document.getElementById('comp-score-panel')?.textContent||'—';
+
+  // gather skills
+  let skillsHtml='<div class="res-skills-list">';
+  sqSkillList.forEach(sid=>{
+    const fd=SKILL_FIELDS[sid]; const res=sqResults[sid];
+    if(!fd||!res)return;
+    skillsHtml+=`<div class="res-skill-row"><span class="res-skill-name">${fd.icon} ${fd.label}</span><span class="res-skill-score">${res.overall}/100</span></div>`;
+  });
+  skillsHtml+='</div>';
+
+  // routine summary
+  let routineHtml='';
+  rt_modes.forEach((m,idx)=>{
+    const entries=m.state.filter(r=>rt_parseT(r.s)!==null&&rt_parseT(r.e)!==null);
+    if(!entries.length)return;
+    routineHtml+=`<div style="margin-bottom:14px;"><strong style="font-family:'ThmanyahSans';font-size:13px;">${m.label}</strong><div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:6px;">`;
+    entries.forEach(r=>{const p=RT_PAL[r.type]||RT_PAL.leisure;routineHtml+=`<span style="background:${p.color};color:#fff;padding:3px 10px;border-radius:8px;font-size:12px;font-family:'ThmanyahSans';">${p.emoji} ${p.label} ${r.s}→${r.e}</span>`;});
+    routineHtml+='</div></div>';
+  });
+
+  // planning summary
+  const goal1=document.getElementById('goal1')?.value||'';
+  const goal2=document.getElementById('goal2')?.value||'';
+  const goal3=document.getElementById('goal3')?.value||'';
+
+  const avatarSrc=document.getElementById('user-avatar-bar')?.src||'';
+  wrap.innerHTML=`
+    <div class="results-hero">
+      ${avatarSrc?`<img src="${avatarSrc}" alt="${creatorName}">`:''}
+      <h2>نتائج ${creatorName} 🏆</h2>
+      <p>إليك ملخص رحلتك الكاملة في من هنا نبدأ</p>
+    </div>
+
+    <div class="results-grid">
+      <!-- Lecture results -->
+      <div class="res-card">
+        <h3>🎥 معنى الحياة</h3>
+        <div style="display:flex;gap:20px;justify-content:center;">
+          <div style="text-align:center;">
+            <div class="res-big-num" style="color:var(--brand-red);">${poisonPct}</div>
+            <div class="res-sub">نسبة التسمم</div>
+          </div>
+          <div style="text-align:center;">
+            <div class="res-big-num" style="color:var(--brand-teal);">${compScore}</div>
+            <div class="res-sub">نسبة الاستيعاب</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Skills -->
+      ${sqSkillList.length?`
+      <div class="res-card">
+        <h3>🃏 المهارات الإبداعية</h3>
+        ${skillsHtml}
+      </div>`:''}
+
+      <!-- Routine -->
+      <div class="res-card">
+        <h3>⏰ روتينك</h3>
+        ${routineHtml||'<p style="color:var(--text-muted);font-size:13px;">لم يُسجَّل روتين بعد</p>'}
+      </div>
+
+      <!-- Goals -->
+      ${(goal1||goal2||goal3)?`
+      <div class="res-card">
+        <h3>🎯 أهدافك الكبرى</h3>
+        <div class="res-skills-list">
+          ${goal1?`<div class="res-skill-row"><span class="res-skill-name">الهدف الأول</span><span style="font-size:13px;font-family:'ThmanyahSans';">${goal1}</span></div>`:''}
+          ${goal2?`<div class="res-skill-row"><span class="res-skill-name">الهدف الثاني</span><span style="font-size:13px;font-family:'ThmanyahSans';">${goal2}</span></div>`:''}
+          ${goal3?`<div class="res-skill-row"><span class="res-skill-name">الهدف الثالث</span><span style="font-size:13px;font-family:'ThmanyahSans';">${goal3}</span></div>`:''}
+        </div>
+      </div>`:''}
+    </div>
+
+    <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:8px;padding-bottom:40px;">
+      <button class="btn-primary" onclick="window.print()" style="padding:13px 28px;border-radius:14px;font-size:15px;">🖨️ طباعة نتائجي</button>
+      <button class="btn-gold" onclick="showPage('page-lecture')" style="padding:13px 28px;border-radius:14px;font-size:15px;">← العودة للمحاضرة</button>
+    </div>
+  `;
+
+  document.querySelectorAll('.page-section').forEach(s=>s.classList.remove('active'));
+  document.getElementById('page-results').classList.add('active');
+  document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
+  window.scrollTo(0,0);
+}
+
+</script>
+</body>
+</html>

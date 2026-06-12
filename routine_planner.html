@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>مُصمِّم الروتين — المدونة ستوديو</title>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --font:'Tajawal',sans-serif;
+  --bg:#EEECEA;--card:#FFFFFF;--text:#1A1A1A;--muted:#888;
+  --border:rgba(0,0,0,0.09);--accent:#F04D39;--yellow:#F5C842;
+  --tr:0.45s ease;
+}
+body{font-family:var(--font);background:var(--bg);min-height:100vh;direction:rtl;transition:background var(--tr);padding-bottom:60px}
+body.rest{--bg:#F5C842;--card:#FFFEF5;--muted:#7A6800;--border:rgba(0,0,0,0.13)}
+
+/* ── HEADER ── */
+.hdr{text-align:center;padding:28px 20px 0}
+.hdr-brand{font-size:11px;letter-spacing:2.5px;text-transform:uppercase;color:var(--muted);font-weight:500}
+.hdr-title{font-size:26px;font-weight:900;color:var(--text);margin-top:3px}
+
+/* ── TABS ── */
+.tabs{display:flex;justify-content:center;gap:10px;padding:20px 16px 0}
+.tab{font-family:var(--font);font-size:15px;font-weight:700;padding:11px 26px;border-radius:14px;
+  border:2px solid rgba(0,0,0,0.1);cursor:pointer;background:rgba(255,255,255,0.55);
+  color:var(--muted);transition:all 0.22s;backdrop-filter:blur(6px)}
+.tab.on{background:#1A1A1A;color:var(--yellow);border-color:#1A1A1A}
+body.rest .tab{background:rgba(255,255,255,0.4)}
+body.rest .tab.on{background:#1A1A1A;color:var(--yellow)}
+
+/* ── CARD ── */
+.card{max-width:980px;margin:18px auto 0;background:var(--card);border-radius:26px;
+  padding:32px 28px;box-shadow:0 6px 40px rgba(0,0,0,0.07);
+  display:grid;grid-template-columns:300px 1fr;gap:36px;position:relative;
+  transition:background var(--tr)}
+.card-star{position:absolute;top:18px;left:20px;font-size:16px;color:var(--muted);opacity:.4;user-select:none}
+
+/* ── CLOCK PANEL ── */
+.clock-panel{display:flex;flex-direction:column;align-items:center;gap:10px}
+.clock-lbl{font-size:11px;font-weight:600;letter-spacing:1px;color:var(--muted);text-transform:uppercase}
+#clk{width:100%;max-width:290px;height:auto;display:block;cursor:crosshair}
+
+/* ── SCHEDULE PANEL ── */
+.sched{display:flex;flex-direction:column;gap:12px}
+.sched-title{font-size:22px;font-weight:900;color:var(--text);line-height:1.25}
+.sched-title small{display:block;font-size:13px;font-weight:400;color:var(--muted);margin-top:2px}
+.fixed-lbl{font-size:12px;color:var(--muted);line-height:1.9}
+.sep{height:1px;background:var(--border)}
+.cats-lbl{font-size:12px;color:var(--muted);line-height:1.9}
+
+/* ── TIME ROWS ── */
+.rows{display:flex;flex-direction:column;gap:9px}
+.row{display:flex;align-items:center;gap:7px;direction:ltr}
+.swatch{width:11px;height:11px;border-radius:50%;flex-shrink:0;cursor:pointer;
+  box-shadow:0 0 0 2px transparent;transition:box-shadow .15s}
+.swatch:hover{box-shadow:0 0 0 3px rgba(0,0,0,.15)}
+.rlabel{font-family:var(--font);font-size:13px;font-weight:700;color:var(--text);
+  flex:1;text-align:right;background:none;border:none;outline:none;
+  border-bottom:1px solid transparent;cursor:text;direction:rtl;transition:border-color .2s}
+.rlabel:focus{border-bottom-color:var(--accent)}
+.rlabel[readonly]{cursor:default}
+.tinp{font-family:var(--font);font-size:12px;font-weight:500;color:var(--text);
+  background:#F4F4F4;border:1.5px solid #E2E2E2;border-radius:8px;
+  padding:5px 7px;width:80px;text-align:center;outline:none;
+  transition:border-color .2s;direction:ltr}
+.tinp:focus{border-color:var(--accent)}
+body.rest .tinp{background:rgba(255,255,255,.55);border-color:rgba(0,0,0,.12)}
+.arr{color:var(--muted);font-size:11px;flex-shrink:0}
+.rdel{background:none;border:none;cursor:pointer;color:#CCC;font-size:17px;
+  line-height:1;padding:0 1px;flex-shrink:0;transition:color .15s}
+.rdel:hover{color:#E05555}
+.spacer{width:18px;flex-shrink:0}
+
+/* ── ADD BTN ── */
+.add-btn{font-family:var(--font);font-size:13px;font-weight:700;color:var(--muted);
+  background:none;border:2px dashed rgba(0,0,0,.12);border-radius:12px;
+  padding:10px;width:100%;cursor:pointer;text-align:center;transition:all .2s;direction:rtl}
+.add-btn:hover{border-color:var(--accent);color:var(--accent)}
+
+/* ── LEGEND ── */
+.legend{display:flex;flex-wrap:wrap;gap:6px}
+.lpill{display:flex;align-items:center;gap:5px;padding:4px 10px;
+  background:rgba(0,0,0,.04);border-radius:20px;font-size:11px;font-weight:600;color:var(--text)}
+.ldot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+
+/* ── TYPE PICKER ── */
+.picker{position:fixed;background:#fff;border-radius:14px;padding:10px 8px;
+  box-shadow:0 8px 40px rgba(0,0,0,.18);z-index:500;display:none;min-width:180px;direction:rtl}
+.picker.open{display:block}
+.pick-item{display:flex;align-items:center;gap:8px;padding:8px 10px;border-radius:9px;
+  cursor:pointer;transition:background .15s;font-size:13px;font-weight:600;color:#1A1A1A}
+.pick-item:hover{background:#F5F5F5}
+.pick-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+
+/* ── TOOLTIP ── */
+.tip{position:fixed;background:#1A1A1A;color:#fff;padding:5px 11px;border-radius:8px;
+  font-size:12px;font-family:var(--font);pointer-events:none;z-index:600;
+  opacity:0;transition:opacity .12s;direction:rtl;white-space:nowrap}
+.tip.show{opacity:1}
+
+/* ── RESPONSIVE ── */
+@media(max-width:780px){
+  .card{grid-template-columns:1fr;padding:22px 18px;margin:12px;gap:24px}
+  .clock-panel{order:1}.sched{order:2}
+  #clk{max-width:240px}
+}
+@media(max-width:480px){
+  .tabs{flex-direction:column;align-items:center}
+  .tab{width:220px;text-align:center}
+  .tinp{width:70px}
+}
+</style>
+</head>
+<body>
+
+<div class="hdr">
+  <div class="hdr-brand">المدونة ستوديو</div>
+  <div class="hdr-title">صمّم روتينك</div>
+</div>
+
+<div class="tabs">
+  <button class="tab on" id="t-reg" onclick="sw('regular')">اليوم المعتاد ★</button>
+  <button class="tab"    id="t-rst" onclick="sw('rest')">يوم الراحة ★</button>
+</div>
+
+<div class="card">
+  <span class="card-star">★</span>
+
+  <div class="clock-panel">
+    <div class="clock-lbl" id="clk-lbl">اليوم المعتاد</div>
+    <svg id="clk" viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
+      <g id="face-bg"></g>
+      <g id="arcs"></g>
+      <g id="overlay"></g>
+    </svg>
+  </div>
+
+  <div class="sched">
+    <div class="sched-title">
+      <span id="s-emoji">🌱</span> صمم روتينك
+      <small>ولكن لاتنسى</small>
+    </div>
+    <div class="fixed-lbl">الصلاة على وقتها – ورد قرآن – ورد ذكر</div>
+    <div class="sep"></div>
+    <div class="cats-lbl" id="cats-lbl">النوم – العمل – طلب علم – الرياضة – إطلاع في مجالك – العامل الإجتماعي – الترويح</div>
+    <div class="sep"></div>
+    <div class="rows" id="rows-regular"></div>
+    <div class="rows" id="rows-rest" style="display:none"></div>
+    <button class="add-btn" onclick="addRow()">+ إضافة روتين</button>
+    <div class="legend" id="leg-regular"></div>
+    <div class="legend" id="leg-rest" style="display:none"></div>
+  </div>
+</div>
+
+<!-- Type picker popup -->
+<div class="picker" id="picker"></div>
+<!-- Tooltip -->
+<div class="tip" id="tip"></div>
+
+<script>
+// ══════════════════════════════════════════════════
+// GEOMETRY CONSTANTS
+// ══════════════════════════════════════════════════
+const CX=150,CY=150;
+const ARC_IN=45,ARC_OUT=105;   // activity ring
+const FACE_R=108;               // white face
+const RING_IN=110,RING_OUT=132; // dark outer ring
+const DOT_R=ARC_OUT-4;         // current-time dot
+
+// ══════════════════════════════════════════════════
+// ACTIVITY PALETTE
+// ══════════════════════════════════════════════════
+const PAL={
+  sleep:   {label:'النوم',             color:'#2D3070',emoji:'😴'},
+  work:    {label:'العمل',             color:'#4A8FE7',emoji:'💼'},
+  learn:   {label:'طلب علم',           color:'#52A869',emoji:'📚'},
+  sport:   {label:'الرياضة',           color:'#F07B3F',emoji:'🏃'},
+  field:   {label:'إطلاع في مجالك',    color:'#E5BD3C',emoji:'🔍'},
+  social:  {label:'العامل الاجتماعي',  color:'#E05555',emoji:'🤝'},
+  leisure: {label:'الترويح',           color:'#94A3B8',emoji:'☕'},
+  free:    {label:'فلها وربك يحلها',   color:'#E07355',emoji:'✨'},
+};
+
+// ══════════════════════════════════════════════════
+// STATE
+// ══════════════════════════════════════════════════
+let mode='regular';
+let uid=20;
+const state={
+  regular:[
+    {id:'s0',type:'sleep', s:'11:00 PM',e:'5:00 AM', fixed:true},
+    {id:'s1',type:'work',  s:'',e:''},
+    {id:'s2',type:'learn', s:'',e:''},
+    {id:'s3',type:'sport', s:'',e:''},
+  ],
+  rest:[
+    {id:'r0',type:'sleep', s:'12:00 AM',e:'8:00 AM', fixed:true},
+    {id:'r1',type:'free',  s:'',e:''},
+    {id:'r2',type:'leisure',s:'',e:''},
+  ]
+};
+
+// ══════════════════════════════════════════════════
+// TIME UTILITIES
+// ══════════════════════════════════════════════════
+function parseT(s){
+  if(!s||!s.trim())return null;
+  s=s.trim().toUpperCase().replace(/\./g,':');
+  // H:MM AM/PM or H AM/PM
+  let m=/^(\d{1,2})(?::(\d{2}))?\s*(AM|PM)$/.exec(s);
+  if(m){
+    let h=+m[1],mn=+(m[2]||0);
+    if(m[3]==='PM'&&h!==12)h+=12;
+    if(m[3]==='AM'&&h===12)h=0;
+    return h+mn/60;
+  }
+  // HH:MM 24h
+  m=/^(\d{1,2}):(\d{2})$/.exec(s);
+  if(m)return+m[1]+(+m[2])/60;
+  // bare number
+  m=/^(\d{1,2})$/.exec(s);
+  if(m)return+m[1];
+  return null;
+}
+
+function fmtT(h){
+  if(h===null)return'';
+  h=((h%24)+24)%24;
+  const hh=Math.floor(h),mn=Math.round((h%1)*60);
+  const ap=hh<12?'AM':'PM';
+  const h12=hh===0?12:hh>12?hh-12:hh;
+  return `${h12}:${mn.toString().padStart(2,'0')} ${ap}`;
+}
+
+// ══════════════════════════════════════════════════
+// SVG HELPERS
+// ══════════════════════════════════════════════════
+function h2a(h){return h*15-90} // hour → degrees (midnight=top)
+
+function p2xy(r,deg){
+  const rad=deg*Math.PI/180;
+  return[CX+r*Math.cos(rad),CY+r*Math.sin(rad)];
+}
+
+function arcPath(ri,ro,sh,eh){
+  let dur=eh-sh;
+  if(dur<0)dur+=24;
+  if(dur<=0||dur>=24)return'';
+  const sa=h2a(sh),ea=h2a(sh+dur);
+  const la=dur>12?1:0;
+  const[ox1,oy1]=p2xy(ro,sa);
+  const[ox2,oy2]=p2xy(ro,ea);
+  const[ix1,iy1]=p2xy(ri,sa);
+  const[ix2,iy2]=p2xy(ri,ea);
+  const f=v=>v.toFixed(2);
+  return`M${f(ox1)} ${f(oy1)} A${ro} ${ro} 0 ${la} 1 ${f(ox2)} ${f(oy2)} L${f(ix2)} ${f(iy2)} A${ri} ${ri} 0 ${la} 0 ${f(ix1)} ${f(iy1)}Z`;
+}
+
+function svgEl(tag,attrs,txt=''){
+  const e=document.createElementNS('http://www.w3.org/2000/svg',tag);
+  for(const[k,v]of Object.entries(attrs))e.setAttribute(k,v);
+  if(txt)e.textContent=txt;
+  return e;
+}
+
+// ══════════════════════════════════════════════════
+// DRAW ARCS
+// ══════════════════════════════════════════════════
+function drawArcs(){
+  const g=document.getElementById('arcs');
+  g.innerHTML='';
+  for(const row of state[mode]){
+    const sh=parseT(row.s),eh=parseT(row.e);
+    if(sh===null||eh===null)continue;
+    const col=PAL[row.type]?.color||'#CCC';
+    const d=arcPath(ARC_IN,ARC_OUT,sh,eh);
+    if(!d)continue;
+    const p=svgEl('path',{d,fill:col,opacity:'0.92','data-id':row.id,'data-type':row.type});
+    g.appendChild(p);
+  }
+}
+
+// ══════════════════════════════════════════════════
+// DRAW CLOCK BASE
+// ══════════════════════════════════════════════════
+function drawBase(){
+  // Layer 1: face background (drawn BEFORE arcs)
+  const fb=document.getElementById('face-bg');
+  fb.innerHTML='';
+  // Dark outer ring first
+  fb.appendChild(svgEl('circle',{cx:CX,cy:CY,r:RING_OUT,fill:'#252525'}));
+  // White face (arc area)
+  fb.appendChild(svgEl('circle',{cx:CX,cy:CY,r:RING_IN-1,fill:'#fff'}));
+
+  // Layer 3: overlay (drawn AFTER arcs)
+  const ov=document.getElementById('overlay');
+  ov.innerHTML='';
+
+  // Hour ticks on outer ring
+  for(let h=0;h<24;h++){
+    const a=h2a(h);
+    const[x1,y1]=p2xy(RING_IN+1,a);
+    const[x2,y2]=p2xy(RING_OUT-1,a);
+    ov.appendChild(svgEl('line',{x1:x1.toFixed(2),y1:y1.toFixed(2),
+      x2:x2.toFixed(2),y2:y2.toFixed(2),
+      stroke:'#555','stroke-width':h%6===0?1.5:0.7}));
+  }
+
+  // Major hour labels: 0→12, 6, 12→12, 18
+  [{h:0,l:'٠٠'},{h:6,l:'٦'},{h:12,l:'١٢'},{h:18,l:'١٨'}].forEach(({h,l})=>{
+    const[x,y]=p2xy(RING_IN-9,h2a(h));
+    ov.appendChild(svgEl('text',{x:x.toFixed(2),y:y.toFixed(2),
+      'text-anchor':'middle','dominant-baseline':'middle',
+      fill:'#ddd','font-size':'8','font-family':'Tajawal,sans-serif','font-weight':'700'},l));
+  });
+  [{h:3,l:'3'},{h:9,l:'9'},{h:15,l:'15'},{h:21,l:'21'}].forEach(({h,l})=>{
+    const[x,y]=p2xy(RING_IN-8,h2a(h));
+    ov.appendChild(svgEl('text',{x:x.toFixed(2),y:y.toFixed(2),
+      'text-anchor':'middle','dominant-baseline':'middle',
+      fill:'#999','font-size':'6.5','font-family':'Tajawal,sans-serif'},l));
+  });
+
+  // Subtle divider lines over arcs
+  for(let h=0;h<24;h++){
+    const a=h2a(h);
+    const[x1,y1]=p2xy(ARC_IN,a);const[x2,y2]=p2xy(ARC_OUT,a);
+    ov.appendChild(svgEl('line',{x1:x1.toFixed(2),y1:y1.toFixed(2),
+      x2:x2.toFixed(2),y2:y2.toFixed(2),
+      stroke:'rgba(255,255,255,0.25)','stroke-width':'0.7'}));
+  }
+
+  // Center circle (covers arc inner hole)
+  const cFill=mode==='rest'?'#FFF9E0':'#F3F3F3';
+  ov.appendChild(svgEl('circle',{cx:CX,cy:CY,r:ARC_IN-1,fill:cFill}));
+
+  // Subtle border between arc ring and center
+  ov.appendChild(svgEl('circle',{cx:CX,cy:CY,r:ARC_IN-1,fill:'none',
+    stroke:'rgba(0,0,0,0.08)','stroke-width':'1'}));
+  ov.appendChild(svgEl('circle',{cx:CX,cy:CY,r:ARC_OUT,fill:'none',
+    stroke:'rgba(0,0,0,0.06)','stroke-width':'1'}));
+
+  // Center label
+  const lines=mode==='regular'?['نظامي','الشخصي']:['فلها وربك','يحلها'];
+  lines.forEach((line,i)=>{
+    const yy=CY+(i-(lines.length-1)/2)*13;
+    ov.appendChild(svgEl('text',{x:CX,y:yy,
+      'text-anchor':'middle','dominant-baseline':'middle',
+      fill:'#555','font-size':'8.5','font-family':'Tajawal,sans-serif','font-weight':'600'},line));
+  });
+
+  // Current time dot
+  const now=new Date();
+  const ch=now.getHours()+now.getMinutes()/60;
+  const[dx,dy]=p2xy(DOT_R,h2a(ch));
+  ov.appendChild(svgEl('circle',{cx:dx.toFixed(2),cy:dy.toFixed(2),r:'3.5',
+    fill:'#F04D39',stroke:'#fff','stroke-width':'1.5'}));
+}
+
+function render(){drawBase();drawArcs();}
+
+// ══════════════════════════════════════════════════
+// ROW RENDERING
+// ══════════════════════════════════════════════════
+function renderRows(){
+  const c=document.getElementById(`rows-${mode}`);
+  c.innerHTML='';
+  state[mode].forEach(row=>{
+    const pal=PAL[row.type]||PAL.leisure;
+    const div=document.createElement('div');
+    div.className='row';div.dataset.id=row.id;
+    div.innerHTML=`
+      <div class="swatch" style="background:${pal.color}" data-id="${row.id}" title="غيّر النوع"></div>
+      <input class="rlabel" value="${pal.label}" ${row.fixed?'readonly':''} placeholder="النشاط"
+        oninput="onLabel(this,'${row.id}')">
+      <input class="tinp" value="${row.e}" placeholder="12:00 AM"
+        oninput="onTime(this,'${row.id}','e')" onblur="blurTime(this,'${row.id}','e')">
+      <span class="arr">←</span>
+      <input class="tinp" value="${row.s}" placeholder="5:00 AM"
+        oninput="onTime(this,'${row.id}','s')" onblur="blurTime(this,'${row.id}','s')">
+      ${row.fixed?'<span class="spacer"></span>':`<button class="rdel" onclick="delRow('${row.id}')" title="حذف">×</button>`}
+    `;
+    // swatch click → type picker
+    div.querySelector('.swatch').addEventListener('click',e=>{
+      e.stopPropagation();openPicker(row.id,e.target);
+    });
+    c.appendChild(div);
+  });
+}
+
+function onTime(el,id,field){
+  const row=state[mode].find(r=>r.id===id);
+  if(row)row[field]=el.value;
+  drawArcs();
+}
+
+function blurTime(el,id,field){
+  const h=parseT(el.value);
+  if(h!==null)el.value=fmtT(h);
+  const row=state[mode].find(r=>r.id===id);
+  if(row)row[field]=el.value;
+  drawArcs();
+}
+
+function onLabel(el,id){
+  // custom label — just visual; doesn't change type
+}
+
+function addRow(){
+  const usedTypes=state[mode].map(r=>r.type);
+  const all=Object.keys(PAL).filter(k=>k!=='sleep');
+  const type=all.find(t=>!usedTypes.includes(t))||'leisure';
+  uid++;
+  state[mode].push({id:'u'+uid,type,s:'',e:'',fixed:false});
+  renderRows();renderLegend();
+}
+
+function delRow(id){
+  state[mode]=state[mode].filter(r=>r.id!==id);
+  renderRows();drawArcs();renderLegend();
+}
+
+// ══════════════════════════════════════════════════
+// TYPE PICKER
+// ══════════════════════════════════════════════════
+let pickerTarget=null;
+function openPicker(rowId,swatchEl){
+  const pk=document.getElementById('picker');
+  pk.innerHTML='';
+  const row=state[mode].find(r=>r.id===rowId);
+  if(!row||row.fixed){pk.classList.remove('open');return;}
+  Object.entries(PAL).filter(([k])=>k!=='sleep').forEach(([key,p])=>{
+    const div=document.createElement('div');
+    div.className='pick-item';
+    div.innerHTML=`<div class="pick-dot" style="background:${p.color}"></div>${p.emoji} ${p.label}`;
+    div.onclick=()=>{
+      row.type=key;
+      // update swatch + label in DOM
+      const rowEl=document.querySelector(`.row[data-id="${rowId}"]`);
+      if(rowEl){
+        rowEl.querySelector('.swatch').style.background=p.color;
+        const lbl=rowEl.querySelector('.rlabel');
+        if(lbl&&!lbl.readOnly)lbl.value=p.label;
+      }
+      pk.classList.remove('open');
+      drawArcs();renderLegend();
+    };
+    pk.appendChild(div);
+  });
+  const rect=swatchEl.getBoundingClientRect();
+  pk.style.top=(rect.bottom+6)+'px';
+  pk.style.right=(window.innerWidth-rect.right-8)+'px';
+  pk.style.left='auto';
+  pk.classList.add('open');
+  pickerTarget=rowId;
+}
+document.addEventListener('click',()=>document.getElementById('picker').classList.remove('open'));
+
+// ══════════════════════════════════════════════════
+// LEGEND
+// ══════════════════════════════════════════════════
+function renderLegend(){
+  const c=document.getElementById(`leg-${mode}`);
+  c.innerHTML='';
+  const seen=new Set();
+  state[mode].forEach(row=>{
+    if(seen.has(row.type))return;seen.add(row.type);
+    const p=PAL[row.type]||PAL.leisure;
+    const d=document.createElement('div');
+    d.className='lpill';
+    d.innerHTML=`<div class="ldot" style="background:${p.color}"></div>${p.emoji} ${p.label}`;
+    c.appendChild(d);
+  });
+}
+
+// ══════════════════════════════════════════════════
+// TOOLTIP ON CLOCK
+// ══════════════════════════════════════════════════
+function setupTooltip(){
+  const svg=document.getElementById('clk');
+  const tip=document.getElementById('tip');
+  svg.addEventListener('mousemove',e=>{
+    const rect=svg.getBoundingClientRect();
+    const sc=300/rect.width;
+    const mx=(e.clientX-rect.left)*sc,my=(e.clientY-rect.top)*sc;
+    const dx=mx-CX,dy=my-CY,dist=Math.sqrt(dx*dx+dy*dy);
+    if(dist<ARC_IN||dist>ARC_OUT){tip.classList.remove('show');return;}
+    let ang=Math.atan2(dy,dx)*180/Math.PI+90;
+    if(ang<0)ang+=360;
+    const hour=Math.floor(ang/15)%24;
+    // find activity
+    let found=null;
+    for(const row of state[mode]){
+      const sh=parseT(row.s),eh=parseT(row.e);
+      if(sh===null||eh===null)continue;
+      let dur=eh-sh;if(dur<0)dur+=24;
+      const norm=(h)=>((h%24)+24)%24;
+      const s=norm(sh),en=norm(sh+dur);
+      const inR=s<=en?hour>=s&&hour<en:hour>=s||hour<en;
+      if(inR){found=row;break;}
+    }
+    const pal=found?PAL[found.type]:null;
+    tip.textContent=pal?`${pal.emoji} ${pal.label} — الساعة ${hour}:00`:`الساعة ${hour}:00`;
+    tip.style.left=(e.clientX+12)+'px';
+    tip.style.top=(e.clientY-34)+'px';
+    tip.classList.add('show');
+  });
+  svg.addEventListener('mouseleave',()=>tip.classList.remove('show'));
+}
+
+// ══════════════════════════════════════════════════
+// TAB SWITCH
+// ══════════════════════════════════════════════════
+function sw(m){
+  mode=m;
+  document.body.classList.toggle('rest',m==='rest');
+  document.getElementById('t-reg').classList.toggle('on',m==='regular');
+  document.getElementById('t-rst').classList.toggle('on',m==='rest');
+  document.getElementById('rows-regular').style.display=m==='regular'?'flex':'none';
+  document.getElementById('rows-rest').style.display=m==='rest'?'flex':'none';
+  document.getElementById('leg-regular').style.display=m==='regular'?'flex':'none';
+  document.getElementById('leg-rest').style.display=m==='rest'?'flex':'none';
+  document.getElementById('clk-lbl').textContent=m==='regular'?'اليوم المعتاد':'يوم الراحة';
+  document.getElementById('s-emoji').textContent=m==='regular'?'🌱':'🎉';
+  document.getElementById('cats-lbl').textContent=m==='regular'
+    ?'النوم – العمل – طلب علم – الرياضة – إطلاع في مجالك – العامل الإجتماعي – الترويح'
+    :'النوم – الترويح – الرياضة – العامل الاجتماعي';
+  renderRows();renderLegend();render();
+}
+
+// ══════════════════════════════════════════════════
+// INIT
+// ══════════════════════════════════════════════════
+renderRows();renderLegend();render();setupTooltip();
+// Refresh current-time dot every minute
+setInterval(drawBase,60000);
+</script>
+</body>
+</html>

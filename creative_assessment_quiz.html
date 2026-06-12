@@ -1,0 +1,454 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+.w{padding:1.5rem 0;direction:rtl;font-family:var(--font-sans)}
+.screen{display:none}.screen.active{display:block}
+.field-tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:1.5rem}
+.ftab{padding:7px 16px;border-radius:var(--border-radius-md);border:0.5px solid var(--color-border-secondary);background:var(--color-background-primary);color:var(--color-text-secondary);cursor:pointer;font-size:13px;transition:all .15s}
+.ftab.active{background:#534AB7;color:#EEEDFE;border-color:#534AB7}
+.ftab:hover:not(.active){background:var(--color-background-secondary)}
+.card{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:1.25rem}
+.progress-bar-bg{width:100%;height:4px;background:var(--color-background-secondary);border-radius:2px;margin-bottom:1.5rem}
+.progress-bar-fill{height:4px;background:#534AB7;border-radius:2px;transition:width .3s}
+.q-counter{font-size:12px;color:var(--color-text-secondary);margin-bottom:.5rem}
+.q-text{font-size:15px;font-weight:500;color:var(--color-text-primary);margin-bottom:.5rem;line-height:1.5}
+.q-hint{font-size:12px;color:var(--color-text-secondary);margin-bottom:1.25rem;font-style:italic}
+.q-type-badge{display:inline-flex;align-items:center;gap:4px;font-size:11px;padding:3px 10px;border-radius:20px;margin-bottom:.75rem}
+.badge-mcq{background:#EEEDFE;color:#3C3489}
+.badge-scale{background:#E1F5EE;color:#085041}
+.badge-scenario{background:#FAECE7;color:#712B13}
+.choices{display:flex;flex-direction:column;gap:8px;margin-bottom:1.25rem}
+.choice{padding:10px 14px;border:0.5px solid var(--color-border-secondary);border-radius:var(--border-radius-md);cursor:pointer;font-size:13px;color:var(--color-text-primary);transition:all .15s;text-align:right}
+.choice:hover{background:var(--color-background-secondary)}
+.choice.selected{border-color:#534AB7;background:#EEEDFE;color:#3C3489}
+.scale-row{display:flex;align-items:center;gap:10px;margin-bottom:1.25rem}
+.scale-labels{display:flex;justify-content:space-between;font-size:11px;color:var(--color-text-secondary);margin-top:4px}
+.scale-val{font-size:22px;font-weight:500;color:#534AB7;min-width:32px;text-align:center}
+input[type=range]{flex:1;accent-color:#534AB7}
+.nav-row{display:flex;justify-content:space-between;align-items:center;margin-top:1rem}
+.btn{padding:8px 20px;border-radius:var(--border-radius-md);border:0.5px solid var(--color-border-secondary);background:var(--color-background-primary);color:var(--color-text-primary);cursor:pointer;font-size:13px}
+.btn-primary{background:#534AB7;color:#EEEDFE;border-color:#534AB7}
+.btn:hover{background:var(--color-background-secondary)}
+.btn-primary:hover{background:#3C3489}
+.btn:disabled{opacity:.4;cursor:not-allowed}
+.result-header{background:#534AB7;border-radius:var(--border-radius-lg);padding:1.25rem;margin-bottom:1rem;color:#EEEDFE}
+.result-avatar{width:52px;height:52px;border-radius:50%;background:#7F77DD;display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:500;color:#EEEDFE;margin-bottom:.75rem;border:2px solid #AFA9EC}
+.result-name{font-size:17px;font-weight:500;color:#EEEDFE}
+.result-role{font-size:12px;color:#AFA9EC;margin-top:2px}
+.level-chip{display:inline-flex;align-items:center;gap:5px;margin-top:8px;background:#3C3489;padding:4px 12px;border-radius:20px;font-size:12px;color:#CECBF6}
+.stat-row{display:flex;align-items:center;gap:8px;margin-bottom:10px}
+.stat-lbl{font-size:12px;color:var(--color-text-secondary);width:110px;text-align:right;flex-shrink:0}
+.bar-bg{flex:1;height:7px;background:var(--color-background-secondary);border-radius:4px;overflow:hidden}
+.bar-fill{height:7px;border-radius:4px;transition:width .5s}
+.stat-num{font-size:12px;font-weight:500;min-width:30px;text-align:left;color:var(--color-text-primary)}
+.insight-row{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0}
+.ins-chip{font-size:11px;padding:3px 10px;border-radius:20px}
+.ins-strong{background:#EAF3DE;color:#3B6D11}
+.ins-weak{background:#FAECE7;color:#993C1D}
+.ins-ok{background:#EEEDFE;color:#3C3489}
+.section-title{font-size:13px;font-weight:500;color:var(--color-text-primary);margin:1rem 0 .6rem;display:flex;align-items:center;gap:6px}
+.radar-wrap{display:flex;justify-content:center;margin:8px 0}
+.score-big{text-align:center;padding:1rem;background:var(--color-background-secondary);border-radius:var(--border-radius-md);margin-bottom:.75rem}
+.score-num{font-size:38px;font-weight:500;color:#534AB7}
+.score-sub{font-size:12px;color:var(--color-text-secondary)}
+.edit-note{font-size:12px;color:var(--color-text-secondary);background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:10px 14px;display:flex;gap:8px;align-items:flex-start;margin-top:.75rem}
+.start-card{text-align:center;padding:2rem 1rem}
+.start-icon{font-size:36px;color:#534AB7;margin-bottom:1rem}
+.start-title{font-size:18px;font-weight:500;color:var(--color-text-primary);margin-bottom:.5rem}
+.start-sub{font-size:13px;color:var(--color-text-secondary);line-height:1.6;margin-bottom:1.5rem}
+.name-input{width:100%;margin-bottom:.75rem;font-size:14px;padding:8px 12px;border-radius:var(--border-radius-md);border:0.5px solid var(--color-border-secondary);background:var(--color-background-primary);color:var(--color-text-primary);text-align:right}
+</style>
+
+<div class="w">
+<h2 class="sr-only">استبيان تقييم المبدع — يملؤه العضو ليكتشف مستواه</h2>
+
+<div class="field-tabs" id="fieldTabs">
+  <button class="ftab active" onclick="selectField('animation',this)"><i class="ti ti-player-play" aria-hidden="true"></i> الإنميشن</button>
+  <button class="ftab" onclick="selectField('writing',this)"><i class="ti ti-pencil" aria-hidden="true"></i> الكتابة</button>
+  <button class="ftab" onclick="selectField('design',this)"><i class="ti ti-palette" aria-hidden="true"></i> التصميم</button>
+  <button class="ftab" onclick="selectField('voice',this)"><i class="ti ti-microphone" aria-hidden="true"></i> الأداء الصوتي</button>
+  <button class="ftab" onclick="selectField('drawing',this)"><i class="ti ti-brush" aria-hidden="true"></i> الرسم</button>
+</div>
+
+<div id="screenStart" class="screen active card">
+  <div class="start-card">
+    <div class="start-icon"><i class="ti ti-clipboard-check" aria-hidden="true"></i></div>
+    <div class="start-title" id="startTitle">اختبار الإنميشن</div>
+    <div class="start-sub" id="startSub">سيساعدك هذا الاستبيان على اكتشاف مواطن قوتك وفرص تطورك بصدق — الإجابات لا صح ولا غلط، فقط انعكاس حقيقي لواقعك الحالي.</div>
+    <input class="name-input" id="nameInput" type="text" placeholder="اكتب اسمك..." />
+    <button class="btn btn-primary" style="width:100%" onclick="startQuiz()">ابدأ الاختبار <i class="ti ti-arrow-left" aria-hidden="true"></i></button>
+  </div>
+</div>
+
+<div id="screenQuiz" class="screen card">
+  <div class="progress-bar-bg"><div class="progress-bar-fill" id="progressFill" style="width:0%"></div></div>
+  <div class="q-counter" id="qCounter">السؤال 1 من 10</div>
+  <div class="q-type-badge" id="qTypeBadge"></div>
+  <div class="q-text" id="qText"></div>
+  <div class="q-hint" id="qHint"></div>
+  <div id="qBody"></div>
+  <div class="nav-row">
+    <button class="btn" id="btnPrev" onclick="prevQ()" disabled>السابق</button>
+    <button class="btn btn-primary" id="btnNext" onclick="nextQ()">التالي</button>
+  </div>
+</div>
+
+<div id="screenResult" class="screen">
+  <div class="result-header">
+    <div class="result-avatar" id="resAvatar">؟</div>
+    <div class="result-name" id="resName">—</div>
+    <div class="result-role" id="resRole">—</div>
+    <div class="level-chip" id="resLevel"><i class="ti ti-star" aria-hidden="true"></i> —</div>
+  </div>
+
+  <div class="card" style="margin-bottom:12px">
+    <div class="score-big">
+      <div class="score-num" id="resScore">—</div>
+      <div class="score-sub">الدرجة الكلية من 100</div>
+    </div>
+    <div class="section-title"><i class="ti ti-chart-bar" aria-hidden="true" style="color:#534AB7"></i> تفاصيل المهارات</div>
+    <div id="resStats"></div>
+    <div class="section-title"><i class="ti ti-bulb" aria-hidden="true" style="color:#534AB7"></i> ما كشفه الاختبار</div>
+    <div class="insight-row" id="resInsights"></div>
+  </div>
+
+  <div class="card" style="margin-bottom:12px">
+    <div class="section-title"><i class="ti ti-radar" aria-hidden="true" style="color:#534AB7"></i> خريطة المهارات</div>
+    <div class="radar-wrap"><svg id="radarSvg" viewBox="0 0 200 200" width="190" height="190"></svg></div>
+  </div>
+
+  <div class="edit-note">
+    <i class="ti ti-info-circle" aria-hidden="true" style="color:#534AB7;font-size:16px;flex-shrink:0;margin-top:2px"></i>
+    <span>هذه النتيجة بناءً على إجاباتك. القائد يستطيع مراجعتها وتعديل الدرجات بناءً على ملاحظاته المباشرة.</span>
+  </div>
+  <button class="btn btn-primary" style="width:100%;margin-top:10px" onclick="sendPrompt('بناءً على نتيجة الاختبار: ' + document.getElementById(\'resScore\').textContent + ' من 100 في مجال ' + currentField + '، اقترح لي خطة تطوير شخصية مفصّلة لمدة 30 يوماً')">اقترح لي خطة تطوير 30 يوماً ↗</button>
+  <button class="btn" style="width:100%;margin-top:8px" onclick="resetQuiz()"><i class="ti ti-refresh" aria-hidden="true"></i> أعد الاختبار</button>
+</div>
+</div>
+
+<script>
+const FIELDS = {
+  animation:{
+    label:'الإنميشن', role:'Animator — مصمم حركة',
+    dims:['التوقيت والإيقاع','التعبير والشخصية','إتقان البرامج','مبادئ الإنميشن','السرعة والإنتاج'],
+    qs:[
+      {type:'mcq',dim:3,text:'عندما تشاهد مقطع إنميشن يعجبك، ما أول شيء تلاحظه؟',hint:'لا توجد إجابة مثالية — فقط انتبه لما يجذب انتباهك تلقائياً',
+       choices:['حركة العيون والتعبير العاطفي للشخصية','توقيت الحركة وإحساس الوزن','الإضاءة والألوان','الموسيقى والمؤثرات الصوتية'],
+       scores:[2,3,1,0]},
+      {type:'scale',dim:0,text:'كم مرة تعود لتراجع تايمنج مشهد بعد ما تعتقد أنه انتهى؟',hint:'1 = نادراً جداً، 5 = دائماً وبشكل مكثف',min:'نادراً',max:'دائماً'},
+      {type:'scenario',dim:1,text:'طُلب منك تحريك شخصية فرحة جداً — ماذا تفعل أولاً؟',hint:'',
+       choices:['أبدأ مباشرة بالحركة على البرنامج','أرسم poses سريعة على ورق لأفهم الشخصية','أبحث عن مرجع بشري أو مقاطع مشابهة','أبدأ بالوجه والعيون لأن الفرح يظهر هناك أولاً'],
+       scores:[0,2,1,3]},
+      {type:'scale',dim:2,text:'كيف تقيّم إتقانك للبرنامج الرئيسي الذي تعمل عليه؟',hint:'1 = أعرف الأساسيات فقط، 5 = أعرف shortcuts وأدوات متقدمة',min:'مبتدئ',max:'متقدم'},
+      {type:'mcq',dim:3,text:'ما مبدأ الإنميشن الذي تفهمه أكثر من غيره؟',hint:'',
+       choices:['Squash & Stretch — الضغط والتمدد','Anticipation — التوقع قبل الحركة','Follow Through — استكمال الحركة بعد توقفها','Slow In / Slow Out — التسارع والتباطؤ'],
+       scores:[1,2,2,3]},
+      {type:'scenario',dim:0,text:'أنت تعمل على مشهد وتلاحظ أن الحركة تبدو "آلية" — ما تشخيصك؟',hint:'',
+       choices:['المشكلة في الألوان والإضاءة','كل الحركات بنفس السرعة — يحتاج Ease in/out','الشخصية لا تعبّر بعيونها','البرنامج فيه مشكلة'],
+       scores:[0,3,2,0]},
+      {type:'scale',dim:4,text:'في المتوسط، كم ثانية من الإنميشن تنتج في يوم عمل كامل؟',hint:'1 = أقل من ثانية، 5 = أكثر من 5 ثوانٍ جاهزة',min:'< ثانية',max:'> 5 ثوانٍ'},
+      {type:'mcq',dim:1,text:'شخصية تقول "لا أريد" — كيف تجعل الجسم كله يعبّر عن ذلك؟',hint:'',
+       choices:['أحرك الرأس فقط بشكل جانبي','أجعل الكتفين يرتفعان والرأس ينحني قليلاً للأمام','أضيف تعبيراً على الوجه فقط','أكتفي بتحريك اليدين'],
+       scores:[1,3,2,0]},
+      {type:'scale',dim:2,text:'هل تستخدم Graph Editor في برنامجك لضبط الحركة؟',hint:'1 = لا أعرفه، 5 = أتحكم فيه بدقة عالية',min:'لا أعرفه',max:'أتقنه'},
+      {type:'scenario',dim:4,text:'طُلب منك تسليم 30 ثانية إنميشن خلال يومين — ماذا تفعل؟',hint:'',
+       choices:['أرفض لأنه مستحيل','أقبل وأعمل بلا نوم','أبدأ بـ animatic سريع ثم أوزع وقتي على المشاهد الأهم','أطلب مساعدة بدون تخطيط'],
+       scores:[0,1,3,1]}
+    ]
+  },
+  writing:{
+    label:'الكتابة', role:'Content Writer — كاتب محتوى',
+    dims:['الأسلوب والصياغة','البنية السردية','الإبداع والأصالة','دقة المعلومات','الالتزام بالتعليمات'],
+    qs:[
+      {type:'mcq',dim:2,text:'قبل أن تبدأ الكتابة، ما أول شيء تفعله عادةً؟',hint:'',
+       choices:['أفتح المستند وأبدأ مباشرة','أكتب أفكاراً عشوائية على ورقة أولاً','أحدد الفكرة الرئيسية والرسالة التي أريد إيصالها','أبحث عن مقالات مشابهة للاستلهام'],
+       scores:[0,2,3,1]},
+      {type:'scale',dim:0,text:'كيف تقيّم قدرتك على تكييف أسلوبك حسب الجمهور المستهدف؟',hint:'1 = أكتب بنفس الأسلوب دائماً، 5 = أغيّر نبرتي بسهولة تام',min:'أسلوب واحد',max:'مرن جداً'},
+      {type:'scenario',dim:1,text:'كتبت مقالاً وعند مراجعته شعرت أنه "ممل" رغم أن المعلومات صحيحة — ما المشكلة على الأرجح؟',hint:'',
+       choices:['المعلومات غير كافية','الفقرات كلها بنفس الطول وبلا انتقالات','الخط غير واضح','العنوان ضعيف فقط'],
+       scores:[0,3,0,1]},
+      {type:'scale',dim:3,text:'عندما تكتب معلومة، هل تتحقق من مصدرها؟',hint:'1 = نادراً، 5 = دائماً وأذكر المصدر',min:'نادراً',max:'دائماً'},
+      {type:'mcq',dim:2,text:'ما الذي يميّز نصاً إبداعياً حقيقياً عن نص عادي؟',hint:'',
+       choices:['الكلمات الكبيرة والمعقدة','زاوية نظر مختلفة أو تشبيه غير متوقع','الإطالة والتفصيل','كثرة الأمثلة'],
+       scores:[0,3,1,1]},
+      {type:'scenario',dim:4,text:'أعطاك القائد brief محدداً جداً لكنك تعتقد أن فكرة مختلفة أفضل — ماذا تفعل؟',hint:'',
+       choices:['أكتب ما في رأسي وأقنعه لاحقاً','أنفّذ الـ brief بالضبط دون تعليق','أنفّذ الـ brief ثم أرفق نسخة بديلة بملاحظة قصيرة','أرفض وأشرح السبب فوراً'],
+       scores:[1,2,3,0]},
+      {type:'scale',dim:1,text:'هل تكتب outline أو هيكلاً للمحتوى قبل الكتابة الكاملة؟',hint:'1 = لا أفعل ذلك أبداً، 5 = دائماً وبتفصيل',min:'لا أفعله',max:'دائماً'},
+      {type:'mcq',dim:0,text:'الجملة التالية — أيها أقوى أسلوباً؟',hint:'',
+       choices:['"المنتج جيد جداً ومفيد للناس"','"يحوّل هذا المنتج روتينك اليومي إلى تجربة تستحق الانتظار"','"المنتج له مميزات كثيرة وجد مفيدة"','"كل الناس يحبون هذا المنتج"'],
+       scores:[0,3,0,0]},
+      {type:'scale',dim:2,text:'كم مرة تقرأ أعمالاً إبداعية خارج مجال عملك؟',hint:'1 = نادراً جداً، 5 = أسبوعياً وبشكل منتظم',min:'نادراً',max:'منتظم'},
+      {type:'scenario',dim:4,text:'سلّمت مقالاً وجاء feedback بأن الطول ضعف المطلوب — ماذا يعني ذلك عنك؟',hint:'',
+       choices:['القائد مخطئ في تقديره','لم أقرأ التعليمات جيداً','الموضوع لا يحتاج أكثر','المقال كان يفيض بالأفكار'],
+       scores:[0,3,1,0]}
+    ]
+  },
+  design:{
+    label:'التصميم', role:'Graphic Designer — مصمم جرافيك',
+    dims:['التوازن البصري','الألوان','التايبوغرافي','إتقان الأدوات','الإبداع'],
+    qs:[
+      {type:'mcq',dim:0,text:'نظرت إلى تصميم وشعرت أنه "ثقيل" من جهة — ما أول شيء تفحصه؟',hint:'',
+       choices:['الألوان المستخدمة','توزيع العناصر والـ white space','حجم الخط','الصور المستخدمة'],
+       scores:[1,3,1,0]},
+      {type:'scale',dim:1,text:'هل تبني palette الألوان من البداية أم تستخدم ألوان العميل مباشرة؟',hint:'1 = أستخدم ما يعطيني العميل فقط، 5 = أبني نظام ألوان كامل دائماً',min:'ألوان العميل فقط',max:'نظام كامل'},
+      {type:'scenario',dim:2,text:'تصميم فيه خطان مختلفان — متى يكون ذلك صحيحاً؟',hint:'',
+       choices:['دائماً خطان يعطيان تنوعاً جميلاً','عندما يخدمان وظيفتين مختلفتين (عنوان وجسم)','أفضّل خطاً واحداً دائماً','يعتمد على لون الخلفية'],
+       scores:[1,3,2,0]},
+      {type:'scale',dim:3,text:'كيف تقيّم سرعتك في برنامجك الرئيسي مقارنة بالوقت المطلوب؟',hint:'1 = أستغرق وقتاً طويلاً في المهام البسيطة، 5 = سريع جداً بـ shortcuts',min:'بطيء',max:'سريع جداً'},
+      {type:'mcq',dim:1,text:'العميل أعطاك لونين متعاكسين في ألوان براندنج — ماذا تفعل؟',hint:'',
+       choices:['أستخدمهما بالتساوي في كل مكان','أجعل أحدهما dominant والآخر accent','أتجاهل أحدهما','أطلب تغيير الألوان'],
+       scores:[0,3,1,0]},
+      {type:'scenario',dim:4,text:'طُلب منك تصميم "إبداعي وجريء" — ما أول خطوة؟',hint:'',
+       choices:['أبدأ في Illustrator فوراً','أبحث في Pinterest وأجمع مراجع','أسأل عن التعريف الدقيق لـ "إبداعي وجريء" عند هذا العميل','أجرب ألواناً زاهية وأرى ما يعجب'],
+       scores:[0,1,3,2]},
+      {type:'scale',dim:2,text:'هل تهتم بـ leading وـ tracking (المسافات بين الأسطر والحروف)؟',hint:'1 = لا أتعامل معها، 5 = أضبطها بدقة في كل تصميم',min:'لا أتعامل معها',max:'أضبطها دائماً'},
+      {type:'mcq',dim:0,text:'ما مفهوم الـ visual hierarchy؟',hint:'',
+       choices:['ترتيب الألوان من الفاتح للغامق','توجيه عين المشاهد لأهم المعلومات أولاً','وضع العنوان دائماً في الأعلى','استخدام الخطوط الرأسية في التصميم'],
+       scores:[0,3,1,0]},
+      {type:'scale',dim:4,text:'كم مرة تخرج من "الطريق المعتاد" وتجرب أسلوباً جديداً في تصاميمك؟',hint:'1 = نادراً، أفضّل ما أعرفه، 5 = باستمرار وأحب التجريب',min:'نادراً',max:'باستمرار'},
+      {type:'scenario',dim:3,text:'احتجت لتأثير معين ولا تعرف كيف تصنعه — ماذا تفعل؟',hint:'',
+       choices:['أتخلى عن الفكرة','أبحث في YouTube وأتعلمه','أطلب من زميل يعرف','أستبدله بتأثير أعرفه وإن كان أقل'],
+       scores:[0,3,2,1]}
+    ]
+  },
+  voice:{
+    label:'الأداء الصوتي', role:'Voice Actor — مؤدّي صوتي',
+    dims:['وضوح النطق','التعبير العاطفي','التنوع الصوتي','الالتزام بالنص','جودة التسجيل'],
+    qs:[
+      {type:'mcq',dim:1,text:'قبل أن تؤدّي مشهداً عاطفياً حزيناً — كيف تستعد؟',hint:'',
+       choices:['أقرأ النص بشكل عادي وأبدأ','أجلس لحظة وأستحضر إحساساً حقيقياً من تجربتي','أقلّد مؤدياً آخر أعجبني','أسرع ليكتمل التسجيل بأقل وقت'],
+       scores:[0,3,1,0]},
+      {type:'scale',dim:0,text:'هل تمارس تمارين النطق والإحماء قبل التسجيل؟',hint:'1 = لا أعرف ما هي، 5 = لا أبدأ بدونها',min:'لا أعرفها',max:'دائماً'},
+      {type:'scenario',dim:2,text:'طُلب منك صوت شخصية شريرة كوميدية — ما توصيفك لها قبل التسجيل؟',hint:'',
+       choices:['صوت عميق وخوف','صوت يجمع بين الشر والسخرية الخفيفة — ذكاء مع لمسة طفولية','صوت مرتفع وصراخ','صوت هادئ جداً'],
+       scores:[1,3,0,1]},
+      {type:'scale',dim:3,text:'إذا أخطأت بكلمة في منتصف التسجيل — هل تعود للبداية أم تكمل؟',hint:'1 = أعود دائماً للبداية، 5 = أكمل وأسجل الجزء فقط بشكل منفصل',min:'البداية دائماً',max:'أكمل بذكاء'},
+      {type:'mcq',dim:0,text:'ما أكثر مشكلة نطق شائعة عند المؤدين العرب؟',hint:'',
+       choices:['الكلام السريع جداً','إدغام الحروف المتشابهة أو ابتلاع نهايات الكلمات','استخدام الفصحى','ضعف الصوت'],
+       scores:[1,3,0,0]},
+      {type:'scale',dim:1,text:'هل تستطيع البكاء أو الضحك بشكل حقيقي أمام الميكروفون عند الحاجة؟',hint:'1 = أجد صعوبة كبيرة، 5 = يخرج طبيعياً عندما أحتاجه',min:'صعب جداً',max:'طبيعي'},
+      {type:'scenario',dim:4,text:'صوتك الطبيعي لا يناسب الشخصية المطلوبة — ماذا تفعل؟',hint:'',
+       choices:['أقول للعميل إن هذا ليس مجالي','أجرب تعديل pitch وطريقة التنفس للوصول للصوت المطلوب','أسجل بصوتي الطبيعي وأترك الـ post-production','أعيد التسجيل عشرات المرات حتى يقبله'],
+       scores:[0,3,1,2]},
+      {type:'scale',dim:2,text:'كم نطاق صوتي مختلف تستطيع تقديمه بشكل مقنع؟',hint:'1 = صوتي فقط، 5 = أكثر من 5 أصوات مختلفة واضحة',min:'صوتي فقط',max:'5 أصوات+'},
+      {type:'mcq',dim:3,text:'المخرج طلب "أبطأ قليلاً" ثلاث مرات — ما الذي يجب أن تراجعه في نفسك؟',hint:'',
+       choices:['المخرج مخطئ في تقديره','ربما لدي عادة التسريع تحت الضغط ويجب أن أعي ذلك','الميكروفون يشوّه الصوت','النص طويل جداً'],
+       scores:[0,3,0,0]},
+      {type:'scale',dim:4,text:'هل بيئة تسجيلك تقلل الضوضاء بشكل كافٍ؟',hint:'1 = أسجل في أي مكان، 5 = بيئة معزولة صوتياً',min:'أي مكان',max:'معزولة'}
+    ]
+  },
+  drawing:{
+    label:'الرسم', role:'Illustrator — رسام ومصور',
+    dims:['التشريح والتناسب','الخط والتحكم','الإضاءة والظل','الأسلوب الخاص','السرعة والإنتاج'],
+    qs:[
+      {type:'mcq',dim:0,text:'رسمت شخصية وبدت يدها "غريبة" — ما أول شيء تفعله؟',hint:'',
+       choices:['أمحوها وأرسمها أسرع','أنظر ليدي الحقيقية أو أبحث عن مرجع','أصغّر حجم اليد','أضيف ظلالاً أكثر لإخفاء المشكلة'],
+       scores:[0,3,1,0]},
+      {type:'scale',dim:1,text:'هل خطوطك ثابتة وواضحة أم تحتاج لتنظيف كثير بعد الرسم؟',hint:'1 = خطوطي متقطعة وتحتاج تنظيفاً دائماً، 5 = ثابتة من أول مرة',min:'متقطعة',max:'ثابتة'},
+      {type:'scenario',dim:2,text:'تريد رسم كرة تبدو ثلاثية الأبعاد — ماذا تحتاج؟',hint:'',
+       choices:['تدرج لوني من الغامق للفاتح مع highlight','رسم خطوط داخلية','تلوين بلون واحد داكن','رسم خط وسطي'],
+       scores:[3,0,1,0]},
+      {type:'scale',dim:0,text:'كيف تقيّم فهمك للتشريح البشري (عظام، عضلات، مفاصل)؟',hint:'1 = لا أعرف الأساسيات، 5 = أفهمه بعمق ويظهر في رسوماتي',min:'لا أعرفه',max:'أفهمه بعمق'},
+      {type:'mcq',dim:3,text:'ما تعريف "الأسلوب الخاص" بالرسم؟',hint:'',
+       choices:['رسم بطريقة غريبة ومختلفة عن الجميع','مجموعة قرارات بصرية متكررة تجعل أعمالك قابلة للتعرف عليها فوراً','تقليد أسلوب رسام مشهور','استخدام ألوان غير تقليدية'],
+       scores:[1,3,0,0]},
+      {type:'scenario',dim:1,text:'تريد رسم خط منحنٍ طويل بشكل سلس — ما أفضل تقنية؟',hint:'',
+       choices:['أرسمه ببطء شديد','أرسمه بحركة واحدة من الكتف لا من المعصم','أرسمه على مراحل متعددة قصيرة','أكبّر الـ canvas وأرسمه أصغر'],
+       scores:[0,3,1,1]},
+      {type:'scale',dim:2,text:'هل تفهم مصدر الضوء وكيف يؤثر على الظلال في رسوماتك؟',hint:'1 = أضع الظلال عشوائياً، 5 = أحدد المصدر أولاً وأبني عليه',min:'عشوائياً',max:'بدقة'},
+      {type:'mcq',dim:4,text:'كم وقت تحتاج لإنجاز رسم شخصية كاملة بجودة جيدة؟',hint:'',
+       choices:['أقل من ساعة','ساعة إلى ثلاث','أربع ساعات أو أكثر','لا أعرف — كل مرة مختلفة كثيراً'],
+       scores:[3,2,1,0]},
+      {type:'scale',dim:3,text:'هل يستطيع شخص يرى رسمتك أن يعرف أنك أنت الرسام بدون اسمك؟',hint:'1 = لا — أسلوبي غير محدد، 5 = نعم — أسلوبي مميز جداً',min:'غير واضح',max:'مميز جداً'},
+      {type:'scenario',dim:4,text:'عميل يريد 10 شخصيات في يومين — ما نهجك؟',hint:'',
+       choices:['أرفض فوراً','أقبل وأرسم كل شخصية من الصفر','أبني نظام شخصية واحدة (جسم، ملابس، وجه) وأطبّق عليها التنويعات','أرسم بشكل سريع بلا جودة'],
+       scores:[0,0,3,0]}
+    ]
+  }
+};
+
+let currentField='animation', curQ=0, answers={}, userName='';
+
+function selectField(f, btn){
+  currentField=f; curQ=0; answers={};
+  document.querySelectorAll('.ftab').forEach(t=>t.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('startTitle').textContent='اختبار '+FIELDS[f].label;
+  showScreen('screenStart');
+}
+
+function startQuiz(){
+  userName=document.getElementById('nameInput').value.trim()||'المبدع';
+  showScreen('screenQuiz'); renderQ();
+}
+
+function showScreen(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+
+function renderQ(){
+  const fd=FIELDS[currentField], q=fd.qs[curQ], total=fd.qs.length;
+  document.getElementById('progressFill').style.width=Math.round((curQ/total)*100)+'%';
+  document.getElementById('qCounter').textContent='السؤال '+(curQ+1)+' من '+total;
+  const typeMap={mcq:['اختيار من متعدد','badge-mcq'],scale:['مقياس تقييم','badge-scale'],scenario:['سيناريو عملي','badge-scenario']};
+  const [tlbl,tcls]=typeMap[q.type];
+  document.getElementById('qTypeBadge').innerHTML=`<span class="q-type-badge ${tcls}"><i class="ti ti-${q.type==='mcq'?'list-check':q.type==='scale'?'adjustments-horizontal':'sitemap'}" aria-hidden="true"></i> ${tlbl}</span>`;
+  document.getElementById('qText').textContent=q.text;
+  document.getElementById('qHint').textContent=q.hint||'';
+  document.getElementById('btnPrev').disabled=curQ===0;
+  document.getElementById('btnNext').textContent=curQ===total-1?'عرض النتيجة':'التالي';
+
+  const body=document.getElementById('qBody');
+  body.innerHTML='';
+  if(q.type==='mcq'||q.type==='scenario'){
+    let html='<div class="choices">';
+    q.choices.forEach((c,i)=>{
+      const sel=(answers[curQ]===i)?'selected':'';
+      html+=`<div class="choice ${sel}" onclick="selectChoice(${i})">${c}</div>`;
+    });
+    html+='</div>'; body.innerHTML=html;
+  } else {
+    const val=answers[curQ]??3;
+    body.innerHTML=`
+      <div class="scale-row">
+        <div class="scale-val" id="scaleVal">${val}</div>
+        <input type="range" min="1" max="5" step="1" value="${val}" oninput="updateScale(this.value)">
+      </div>
+      <div class="scale-labels"><span>${q.min}</span><span>${q.max}</span></div>`;
+    if(answers[curQ]===undefined) answers[curQ]=3;
+  }
+}
+
+function selectChoice(i){
+  answers[curQ]=i;
+  document.querySelectorAll('.choice').forEach((c,idx)=>{
+    c.classList.toggle('selected',idx===i);
+  });
+}
+
+function updateScale(v){
+  answers[curQ]=parseInt(v);
+  document.getElementById('scaleVal').textContent=v;
+}
+
+function nextQ(){
+  const fd=FIELDS[currentField], q=fd.qs[curQ];
+  if(q.type!=='scale' && answers[curQ]===undefined) return;
+  if(q.type==='scale' && answers[curQ]===undefined) answers[curQ]=3;
+  if(curQ<fd.qs.length-1){curQ++; renderQ();}
+  else showResult();
+}
+
+function prevQ(){
+  if(curQ>0){curQ--; renderQ();}
+}
+
+function showResult(){
+  const fd=FIELDS[currentField];
+  const dimScores=fd.dims.map(()=>({total:0,count:0}));
+  fd.qs.forEach((q,qi)=>{
+    const ans=answers[qi];
+    if(ans===undefined) return;
+    let raw=0;
+    if(q.type==='scale') raw=((ans-1)/4)*100;
+    else raw=(q.scores[ans]/3)*100;
+    dimScores[q.dim].total+=raw;
+    dimScores[q.dim].count++;
+  });
+  const finals=dimScores.map(d=>d.count?Math.round(d.total/d.count):50);
+  const overall=Math.round(finals.reduce((a,b)=>a+b,0)/finals.length);
+
+  function lvl(s){
+    if(s>=85) return{text:'محترف',bg:'#EAF3DE',col:'#3B6D11'};
+    if(s>=70) return{text:'متقدم',bg:'#E6F1FB',col:'#185FA5'};
+    if(s>=55) return{text:'متوسط',bg:'#EEEDFE',col:'#534AB7'};
+    return{text:'مبتدئ',bg:'#FAECE7',col:'#993C1D'};
+  }
+
+  const l=lvl(overall);
+  const init=userName.trim().split(' ').map(w=>w[0]||'').join('').slice(0,2)||'م';
+  document.getElementById('resAvatar').textContent=init;
+  document.getElementById('resName').textContent=userName;
+  document.getElementById('resRole').textContent=fd.role;
+  document.getElementById('resLevel').innerHTML=`<i class="ti ti-star" aria-hidden="true"></i> ${l.text}`;
+  document.getElementById('resScore').textContent=overall;
+
+  function barColor(v){
+    if(v>=80) return '#639922';
+    if(v>=60) return '#534AB7';
+    return '#D85A30';
+  }
+
+  let statsHtml='';
+  fd.dims.forEach((d,i)=>{
+    statsHtml+=`<div class="stat-row">
+      <div class="stat-lbl">${d}</div>
+      <div class="bar-bg"><div class="bar-fill" style="width:${finals[i]}%;background:${barColor(finals[i])}"></div></div>
+      <div class="stat-num">${finals[i]}</div>
+    </div>`;
+  });
+  document.getElementById('resStats').innerHTML=statsHtml;
+
+  let insights='';
+  fd.dims.forEach((d,i)=>{
+    if(finals[i]>=75) insights+=`<span class="ins-chip ins-strong"><i class="ti ti-arrow-up" style="font-size:10px"></i> ${d}</span>`;
+    else if(finals[i]<=50) insights+=`<span class="ins-chip ins-weak"><i class="ti ti-arrow-down" style="font-size:10px"></i> ${d}</span>`;
+    else insights+=`<span class="ins-chip ins-ok">${d}</span>`;
+  });
+  document.getElementById('resInsights').innerHTML=insights;
+
+  drawRadar(finals, fd.dims);
+  showScreen('screenResult');
+}
+
+function drawRadar(vals, dims){
+  const n=dims.length, cx=100, cy=100, r=68;
+  const svg=document.getElementById('radarSvg');
+  svg.innerHTML='';
+  function pt(i,rad){
+    const a=(Math.PI*2*i/n)-Math.PI/2;
+    return{x:cx+rad*Math.cos(a), y:cy+rad*Math.sin(a)};
+  }
+  [.25,.5,.75,1].forEach(f=>{
+    let d='';
+    for(let i=0;i<n;i++){const p=pt(i,r*f); d+=(i?'L':'M')+p.x.toFixed(1)+','+p.y.toFixed(1);}
+    const el=document.createElementNS('http://www.w3.org/2000/svg','path');
+    el.setAttribute('d',d+'Z'); el.setAttribute('fill','none');
+    el.setAttribute('stroke','var(--color-border-tertiary)'); el.setAttribute('stroke-width','0.5');
+    svg.appendChild(el);
+  });
+  for(let i=0;i<n;i++){
+    const p=pt(i,r);
+    const ln=document.createElementNS('http://www.w3.org/2000/svg','line');
+    ln.setAttribute('x1',cx);ln.setAttribute('y1',cy);ln.setAttribute('x2',p.x);ln.setAttribute('y2',p.y);
+    ln.setAttribute('stroke','var(--color-border-tertiary)');ln.setAttribute('stroke-width','0.5');
+    svg.appendChild(ln);
+  }
+  let dp='';
+  for(let i=0;i<n;i++){
+    const f=vals[i]/100; const p=pt(i,r*f);
+    dp+=(i?'L':'M')+p.x.toFixed(1)+','+p.y.toFixed(1);
+  }
+  const dEl=document.createElementNS('http://www.w3.org/2000/svg','path');
+  dEl.setAttribute('d',dp+'Z');dEl.setAttribute('fill','#534AB7');dEl.setAttribute('fill-opacity','0.2');
+  dEl.setAttribute('stroke','#534AB7');dEl.setAttribute('stroke-width','1.5');
+  svg.appendChild(dEl);
+  for(let i=0;i<n;i++){
+    const f=vals[i]/100; const p=pt(i,r*f);
+    const dot=document.createElementNS('http://www.w3.org/2000/svg','circle');
+    dot.setAttribute('cx',p.x);dot.setAttribute('cy',p.y);dot.setAttribute('r','4');
+    dot.setAttribute('fill','#534AB7');svg.appendChild(dot);
+    const lp=pt(i,r+17);
+    const lbl=document.createElementNS('http://www.w3.org/2000/svg','text');
+    lbl.setAttribute('x',lp.x);lbl.setAttribute('y',lp.y);
+    lbl.setAttribute('font-size','8');lbl.setAttribute('text-anchor','middle');
+    lbl.setAttribute('dominant-baseline','middle');lbl.setAttribute('fill','var(--color-text-secondary)');
+    lbl.textContent=dims[i].split(' ')[0];
+    svg.appendChild(lbl);
+  }
+}
+
+function resetQuiz(){curQ=0;answers={};document.getElementById('nameInput').value='';showScreen('screenStart');}
+</script>

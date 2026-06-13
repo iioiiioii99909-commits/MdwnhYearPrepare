@@ -3598,7 +3598,7 @@ function submitPoisonQuiz(silent) {
     sfx('success');
     resultDiv.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
-  scheduleSave();
+  if (!silent) saveProgress();
 }
 
 function goToLectureVideo() {
@@ -3669,7 +3669,7 @@ function submitCompQuiz(silent) {
     sfx('success');
     resultDiv.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
-  scheduleSave();
+  if (!silent) saveProgress();
 }
 
 // ============================================================
@@ -3983,7 +3983,7 @@ function showAllResults(silent) {
     sfx('success');
     section.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
-  scheduleSave();
+  if (!silent) saveProgress();
 }
 
 function renderPlayerCard(sid, grid) {
@@ -4250,7 +4250,7 @@ function generateRoutine(silent) {
   if (!silent) {
     document.getElementById('routine-result').scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
-  scheduleSave();
+  if (!silent) saveProgress();
 }
 
 // ============================================================
@@ -4768,9 +4768,17 @@ function pushMemberResult(snap, retries) {
     return;
   }
   try {
-    const summary = buildMemberSummary(snap);
+    // round-trip through JSON to strip any `undefined`/non-serializable values —
+    // Firebase's update() throws synchronously (aborting the whole write) if it
+    // finds `undefined` anywhere in the object tree
+    const summary = JSON.parse(JSON.stringify(buildMemberSummary(snap)));
     const id = encodeURIComponent(snap.creatorName);
-    window.mdwnahPushResult(id, summary).catch(e => console.error('mdwnahPushResult failed', e));
+    window.mdwnahPushResult(id, summary)
+      .then(() => { try { localStorage.setItem(memberStorageKey(snap.creatorName) + ':syncError', ''); } catch (e) {} })
+      .catch(e => {
+        console.error('mdwnahPushResult failed', e);
+        try { localStorage.setItem(memberStorageKey(snap.creatorName) + ':syncError', String(e && e.message || e)); } catch (e2) {}
+      });
   } catch (e) { console.error('pushMemberResult failed', e); }
 }
 
@@ -4921,6 +4929,12 @@ window.addEventListener('DOMContentLoaded', () => {
   document.addEventListener('input', scheduleSave);
   document.addEventListener('click', scheduleSave);
   window.addEventListener('beforeunload', saveProgress);
+  // mobile browsers often skip beforeunload when the tab is closed/backgrounded —
+  // pagehide + visibilitychange catch those cases so the final state still syncs
+  window.addEventListener('pagehide', saveProgress);
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'hidden') saveProgress();
+  });
 });
 
 // ============================================================
@@ -5485,6 +5499,7 @@ async function rt_saveRoutine(){
   if(valid.length === 0){ rt_toast('أضف نشاطاً واحداً بأوقات صحيحة على الأقل ✋','warn'); return; }
   progress.routineDone = true;
   updateProgress();
+  saveProgress();
   document.getElementById('rt-saved-msg').style.display = 'block';
   document.getElementById('rt-save-actions').style.display = 'flex';
   sfx('success');
@@ -5663,6 +5678,7 @@ function generateAnnualPlan(){
 
   progress.planningDone=true;
   updateProgress();
+  saveProgress();
   sfx('success');
 }
 

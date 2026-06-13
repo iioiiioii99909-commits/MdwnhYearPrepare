@@ -4551,6 +4551,10 @@ function selectMember(member) {
   loadProgress();
   updateProgress();
   showPage('page-home');
+
+  // register the member immediately so they appear in the leader's list
+  // even if they don't interact further
+  saveProgress();
 }
 
 // ============================================================
@@ -4742,12 +4746,17 @@ function buildMemberSummary(snap) {
   };
 }
 
-function pushMemberResult(snap) {
-  if (!window.mdwnahPushResult) return;
+function pushMemberResult(snap, retries) {
+  retries = retries || 0;
+  if (!window.mdwnahPushResult) {
+    // Firebase module may still be loading — retry a few times before giving up
+    if (retries < 10) setTimeout(() => pushMemberResult(snap, retries + 1), 500);
+    return;
+  }
   try {
     const summary = buildMemberSummary(snap);
     const id = encodeURIComponent(snap.creatorName);
-    window.mdwnahPushResult(id, summary);
+    window.mdwnahPushResult(id, summary).catch(e => console.error('mdwnahPushResult failed', e));
   } catch (e) { console.error('pushMemberResult failed', e); }
 }
 
@@ -4804,12 +4813,17 @@ async function loadAdminResults() {
     return;
   }
   try {
-    const data = await window.mdwnahLoadResults();
-    if (!data) {
-      wrap.innerHTML = '<p style="text-align:center;color:var(--text-muted);">لا توجد نتائج محفوظة بعد.</p>';
-      return;
-    }
-    const rows = Object.values(data).sort((a, b) => (b.updatedAt || 0) - (a.updatedAt || 0));
+    const data = (await window.mdwnahLoadResults()) || {};
+    // always show the full roster — members who haven't synced any data yet
+    // still appear, so the leader can see exactly who hasn't started
+    const rows = MEMBERS.map(m => {
+      const r = data[encodeURIComponent(m.name)];
+      return r || { name: m.name, progressPct: 0, poisonPct: null, compScore: null, skillsOverall: null, skillsList: [], routineDone: false, planningDone: false, updatedAt: null };
+    });
+    // include any saved records for names no longer in the MEMBERS roster
+    const memberNames = new Set(MEMBERS.map(m => m.name));
+    Object.values(data).forEach(r => { if (r && r.name && !memberNames.has(r.name)) rows.push(r); });
+    rows.sort((a, b) => (b.updatedAt || 0) - (a.updatedAt || 0));
     let html = `<table class="admin-table"><thead><tr>
       <th>الاسم</th><th>التقدم</th><th>التسمم %</th><th>الاستيعاب</th><th>التخصصات المختارة</th><th>متوسط المهارات</th><th>الروتين</th><th>الخطة السنوية</th><th>آخر تحديث</th><th>النتيجة</th>
     </tr></thead><tbody>`;
@@ -4817,8 +4831,12 @@ async function loadAdminResults() {
       const skillsTags = (r.skillsList || []).map(s =>
         `<span class="admin-skill-tag">${s.label}${s.overall != null ? ' · ' + s.overall : ''}</span>`
       ).join('') || '—';
-      const updated = r.updatedAt ? new Date(r.updatedAt).toLocaleString('ar-SA') : '—';
-      html += `<tr>
+      const started = !!r.updatedAt;
+      const updated = started ? new Date(r.updatedAt).toLocaleString('ar-SA') : 'لم يبدأ بعد';
+      const resultBtn = started
+        ? `<button class="btn-gold" onclick="showMemberResultAdmin('${(r.name || '').replace(/'/g, "\\'")}')" style="padding:6px 14px;border-radius:10px;font-size:12px;white-space:nowrap;">📄 عرض النتيجة</button>`
+        : `<button class="btn-gold" disabled style="padding:6px 14px;border-radius:10px;font-size:12px;white-space:nowrap;opacity:0.4;cursor:not-allowed;">📄 عرض النتيجة</button>`;
+      html += `<tr${started ? '' : ' style="opacity:0.55;"'}>
         <td>${r.name || '—'}</td>
         <td>${r.progressPct ?? 0}%</td>
         <td>${r.poisonPct ?? '—'}</td>
@@ -4828,7 +4846,7 @@ async function loadAdminResults() {
         <td>${r.routineDone ? '✅' : '—'}</td>
         <td>${r.planningDone ? '✅' : '—'}</td>
         <td>${updated}</td>
-        <td><button class="btn-gold" onclick="showMemberResultAdmin('${(r.name || '').replace(/'/g, "\\'")}')" style="padding:6px 14px;border-radius:10px;font-size:12px;white-space:nowrap;">📄 عرض النتيجة</button></td>
+        <td>${resultBtn}</td>
       </tr>`;
     });
     html += '</tbody></table>';

@@ -5102,6 +5102,16 @@ function setAdminView(view) {
   }
 }
 
+// Completion is defined as reaching & finishing the year-planning stage.
+// Older records may have planningDone=true but no completedAt timestamp,
+// so we treat planningDone as the source of truth and fall back to the
+// planning milestone (or last-update) time for the "when".
+function memberCompleted(r) { return !!(r && (r.planningDone || r.completedAt)); }
+function memberCompletedAt(r) {
+  if (!r) return null;
+  return r.completedAt || (r.milestones && r.milestones.planning) || (r.planningDone ? r.updatedAt : null) || null;
+}
+
 async function loadAdminResults() {
   const dash = document.getElementById('admin-dashboard');
   const wrap = document.getElementById('admin-table-wrap');
@@ -5125,8 +5135,9 @@ async function loadAdminResults() {
     // members who finished the whole journey go first (earliest finishers on top),
     // then everyone else ordered by most-recent activity
     rows.sort((a, b) => {
-      if (!!a.completedAt !== !!b.completedAt) return a.completedAt ? -1 : 1;
-      if (a.completedAt && b.completedAt) return a.completedAt - b.completedAt;
+      const ca = memberCompleted(a), cb = memberCompleted(b);
+      if (ca !== cb) return ca ? -1 : 1;
+      if (ca && cb) return (memberCompletedAt(a) || 0) - (memberCompletedAt(b) || 0);
       return (b.updatedAt || 0) - (a.updatedAt || 0);
     });
     _adminRows = rows;
@@ -5148,9 +5159,10 @@ function renderAdminTable(rows) {
       `<span class="admin-skill-tag">${s.label}${s.overall != null ? ' · ' + s.overall : ''}</span>`
     ).join('') || '—';
     const started = !!r.updatedAt;
-    const completed = !!r.completedAt;
+    const completed = memberCompleted(r);
+    const cAt = memberCompletedAt(r);
     const updated = started ? new Date(r.updatedAt).toLocaleString('ar-SA') : 'لم يبدأ بعد';
-    const completedAt = completed ? new Date(r.completedAt).toLocaleString('ar-SA') : '—';
+    const completedAt = cAt ? new Date(cAt).toLocaleString('ar-SA') : (completed ? '✔︎' : '—');
     const safeName = (r.name || '').replace(/'/g, "\\'");
     const guestTag = r.isGuest ? ' <span style="font-size:10px;background:var(--blue-light);color:var(--brand-blue);border-radius:6px;padding:1px 6px;">ضيف</span>' : '';
     const avatarImg = r.avatar
@@ -5192,7 +5204,7 @@ const STAGE_DEFS = [
   { key: 'skills',    label: 'أتمّ المهارات',   test: r => !!r.skillsDone },
   { key: 'routine',   label: 'صمّم الروتين',    test: r => !!r.routineDone },
   { key: 'planning',  label: 'أتمّ الخطة',      test: r => !!r.planningDone },
-  { key: 'completed', label: 'أكمل كل شيء',     test: r => !!r.completedAt },
+  { key: 'completed', label: 'أكمل كل شيء',     test: r => memberCompleted(r) },
 ];
 
 function renderDashboard(rows) {
@@ -5200,7 +5212,7 @@ function renderDashboard(rows) {
   if (!dash) return;
   const total = rows.length;
   const started = rows.filter(r => r.updatedAt).length;
-  const completed = rows.filter(r => r.completedAt).length;
+  const completed = rows.filter(r => memberCompleted(r)).length;
   const inProgress = started - completed;
   const completionRate = total ? Math.round((completed / total) * 100) : 0;
   const avgProgress = total ? Math.round(rows.reduce((s, r) => s + (r.progressPct || 0), 0) / total) : 0;
@@ -5268,7 +5280,7 @@ function renderDashboard(rows) {
   }
 
   // 4) Cumulative completions over time
-  const compTimes = rows.filter(r => r.completedAt).map(r => r.completedAt).sort((a, b) => a - b);
+  const compTimes = rows.filter(r => memberCompleted(r)).map(r => memberCompletedAt(r)).filter(Boolean).sort((a, b) => a - b);
   if (compTimes.length) {
     let cum = 0;
     const pts = compTimes.map(t => { cum++; return { x: t, y: cum }; });
@@ -5301,7 +5313,7 @@ function openTimeline(name) {
     { key: 'skills',    label: '🃏 أتمّ المهارات',   fb: null },
     { key: 'routine',   label: '⏰ صمّم الروتين',    fb: null },
     { key: 'planning',  label: '📓 أتمّ الخطة السنوية', fb: null },
-    { key: 'completed', label: '🏆 أكمل كل المراحل', fb: r.completedAt },
+    { key: 'completed', label: '🏆 أكمل كل المراحل', fb: memberCompletedAt(r) },
   ];
   const COLORS = ['#262626', '#086FB4', '#086FB4', '#086FB4', '#3BB9AB', '#3BB9AB', '#F4C82C', '#F04D39'];
   let html = '';

@@ -1880,6 +1880,8 @@
   .admin-view-toggle { display:inline-flex; background:var(--bg2); border:1px solid var(--border); border-radius:14px; padding:4px; gap:4px; }
   .admin-view-toggle button { border:none; background:none; padding:9px 20px; border-radius:11px; font-size:14px; font-weight:600; cursor:pointer; color:var(--text-muted); font-family:'Rubik',sans-serif; min-height:42px; }
   .admin-view-toggle button.on { background:var(--brand-red); color:#fff; }
+  .btn-del { background:var(--red-light); color:#c0392b; border:1.5px solid #c0392b; cursor:pointer; font-weight:600; font-family:'Rubik',sans-serif; transition:.15s; }
+  .btn-del:hover { background:#c0392b; color:#fff; }
   .kpi-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:14px; margin-bottom:24px; }
   .kpi-card { background:#fff; border:1px solid var(--border); border-radius:16px; padding:18px 16px; text-align:center; box-shadow:0 2px 10px var(--shadow); }
   .kpi-num { font-size:30px; font-weight:900; line-height:1; font-family:'Rubik',sans-serif; }
@@ -5154,10 +5156,12 @@ function renderAdminTable(rows) {
     const avatarImg = r.avatar
       ? `<img src="${r.avatar}" alt="" style="width:30px;height:30px;border-radius:50%;object-fit:cover;vertical-align:middle;margin-left:6px;border:1.5px solid ${completed ? 'var(--brand-teal)' : 'var(--border)'};">`
       : '';
+    const delBtn = `<button class="btn-del" onclick="deleteMemberRecord('${safeName}', ${r.isGuest ? 'true' : 'false'})" title="حذف السجل" style="padding:6px 11px;border-radius:10px;font-size:12px;white-space:nowrap;">🗑️ حذف</button>`;
     const actionBtns = started
-      ? `<div style="display:flex;gap:6px;justify-content:center;">
+      ? `<div style="display:flex;gap:6px;justify-content:center;flex-wrap:wrap;">
            <button class="btn-gold" onclick="showMemberResultAdmin('${safeName}')" style="padding:6px 12px;border-radius:10px;font-size:12px;white-space:nowrap;">📄 النتيجة</button>
            <button class="btn-primary" onclick="openTimeline('${safeName}')" style="padding:6px 12px;border-radius:10px;font-size:12px;white-space:nowrap;">🕒 الرحلة</button>
+           ${delBtn}
          </div>`
       : `<button class="btn-gold" disabled style="padding:6px 12px;border-radius:10px;font-size:12px;white-space:nowrap;opacity:0.4;cursor:not-allowed;">📄 النتيجة</button>`;
     const rowClass = completed ? ' class="row-completed"' : '';
@@ -5317,6 +5321,22 @@ function openTimeline(name) {
 }
 function closeTimeline() {
   document.getElementById('timeline-overlay').classList.remove('open');
+}
+
+// ── Delete a member/guest record (leader only) ───────────────
+async function deleteMemberRecord(name, isGuest) {
+  const who = isGuest ? 'الضيف' : 'العضو';
+  if (!confirm(`هل أنت متأكد من حذف سجل ${who} «${name}» نهائياً من قاعدة البيانات؟\n\nلا يمكن التراجع عن هذا الإجراء.`)) return;
+  if (!window.mdwnahDeleteResult) { alert('تعذّر الاتصال بقاعدة البيانات.'); return; }
+  try {
+    await window.mdwnahDeleteResult(encodeURIComponent(name));
+    sfx('success');
+    // re-fetch so roster members revert to "لم يبدأ بعد" and guests disappear
+    await loadAdminResults();
+  } catch (e) {
+    console.error('delete failed', e);
+    alert('حدث خطأ أثناء الحذف — حاول مجدداً.');
+  }
 }
 
 // ============================================================
@@ -6357,7 +6377,7 @@ async function showMemberResultAdmin(name){
 <!-- Firebase sync: saves each member's results so the leader page can show everyone's progress -->
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-  import { getDatabase, ref, update, get } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+  import { getDatabase, ref, update, get, remove } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 
   const firebaseConfig = {
     apiKey: "AIzaSyB8h_iwg1NZi-2Znccq1dWNX61SPo3alUA",
@@ -6375,6 +6395,7 @@ async function showMemberResultAdmin(name){
 
   window.mdwnahPushResult = (id, data) => update(ref(db, 'yearPrepareResults/' + id), data);
   window.mdwnahLoadResults = async () => (await get(ref(db, 'yearPrepareResults'))).val();
+  window.mdwnahDeleteResult = (id) => remove(ref(db, 'yearPrepareResults/' + id));
 </script>
 </body>
 </html>

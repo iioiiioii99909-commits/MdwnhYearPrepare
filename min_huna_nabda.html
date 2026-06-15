@@ -1744,6 +1744,25 @@
   .rt-tbtn:active { transform:scale(.94); }
   .rt-tbtn.empty { color:var(--rt-muted); font-weight:600; background:transparent; border-style:dashed; }
 
+  /* ---- routine view toggle (clock vs table) ---- */
+  .rt-view-bar { display:flex; align-items:center; justify-content:center; gap:10px; margin:14px auto 0; flex-wrap:wrap; }
+  .rt-view-lbl { color:rgba(255,255,255,0.7); font-size:13px; font-weight:600; }
+  .rt-view-toggle { display:inline-flex; background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.2); border-radius:13px; padding:4px; gap:4px; }
+  .rt-view-toggle button { border:none; background:none; padding:9px 20px; border-radius:10px; font-size:14px; font-weight:700; cursor:pointer; color:rgba(255,255,255,0.7); font-family:'Rubik',sans-serif; transition:.15s; min-height:42px; }
+  .rt-view-toggle button.on { background:var(--brand-yellow); color:var(--brand-dark); }
+
+  /* ---- routine vertical table (themed by current invoice paper) ---- */
+  #rt-table-view { width:100%; }
+  .rt-table { width:100%; border-collapse:collapse; font-family:'Rubik',sans-serif; }
+  .rt-table th, .rt-table td { padding:10px 8px; text-align:center; border-bottom:1px solid var(--rt-line,rgba(0,0,0,0.16)); color:var(--rt-ink,#2a251d); font-size:13px; }
+  .rt-table th { font-size:12px; font-weight:800; color:var(--rt-muted,#8a8170); }
+  .rt-table td.rt-tbl-act { text-align:right; font-weight:700; white-space:nowrap; }
+  .rt-tbl-dot { display:inline-block; width:11px; height:11px; border-radius:50%; vertical-align:middle; margin-left:7px; }
+  .rt-table td.rt-tbl-time { direction:ltr; font-weight:700; font-variant-numeric:tabular-nums; }
+  .rt-table .rt-tbl-dur { color:var(--rt-muted,#8a8170); font-size:12px; }
+  .rt-table tfoot td { font-weight:800; color:var(--rt-ink,#2a251d); border-top:2px solid var(--rt-line,rgba(0,0,0,0.22)); border-bottom:none; padding-top:12px; }
+  .rt-tbl-empty { text-align:center; color:var(--rt-muted,#8a8170); font-size:13px; padding:30px 10px; font-family:'Rubik',sans-serif; }
+
   /* time picker modal (iOS-style wheels) */
   .tp-overlay { position:fixed; inset:0; z-index:9500; background:rgba(0,0,0,0.55); backdrop-filter:blur(6px);
     display:none; align-items:center; justify-content:center; opacity:0; transition:opacity .25s; }
@@ -2381,6 +2400,15 @@
     <button class="rt-clr-btn" data-paper="charcoal" style="background:#211F1D;" onclick="rt_setPaper('charcoal')" title="داكن"></button>
   </div>
 
+  <!-- view-mode toggle: circular clock vs vertical table -->
+  <div class="rt-view-bar">
+    <span class="rt-view-lbl">طريقة العرض:</span>
+    <div class="rt-view-toggle">
+      <button id="rt-view-clock" class="on" onclick="rt_setView('clock')">⏰ دائري</button>
+      <button id="rt-view-table" onclick="rt_setView('table')">📋 جدول</button>
+    </div>
+  </div>
+
   <div class="rt-card" id="rt-card">
     <div class="rt-receipt-head">
       <div class="rt-rh-logo" id="rt-rh-logo"></div>
@@ -2395,6 +2423,7 @@
         <g id="rt-arcs"></g>
         <g id="rt-overlay"></g>
       </svg>
+      <div id="rt-table-view" style="display:none;"></div>
     </div>
 
     <div class="rt-sched">
@@ -5429,6 +5458,7 @@ const RT_PAL = {
 };
 
 let rt_mode = 0; // index into rt_modes array
+let rt_view = (function(){ try { return localStorage.getItem('mdwnah-rt-view') || 'clock'; } catch(e){ return 'clock'; } })(); // 'clock' | 'table'
 let rt_uid = 20;
 
 // modes array: each has {id, label, state:[...rows]}
@@ -5502,6 +5532,8 @@ function rt_drawArcs(){
     const p=rt_svgEl('path',{d,fill:'none',stroke:col,'stroke-width':RT_RING_THICK,'stroke-linecap':'round','data-id':row.id,'data-type':row.type});
     g.appendChild(p);
   }
+  // keep the table view in sync whenever the activity data is redrawn
+  rt_renderTable();
 }
 
 // is a hex colour dark (low luminance)?
@@ -5575,7 +5607,63 @@ function rt_drawBase(){
   ov.appendChild(rt_svgEl('circle',{cx:dx.toFixed(2),cy:dy.toFixed(2),r:'3.4',fill:accent,stroke:paper,'stroke-width':'1.5'}));
 }
 
-function rt_render(){ rt_drawBase(); rt_drawArcs(); }
+function rt_render(){ rt_drawBase(); rt_drawArcs(); rt_renderTable(); rt_syncViewVisibility(); }
+
+// ── view mode: circular clock vs vertical table (same data, user's choice) ──
+function rt_durText(d){
+  if(!d || d<=0) return '—';
+  const h=Math.floor(d+1e-9), m=Math.round((d-h)*60);
+  const parts=[];
+  if(h) parts.push(h+' س');
+  if(m) parts.push(m+' د');
+  return parts.join(' ') || '—';
+}
+function rt_renderTable(){
+  const host=document.getElementById('rt-table-view'); if(!host) return;
+  const withT=[], without=[];
+  rt_modes[rt_mode].state.forEach(r=>{
+    (rt_parseT(r.s)!==null && rt_parseT(r.e)!==null) ? withT.push(r) : without.push(r);
+  });
+  withT.sort((a,b)=>rt_parseT(a.s)-rt_parseT(b.s));
+  const ordered=withT.concat(without);
+  if(!ordered.length){ host.innerHTML='<div class="rt-tbl-empty">أضف أنشطتك لتظهر هنا في جدول 🌱</div>'; return; }
+  let total=0, body='';
+  ordered.forEach(r=>{
+    const pal=RT_PAL[r.type]||RT_PAL.leisure;
+    const s=rt_parseT(r.s), e=rt_parseT(r.e);
+    let durTxt='—';
+    if(s!==null && e!==null){ let d=e-s; if(d<0)d+=24; total+=d; durTxt=rt_durText(d); }
+    body+=`<tr>
+      <td class="rt-tbl-act"><span class="rt-tbl-dot" style="background:${pal.color}"></span>${pal.emoji} ${r.label||pal.label}</td>
+      <td class="rt-tbl-time">${r.s||'—'}</td>
+      <td class="rt-tbl-time">${r.e||'—'}</td>
+      <td class="rt-tbl-dur">${durTxt}</td>
+    </tr>`;
+  });
+  host.innerHTML=`<table class="rt-table">
+    <thead><tr><th>النشاط</th><th>البداية</th><th>النهاية</th><th>المدة</th></tr></thead>
+    <tbody>${body}</tbody>
+    <tfoot><tr><td class="rt-tbl-act">الإجمالي المخطّط</td><td></td><td></td><td>${rt_durText(total)}</td></tr></tfoot>
+  </table>`;
+}
+function rt_syncViewVisibility(){
+  const clk=document.getElementById('rt-clk');
+  const tbl=document.getElementById('rt-table-view');
+  if(!clk || !tbl) return;
+  const tableMode=(rt_view==='table');
+  clk.style.display=tableMode?'none':'block';
+  tbl.style.display=tableMode?'block':'none';
+  const bc=document.getElementById('rt-view-clock'), bt=document.getElementById('rt-view-table');
+  if(bc) bc.classList.toggle('on', !tableMode);
+  if(bt) bt.classList.toggle('on', tableMode);
+}
+function rt_setView(v){
+  rt_view=v;
+  try { localStorage.setItem('mdwnah-rt-view', v); } catch(e){}
+  if(v==='table') rt_renderTable();
+  rt_syncViewVisibility();
+  sfx('toggle');
+}
 
 function rt_renderRows(){
   const c=document.getElementById('rt-rows-container'); if(!c)return;

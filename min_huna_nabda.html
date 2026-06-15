@@ -1348,6 +1348,9 @@
   .admin-table th { background:#262626; color:#F4C82C; font-weight:700; }
   .admin-table tbody tr:nth-child(even) td { background:#F4F3F1; }
   .admin-table tbody tr:hover td { background:#FEF8E0; color:#262626; }
+  .admin-table tbody tr.row-completed td { background:var(--teal-light); }
+  .admin-table tbody tr.row-completed:hover td { background:#cdf0ea; }
+  .admin-table tbody tr.row-completed td:first-child { color:#1a8a7e; font-weight:800; }
   .admin-table td:first-child, .admin-table th:first-child { text-align:right; font-weight:700; }
   .admin-skills-cell { white-space:normal; min-width:220px; text-align:right; }
   .admin-skill-tag { display:inline-block; background:var(--teal-light); color:#1a6b5e; border:1px solid var(--brand-teal); border-radius:20px; padding:3px 10px; font-size:11.5px; margin:2px; white-space:nowrap; }
@@ -2088,8 +2091,14 @@
         <a href="https://www.youtube.com/watch?v=Qpy6IoYOyZI" target="_blank" rel="noopener">افتح المحاضرة على يوتيوب ↗</a>
       </div>
 
+      <!-- Confirm the lecture was watched fully and understood -->
+      <div id="watch-confirm-row" style="display:flex; flex-direction:column; align-items:center; gap:14px; margin-top:24px; text-align:center;">
+        <div style="font-size:15px; font-weight:600;">هل شاهدت المحاضرة كاملة واستوعبتها؟</div>
+        <button class="btn-primary" id="watch-confirm-btn" onclick="confirmLectureWatched()" style="font-size:16px;padding:15px 40px;border-radius:16px;">✅ نعم، شاهدتها كاملة واستوعبتها</button>
+      </div>
+
       <!-- Continue to comprehension quiz -->
-      <div style="display:flex; justify-content:center; margin-top:10px;">
+      <div id="lecture-video-next-row" style="display:none; justify-content:center; margin-top:10px;">
         <button class="btn-primary" onclick="goToCompQuiz()" style="font-size:16px;padding:15px 40px;border-radius:16px;">التالي: اختبر فهمك 💡</button>
       </div>
     </div>
@@ -2562,6 +2571,8 @@ let progress = {
   skillsDone: false,
   routineDone: false,
   planningDone: false,
+  watchConfirmed: false, // member confirmed they watched & understood the lecture
+  completedAt: null,      // timestamp when all stages were finished
   // legacy aliases (kept for internal calls)
   lectureWatched: false,
   poisonDone: false,
@@ -3487,9 +3498,14 @@ function updateProgress() {
   document.getElementById('readiness-badge').textContent = pct + '%';
   updateNavLocks();
   // Show results CTA on home page when all stages complete
-  const allDone = progress.lectureDone && progress.skillsDone && progress.routineDone && progress.planningDone;
+  const allDone = progress.watchConfirmed && progress.lectureDone && progress.skillsDone && progress.routineDone && progress.planningDone;
   const cta = document.getElementById('results-cta');
   if (cta) cta.style.display = allDone ? 'block' : 'none';
+  // record the exact moment the member finished the entire journey
+  if (allDone && !progress.completedAt) {
+    progress.completedAt = Date.now();
+    saveProgress();
+  }
 }
 
 function updateNavLocks() {
@@ -3605,6 +3621,14 @@ function goToLectureVideo() {
   const v = document.getElementById('lecture-video-section');
   if (v) { v.style.display = 'block'; v.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
   sfx('click');
+}
+
+function confirmLectureWatched(silent) {
+  progress.watchConfirmed = true;
+  updateProgress();
+  const row = document.getElementById('watch-confirm-row'); if (row) row.style.display = 'none';
+  const next = document.getElementById('lecture-video-next-row'); if (next) next.style.display = 'flex';
+  if (!silent) { sfx('success'); saveProgress(); }
 }
 
 function goToCompQuiz() {
@@ -4710,6 +4734,7 @@ function restoreUI() {
     const v = document.getElementById('lecture-video-section'); if (v) v.style.display = 'block';
     if (Object.keys(poisonSelected).length >= 5) submitPoisonQuiz(true);
   }
+  if (progress.watchConfirmed) confirmLectureWatched(true);
   if (progress.compDone) {
     const c = document.getElementById('comp-quiz-section'); if (c) c.style.display = 'block';
     if (Object.keys(compSelected).length >= 5) submitCompQuiz(true);
@@ -4747,9 +4772,11 @@ function buildMemberSummary(snap) {
     skillsOverall,
     skillsList,
     lectureDone: !!snap.progress.lectureDone,
+    watchConfirmed: !!snap.progress.watchConfirmed,
     skillsDone: !!snap.progress.skillsDone,
     routineDone: !!snap.progress.routineDone,
     planningDone: !!snap.progress.planningDone,
+    completedAt: snap.progress.completedAt || null,
     rtModes: snap.rtModes || [],
     goals: {
       goal1: fields['goal1'] || '', goal1d: fields['goal1-date'] || '',
@@ -4856,26 +4883,36 @@ async function loadAdminResults() {
     // still appear, so the leader can see exactly who hasn't started
     const rows = MEMBERS.map(m => {
       const r = data[encodeURIComponent(m.name)];
-      return r || { name: m.name, progressPct: 0, poisonPct: null, compScore: null, skillsOverall: null, skillsList: [], routineDone: false, planningDone: false, updatedAt: null };
+      return r || { name: m.name, progressPct: 0, poisonPct: null, compScore: null, skillsOverall: null, skillsList: [], routineDone: false, planningDone: false, completedAt: null, updatedAt: null };
     });
     // include any saved records for names no longer in the MEMBERS roster
     const memberNames = new Set(MEMBERS.map(m => m.name));
     Object.values(data).forEach(r => { if (r && r.name && !memberNames.has(r.name)) rows.push(r); });
-    rows.sort((a, b) => (b.updatedAt || 0) - (a.updatedAt || 0));
+    // members who finished the whole journey go first (earliest finishers on top),
+    // then everyone else ordered by most-recent activity
+    rows.sort((a, b) => {
+      if (!!a.completedAt !== !!b.completedAt) return a.completedAt ? -1 : 1;
+      if (a.completedAt && b.completedAt) return a.completedAt - b.completedAt;
+      return (b.updatedAt || 0) - (a.updatedAt || 0);
+    });
     let html = `<table class="admin-table"><thead><tr>
-      <th>الاسم</th><th>التقدم</th><th>التسمم %</th><th>الاستيعاب</th><th>التخصصات المختارة</th><th>متوسط المهارات</th><th>الروتين</th><th>الخطة السنوية</th><th>آخر تحديث</th><th>النتيجة</th>
+      <th>الاسم</th><th>التقدم</th><th>التسمم %</th><th>الاستيعاب</th><th>التخصصات المختارة</th><th>متوسط المهارات</th><th>الروتين</th><th>الخطة السنوية</th><th>تاريخ الانتهاء</th><th>آخر تحديث</th><th>النتيجة</th>
     </tr></thead><tbody>`;
     rows.forEach(r => {
       const skillsTags = (r.skillsList || []).map(s =>
         `<span class="admin-skill-tag">${s.label}${s.overall != null ? ' · ' + s.overall : ''}</span>`
       ).join('') || '—';
       const started = !!r.updatedAt;
+      const completed = !!r.completedAt;
       const updated = started ? new Date(r.updatedAt).toLocaleString('ar-SA') : 'لم يبدأ بعد';
+      const completedAt = completed ? new Date(r.completedAt).toLocaleString('ar-SA') : '—';
       const resultBtn = started
         ? `<button class="btn-gold" onclick="showMemberResultAdmin('${(r.name || '').replace(/'/g, "\\'")}')" style="padding:6px 14px;border-radius:10px;font-size:12px;white-space:nowrap;">📄 عرض النتيجة</button>`
         : `<button class="btn-gold" disabled style="padding:6px 14px;border-radius:10px;font-size:12px;white-space:nowrap;opacity:0.4;cursor:not-allowed;">📄 عرض النتيجة</button>`;
-      html += `<tr${started ? '' : ' style="opacity:0.55;"'}>
-        <td>${r.name || '—'}</td>
+      const rowClass = completed ? ' class="row-completed"' : '';
+      const rowStyle = started ? '' : ' style="opacity:0.55;"';
+      html += `<tr${rowClass}${rowStyle}>
+        <td>${completed ? '🟢 ' : ''}${r.name || '—'}</td>
         <td>${r.progressPct ?? 0}%</td>
         <td>${r.poisonPct ?? '—'}</td>
         <td>${r.compScore ?? '—'}</td>
@@ -4883,6 +4920,7 @@ async function loadAdminResults() {
         <td>${r.skillsOverall ?? '—'}</td>
         <td>${r.routineDone ? '✅' : '—'}</td>
         <td>${r.planningDone ? '✅' : '—'}</td>
+        <td>${completedAt}</td>
         <td>${updated}</td>
         <td>${resultBtn}</td>
       </tr>`;

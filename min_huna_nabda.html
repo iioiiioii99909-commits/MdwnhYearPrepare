@@ -9,6 +9,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <style>
   /* ===== THMANYAH FONT FACE ===== */
   @font-face {
@@ -1857,6 +1858,43 @@
     #login-col-male { flex:2.3 1 0; }
   }
 
+  /* ---- Guest entry on login ---- */
+  .guest-entry { margin:26px auto 8px; max-width:420px; width:100%; text-align:center; }
+  .guest-divider { display:flex; align-items:center; gap:12px; color:rgba(255,255,255,0.4); font-size:13px; margin-bottom:16px; font-family:'ThmanyahSans',sans-serif; }
+  .guest-divider::before, .guest-divider::after { content:""; flex:1; height:1px; background:rgba(255,255,255,0.15); }
+  .btn-guest { background:rgba(255,255,255,0.08); color:#fff; border:1.5px solid rgba(255,255,255,0.3); border-radius:14px; padding:14px 30px; font-size:15px; font-weight:600; cursor:pointer; font-family:'Rubik',sans-serif; transition:.18s; min-height:48px; }
+  .btn-guest:hover { background:var(--brand-red); border-color:var(--brand-red); transform:translateY(-2px); }
+  .guest-hint { color:rgba(255,255,255,0.4); font-size:12px; margin-top:10px; font-family:'ThmanyahSans',sans-serif; }
+  #guest-resume { margin:18px auto 0; max-width:420px; }
+  .guest-resume-card { display:flex; align-items:center; gap:12px; background:rgba(255,255,255,0.07); border:1.5px solid var(--brand-teal); border-radius:16px; padding:12px 16px; cursor:pointer; transition:.18s; }
+  .guest-resume-card:hover { background:rgba(59,185,171,0.18); }
+  .guest-resume-card img { width:44px; height:44px; border-radius:50%; object-fit:cover; border:2px solid var(--brand-teal); }
+  .guest-resume-card .grc-txt { text-align:right; flex:1; color:#fff; }
+  .guest-resume-card .grc-name { font-weight:700; font-size:15px; }
+  .guest-resume-card .grc-sub { font-size:12px; color:rgba(255,255,255,0.55); font-family:'ThmanyahSans',sans-serif; }
+  .guest-avatar-pick { display:inline-flex; align-items:center; justify-content:center; width:96px; height:96px; border-radius:50%; border:2px dashed var(--brand-red); background:var(--bg2); cursor:pointer; overflow:hidden; color:var(--text-muted); font-size:24px; text-align:center; line-height:1.3; transition:.18s; }
+  .guest-avatar-pick:hover { border-style:solid; }
+  .guest-avatar-pick img { width:100%; height:100%; object-fit:cover; }
+
+  /* ---- Leader dashboard ---- */
+  .admin-view-toggle { display:inline-flex; background:var(--bg2); border:1px solid var(--border); border-radius:14px; padding:4px; gap:4px; }
+  .admin-view-toggle button { border:none; background:none; padding:9px 20px; border-radius:11px; font-size:14px; font-weight:600; cursor:pointer; color:var(--text-muted); font-family:'Rubik',sans-serif; min-height:42px; }
+  .admin-view-toggle button.on { background:var(--brand-red); color:#fff; }
+  .kpi-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:14px; margin-bottom:24px; }
+  .kpi-card { background:#fff; border:1px solid var(--border); border-radius:16px; padding:18px 16px; text-align:center; box-shadow:0 2px 10px var(--shadow); }
+  .kpi-num { font-size:30px; font-weight:900; line-height:1; font-family:'Rubik',sans-serif; }
+  .kpi-label { font-size:13px; color:var(--text-muted); margin-top:7px; font-family:'ThmanyahSans',sans-serif; }
+  .chart-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:18px; }
+  .chart-card { background:#fff; border:1px solid var(--border); border-radius:18px; padding:18px; box-shadow:0 2px 10px var(--shadow); }
+  .chart-card h3 { font-size:15px; color:var(--brand-dark); margin-bottom:14px; font-family:'ThmanyahSerifDisplay',sans-serif; text-align:center; }
+  .chart-card .chart-box { position:relative; height:260px; }
+  .timeline-list { list-style:none; padding:0; margin:0; text-align:right; }
+  .timeline-list li { display:flex; align-items:center; gap:12px; padding:11px 4px; border-bottom:1px dashed var(--border); font-family:'ThmanyahSans',sans-serif; }
+  .timeline-list li:last-child { border-bottom:none; }
+  .tl-dot { width:13px; height:13px; border-radius:50%; flex-shrink:0; }
+  .tl-stage { flex:1; font-size:14px; font-weight:600; }
+  .tl-time { font-size:12px; color:var(--text-muted); }
+
   /* ---- Mobile polish ---- */
   @media (max-width:600px){
     #main-nav { flex-wrap:nowrap; overflow-x:auto; justify-content:flex-start; -webkit-overflow-scrolling:touch; scrollbar-width:none; }
@@ -1871,6 +1909,12 @@
     .sq-sw-grid { grid-template-columns:1fr 1fr; }
     #player-cards-grid { grid-template-columns:1fr !important; }
     .tp-modal { width:290px; }
+    /* bigger touch targets + comfortable CTAs on phones */
+    .btn-primary, .btn-gold, .btn-guest { min-height:48px; }
+    .quiz-opt, .sq-choice, .radio-opt { min-height:46px; display:flex; align-items:center; }
+    .kpi-grid { grid-template-columns:1fr 1fr; gap:10px; }
+    .kpi-num { font-size:24px; }
+    .chart-card .chart-box { height:230px; }
   }
   @media (max-width:380px){
     .nav-btn { font-size:11.5px; padding:7px 10px; }
@@ -1924,6 +1968,39 @@
     <div class="login-col" id="login-col-female">
       <div class="login-col-title"><span>🌸</span> الأخوات</div>
       <div class="members-grid" id="members-grid-female"></div>
+    </div>
+  </div>
+
+  <!-- متابعة آخر جلسة ضيف -->
+  <div id="guest-resume" style="display:none;"></div>
+
+  <!-- الدخول كضيف -->
+  <div class="guest-entry">
+    <div class="guest-divider"><span>أو</span></div>
+    <button class="btn-guest" onclick="openGuestForm()">👤 الدخول كضيف</button>
+    <p class="guest-hint">جرّب التجربة كاملة باسمك وصورتك دون أن تكون من الأعضاء</p>
+  </div>
+</div>
+
+<!-- مودال تسجيل الضيف -->
+<div class="tp-overlay" id="guest-overlay" style="z-index:10000;" onclick="if(event.target===this)closeGuestForm()">
+  <div class="tp-modal" style="text-align:center;max-width:340px;width:92%;">
+    <div class="tp-title">👋 أهلاً بك</div>
+    <p style="font-size:13px;color:var(--text-muted);margin:-4px 0 16px;font-family:'ThmanyahSans',sans-serif;">أدخل اسمك واختر صورتك لتبدأ رحلتك</p>
+
+    <label for="guest-avatar-input" class="guest-avatar-pick" id="guest-avatar-pick" title="اختر صورة">
+      <img id="guest-avatar-preview" alt="" style="display:none;">
+      <span id="guest-avatar-placeholder">📷<br><span style="font-size:11px;">اختر صورة</span></span>
+    </label>
+    <input type="file" id="guest-avatar-input" accept="image/*" style="display:none;" onchange="onGuestAvatar(this)">
+
+    <input type="text" id="guest-name-input" placeholder="اكتب اسمك هنا" autocomplete="off" maxlength="24"
+      style="width:100%;box-sizing:border-box;padding:13px 14px;border-radius:12px;border:1.5px solid var(--brand-red);background:var(--bg2);color:var(--text-main);font-size:16px;text-align:center;margin:6px 0 16px;outline:none;font-family:'ThmanyahSans',sans-serif;"
+      onkeydown="if(event.key==='Enter')submitGuest(); if(event.key==='Escape')closeGuestForm();">
+
+    <div style="display:flex;gap:10px;justify-content:center;">
+      <button class="btn-primary" onclick="submitGuest()" style="padding:12px 28px;border-radius:12px;font-size:15px;">ابدأ رحلتي ✨</button>
+      <button class="btn-gold" onclick="closeGuestForm()" style="padding:12px 22px;border-radius:12px;font-size:15px;">إلغاء</button>
     </div>
   </div>
 </div>
@@ -2393,13 +2470,27 @@
     <div class="section-header">
       <h2>📊 لوحة القائد — نتائج الأعضاء</h2>
     </div>
-    <div style="display:flex;gap:10px;justify-content:center;margin-bottom:20px;flex-wrap:wrap;">
+    <div style="display:flex;gap:10px;justify-content:center;align-items:center;margin-bottom:20px;flex-wrap:wrap;">
+      <div class="admin-view-toggle">
+        <button id="admin-tab-dash" class="on" onclick="setAdminView('dash')">📊 التحليلات</button>
+        <button id="admin-tab-table" onclick="setAdminView('table')">📋 الجدول</button>
+      </div>
       <button class="btn-gold" onclick="loadAdminResults()" style="padding:10px 24px;border-radius:12px;font-size:14px;">🔄 تحديث</button>
       <button class="btn-primary" onclick="leaderBack()" style="padding:10px 24px;border-radius:12px;font-size:14px;">← رجوع</button>
     </div>
-    <div id="admin-table-wrap" style="overflow-x:auto;"></div>
+    <div id="admin-dashboard"></div>
+    <div id="admin-table-wrap" style="overflow-x:auto;display:none;"></div>
   </div>
 </section>
+
+<!-- مودال الرحلة الزمنية لعضو -->
+<div class="tp-overlay" id="timeline-overlay" style="z-index:10000;" onclick="if(event.target===this)closeTimeline()">
+  <div class="tp-modal" style="max-width:420px;width:92%;background:#fff;color:var(--text-main);text-align:center;">
+    <div class="tp-title" id="timeline-title" style="color:var(--brand-dark);">🕒 الرحلة الزمنية</div>
+    <ul class="timeline-list" id="timeline-list"></ul>
+    <button class="btn-gold" onclick="closeTimeline()" style="margin-top:16px;padding:10px 26px;border-radius:12px;font-size:14px;">إغلاق</button>
+  </div>
+</div>
 
 <!-- ===================== PAGE: PLANNING ===================== -->
 <section class="page-section" id="page-planning">
@@ -2555,6 +2646,8 @@
 // STATE
 // ============================================================
 let creatorName = 'المبدع';
+let currentAvatar = '';   // member.img path OR guest DataURL — synced so the leader sees a face
+let isGuestSession = false;
 let completedTasks = new Set();
 let poisonAnswers = {};
 let compAnswers = {};
@@ -2573,11 +2666,19 @@ let progress = {
   planningDone: false,
   watchConfirmed: false, // member confirmed they watched & understood the lecture
   completedAt: null,      // timestamp when all stages were finished
+  startedAt: null,        // timestamp when the member first entered
+  milestones: {},         // { stageKey: timestamp } — chronological behavioural history
   // legacy aliases (kept for internal calls)
   lectureWatched: false,
   poisonDone: false,
   compDone: false,
 };
+
+// record the first time a member reaches a stage (chronological history for the leader dashboard)
+function markMilestone(key) {
+  if (!progress.milestones) progress.milestones = {};
+  if (!progress.milestones[key]) progress.milestones[key] = Date.now();
+}
 
 // ============================================================
 // INIT DATA
@@ -3504,6 +3605,7 @@ function updateProgress() {
   // record the exact moment the member finished the entire journey
   if (allDone && !progress.completedAt) {
     progress.completedAt = Date.now();
+    markMilestone('completed');
     saveProgress();
   }
 }
@@ -3608,6 +3710,7 @@ function submitPoisonQuiz(silent) {
   resultDiv.classList.add('show');
 
   progress.poisonDone = true;
+  if (!silent) markMilestone('poison');
   updateProgress();
   const nb = document.getElementById('poison-next-row'); if (nb) nb.style.display = 'flex';
   if (!silent) {
@@ -3625,6 +3728,7 @@ function goToLectureVideo() {
 
 function confirmLectureWatched(silent) {
   progress.watchConfirmed = true;
+  if (!silent) markMilestone('watch');
   updateProgress();
   const row = document.getElementById('watch-confirm-row'); if (row) row.style.display = 'none';
   const next = document.getElementById('lecture-video-next-row'); if (next) next.style.display = 'flex';
@@ -3687,6 +3791,7 @@ function submitCompQuiz(silent) {
 
   progress.compDone = true;
   progress.lectureDone = true;
+  if (!silent) { markMilestone('comp'); markMilestone('lecture'); }
   updateProgress();
   const nb = document.getElementById('lecture-next-row'); if (nb) nb.style.display = 'flex';
   if (!silent) {
@@ -4002,6 +4107,7 @@ function showAllResults(silent) {
   sqSkillList.forEach(sid => renderPlayerCard(sid, grid));
 
   progress.skillsDone = true;
+  if (!silent) markMilestone('skills');
   updateProgress();
   if (!silent) {
     sfx('success');
@@ -4270,6 +4376,7 @@ function generateRoutine(silent) {
 
   document.getElementById('routine-result').classList.add('show');
   progress.routineDone = true;
+  if (!silent) markMilestone('routine');
   updateProgress();
   if (!silent) {
     document.getElementById('routine-result').scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -4566,17 +4673,19 @@ function buildMembersGrid() {
 
 function selectMember(member) {
   creatorName = member.name;
+  currentAvatar = member.img || '';
+  isGuestSession = !!member.isGuest;
 
   // Update progress bar
   document.getElementById('user-name-display').textContent = creatorName;
   const avatarBar = document.getElementById('user-avatar-bar');
-  avatarBar.src = member.img;
+  avatarBar.src = currentAvatar;
   avatarBar.classList.add('show');
 
   // Update hero
   const heroAvatar = document.getElementById('hero-avatar');
   if (heroAvatar) {
-    heroAvatar.src = member.img;
+    heroAvatar.src = currentAvatar;
     heroAvatar.style.display = 'block';
   }
   const heroGreeting = document.getElementById('hero-greeting');
@@ -4587,12 +4696,108 @@ function selectMember(member) {
 
   progress.nameSet = true;
   loadProgress();
+  if (!progress.startedAt) progress.startedAt = Date.now();
+  markMilestone('started');
   updateProgress();
   showPage('page-home');
 
   // register the member immediately so they appear in the leader's list
   // even if they don't interact further
   saveProgress();
+}
+
+// ============================================================
+// GUEST ACCESS — name + photo, persisted & synced like a member
+// ============================================================
+let _guestAvatarData = '';
+const GUEST_KEY = 'mdwnah_guest';
+
+function openGuestForm() {
+  const ov = document.getElementById('guest-overlay');
+  const ex = loadGuestIdentity();
+  if (ex) { // pre-fill from a previous guest session
+    document.getElementById('guest-name-input').value = ex.name || '';
+    _guestAvatarData = ex.avatar || '';
+    applyGuestPreview(_guestAvatarData);
+  }
+  ov.classList.add('open');
+  setTimeout(() => document.getElementById('guest-name-input').focus(), 60);
+  sfx('pop');
+}
+function closeGuestForm() {
+  document.getElementById('guest-overlay').classList.remove('open');
+}
+
+function applyGuestPreview(data) {
+  const img = document.getElementById('guest-avatar-preview');
+  const ph = document.getElementById('guest-avatar-placeholder');
+  if (data) { img.src = data; img.style.display = 'block'; ph.style.display = 'none'; }
+  else { img.style.display = 'none'; ph.style.display = 'block'; }
+}
+
+// downscale any chosen photo to a small square so it stays light in localStorage + Firebase
+function onGuestAvatar(input) {
+  const file = input.files && input.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = e => {
+    const img = new Image();
+    img.onload = () => {
+      const size = 256;
+      const c = document.createElement('canvas');
+      c.width = size; c.height = size;
+      const ctx = c.getContext('2d');
+      // cover-crop to a centred square
+      const scale = Math.max(size / img.width, size / img.height);
+      const w = img.width * scale, h = img.height * scale;
+      ctx.drawImage(img, (size - w) / 2, (size - h) / 2, w, h);
+      try { _guestAvatarData = c.toDataURL('image/jpeg', 0.82); } catch (err) { _guestAvatarData = ''; }
+      applyGuestPreview(_guestAvatarData);
+    };
+    img.src = e.target.result;
+  };
+  reader.readAsDataURL(file);
+}
+
+function saveGuestIdentity(name, avatar) {
+  try { localStorage.setItem(GUEST_KEY, JSON.stringify({ name, avatar, at: Date.now() })); } catch (e) {}
+}
+function loadGuestIdentity() {
+  try { const raw = localStorage.getItem(GUEST_KEY); return raw ? JSON.parse(raw) : null; } catch (e) { return null; }
+}
+
+function submitGuest() {
+  const name = (document.getElementById('guest-name-input').value || '').trim();
+  if (!name) { alert('من فضلك اكتب اسمك أولاً ✋'); return; }
+  if (name === 'المبدع') { alert('اختر اسماً مختلفاً 🙂'); return; }
+  // avoid colliding with a registered member's name
+  if (MEMBERS.some(m => m.name === name)) { alert('هذا الاسم مسجّل ضمن الأعضاء — اختر اسماً آخر أو ادخل من بطاقتك.'); return; }
+  const avatar = _guestAvatarData || '';
+  saveGuestIdentity(name, avatar);
+  closeGuestForm();
+  selectMember({ name, img: avatar, isGuest: true });
+}
+
+// resume banner on the login screen if a guest session exists
+function refreshGuestResume() {
+  const box = document.getElementById('guest-resume');
+  if (!box) return;
+  const g = loadGuestIdentity();
+  if (!g || !g.name) { box.style.display = 'none'; return; }
+  box.style.display = 'block';
+  box.innerHTML = `
+    <div class="guest-resume-card" onclick='resumeGuest()'>
+      ${g.avatar ? `<img src="${g.avatar}" alt="">` : `<div style="width:44px;height:44px;border-radius:50%;background:var(--brand-teal);display:flex;align-items:center;justify-content:center;font-size:20px;">👤</div>`}
+      <div class="grc-txt">
+        <div class="grc-name">${g.name}</div>
+        <div class="grc-sub">متابعة آخر جلسة ضيف ←</div>
+      </div>
+    </div>`;
+}
+function resumeGuest() {
+  const g = loadGuestIdentity();
+  if (!g || !g.name) return;
+  selectMember({ name: g.name, img: g.avatar || '', isGuest: true });
 }
 
 // ============================================================
@@ -4766,6 +4971,8 @@ function buildMemberSummary(snap) {
   const fields = snap.fields || {};
   return {
     name: snap.creatorName,
+    avatar: currentAvatar || '',
+    isGuest: !!isGuestSession,
     progressPct,
     poisonPct: document.getElementById('poison-pct') ? document.getElementById('poison-pct').textContent : null,
     compScore: document.getElementById('comp-score-panel') ? document.getElementById('comp-score-panel').textContent : null,
@@ -4776,7 +4983,9 @@ function buildMemberSummary(snap) {
     skillsDone: !!snap.progress.skillsDone,
     routineDone: !!snap.progress.routineDone,
     planningDone: !!snap.progress.planningDone,
+    startedAt: snap.progress.startedAt || null,
     completedAt: snap.progress.completedAt || null,
+    milestones: snap.progress.milestones || {},
     rtModes: snap.rtModes || [],
     goals: {
       goal1: fields['goal1'] || '', goal1d: fields['goal1-date'] || '',
@@ -4869,12 +5078,34 @@ function backToAdminTable() {
   window.scrollTo(0, 0);
 }
 
+let _adminRows = [];
+let _adminCharts = {};
+let _adminView = 'dash';
+
+function setAdminView(view) {
+  _adminView = view;
+  const dash = document.getElementById('admin-dashboard');
+  const table = document.getElementById('admin-table-wrap');
+  const bd = document.getElementById('admin-tab-dash');
+  const bt = document.getElementById('admin-tab-table');
+  if (view === 'table') {
+    dash.style.display = 'none'; table.style.display = 'block';
+    bt.classList.add('on'); bd.classList.remove('on');
+  } else {
+    dash.style.display = 'block'; table.style.display = 'none';
+    bd.classList.add('on'); bt.classList.remove('on');
+    // charts need a visible container to size correctly
+    if (_adminRows.length) renderDashboard(_adminRows);
+  }
+}
+
 async function loadAdminResults() {
+  const dash = document.getElementById('admin-dashboard');
   const wrap = document.getElementById('admin-table-wrap');
-  if (!wrap) return;
-  wrap.innerHTML = '<p style="text-align:center;color:var(--text-muted);">جارِ التحميل...</p>';
+  if (!wrap || !dash) return;
+  (_adminView === 'table' ? wrap : dash).innerHTML = '<p style="text-align:center;color:var(--text-muted);padding:30px;">جارِ التحميل...</p>';
   if (!window.mdwnahLoadResults) {
-    wrap.innerHTML = '<p style="text-align:center;color:var(--text-muted);">تعذّر الاتصال بقاعدة البيانات.</p>';
+    dash.innerHTML = wrap.innerHTML = '<p style="text-align:center;color:var(--text-muted);padding:30px;">تعذّر الاتصال بقاعدة البيانات.</p>';
     return;
   }
   try {
@@ -4883,9 +5114,9 @@ async function loadAdminResults() {
     // still appear, so the leader can see exactly who hasn't started
     const rows = MEMBERS.map(m => {
       const r = data[encodeURIComponent(m.name)];
-      return r || { name: m.name, progressPct: 0, poisonPct: null, compScore: null, skillsOverall: null, skillsList: [], routineDone: false, planningDone: false, completedAt: null, updatedAt: null };
+      return r || { name: m.name, avatar: m.img, progressPct: 0, poisonPct: null, compScore: null, skillsOverall: null, skillsList: [], routineDone: false, planningDone: false, completedAt: null, updatedAt: null, milestones: {} };
     });
-    // include any saved records for names no longer in the MEMBERS roster
+    // include any saved records for names no longer in the MEMBERS roster (e.g. guests)
     const memberNames = new Set(MEMBERS.map(m => m.name));
     Object.values(data).forEach(r => { if (r && r.name && !memberNames.has(r.name)) rows.push(r); });
     // members who finished the whole journey go first (earliest finishers on top),
@@ -4895,42 +5126,196 @@ async function loadAdminResults() {
       if (a.completedAt && b.completedAt) return a.completedAt - b.completedAt;
       return (b.updatedAt || 0) - (a.updatedAt || 0);
     });
-    let html = `<table class="admin-table"><thead><tr>
-      <th>الاسم</th><th>التقدم</th><th>التسمم %</th><th>الاستيعاب</th><th>التخصصات المختارة</th><th>متوسط المهارات</th><th>الروتين</th><th>الخطة السنوية</th><th>تاريخ الانتهاء</th><th>آخر تحديث</th><th>النتيجة</th>
-    </tr></thead><tbody>`;
-    rows.forEach(r => {
-      const skillsTags = (r.skillsList || []).map(s =>
-        `<span class="admin-skill-tag">${s.label}${s.overall != null ? ' · ' + s.overall : ''}</span>`
-      ).join('') || '—';
-      const started = !!r.updatedAt;
-      const completed = !!r.completedAt;
-      const updated = started ? new Date(r.updatedAt).toLocaleString('ar-SA') : 'لم يبدأ بعد';
-      const completedAt = completed ? new Date(r.completedAt).toLocaleString('ar-SA') : '—';
-      const resultBtn = started
-        ? `<button class="btn-gold" onclick="showMemberResultAdmin('${(r.name || '').replace(/'/g, "\\'")}')" style="padding:6px 14px;border-radius:10px;font-size:12px;white-space:nowrap;">📄 عرض النتيجة</button>`
-        : `<button class="btn-gold" disabled style="padding:6px 14px;border-radius:10px;font-size:12px;white-space:nowrap;opacity:0.4;cursor:not-allowed;">📄 عرض النتيجة</button>`;
-      const rowClass = completed ? ' class="row-completed"' : '';
-      const rowStyle = started ? '' : ' style="opacity:0.55;"';
-      html += `<tr${rowClass}${rowStyle}>
-        <td>${completed ? '🟢 ' : ''}${r.name || '—'}</td>
-        <td>${r.progressPct ?? 0}%</td>
-        <td>${r.poisonPct ?? '—'}</td>
-        <td>${r.compScore ?? '—'}</td>
-        <td class="admin-skills-cell">${skillsTags}</td>
-        <td>${r.skillsOverall ?? '—'}</td>
-        <td>${r.routineDone ? '✅' : '—'}</td>
-        <td>${r.planningDone ? '✅' : '—'}</td>
-        <td>${completedAt}</td>
-        <td>${updated}</td>
-        <td>${resultBtn}</td>
-      </tr>`;
-    });
-    html += '</tbody></table>';
-    wrap.innerHTML = html;
+    _adminRows = rows;
+    renderAdminTable(rows);
+    setAdminView(_adminView); // renders the dashboard lazily when that view is active
   } catch (e) {
     console.error(e);
-    wrap.innerHTML = '<p style="text-align:center;color:var(--text-muted);">حدث خطأ أثناء تحميل النتائج.</p>';
+    dash.innerHTML = '<p style="text-align:center;color:var(--text-muted);padding:30px;">حدث خطأ أثناء تحميل النتائج.</p>';
   }
+}
+
+function renderAdminTable(rows) {
+  const wrap = document.getElementById('admin-table-wrap');
+  let html = `<table class="admin-table"><thead><tr>
+    <th>الاسم</th><th>التقدم</th><th>التسمم %</th><th>الاستيعاب</th><th>التخصصات المختارة</th><th>متوسط المهارات</th><th>الروتين</th><th>الخطة السنوية</th><th>تاريخ الانتهاء</th><th>آخر تحديث</th><th>الإجراءات</th>
+  </tr></thead><tbody>`;
+  rows.forEach(r => {
+    const skillsTags = (r.skillsList || []).map(s =>
+      `<span class="admin-skill-tag">${s.label}${s.overall != null ? ' · ' + s.overall : ''}</span>`
+    ).join('') || '—';
+    const started = !!r.updatedAt;
+    const completed = !!r.completedAt;
+    const updated = started ? new Date(r.updatedAt).toLocaleString('ar-SA') : 'لم يبدأ بعد';
+    const completedAt = completed ? new Date(r.completedAt).toLocaleString('ar-SA') : '—';
+    const safeName = (r.name || '').replace(/'/g, "\\'");
+    const guestTag = r.isGuest ? ' <span style="font-size:10px;background:var(--blue-light);color:var(--brand-blue);border-radius:6px;padding:1px 6px;">ضيف</span>' : '';
+    const avatarImg = r.avatar
+      ? `<img src="${r.avatar}" alt="" style="width:30px;height:30px;border-radius:50%;object-fit:cover;vertical-align:middle;margin-left:6px;border:1.5px solid ${completed ? 'var(--brand-teal)' : 'var(--border)'};">`
+      : '';
+    const actionBtns = started
+      ? `<div style="display:flex;gap:6px;justify-content:center;">
+           <button class="btn-gold" onclick="showMemberResultAdmin('${safeName}')" style="padding:6px 12px;border-radius:10px;font-size:12px;white-space:nowrap;">📄 النتيجة</button>
+           <button class="btn-primary" onclick="openTimeline('${safeName}')" style="padding:6px 12px;border-radius:10px;font-size:12px;white-space:nowrap;">🕒 الرحلة</button>
+         </div>`
+      : `<button class="btn-gold" disabled style="padding:6px 12px;border-radius:10px;font-size:12px;white-space:nowrap;opacity:0.4;cursor:not-allowed;">📄 النتيجة</button>`;
+    const rowClass = completed ? ' class="row-completed"' : '';
+    const rowStyle = started ? '' : ' style="opacity:0.55;"';
+    html += `<tr${rowClass}${rowStyle}>
+      <td>${completed ? '🟢 ' : ''}${avatarImg}${r.name || '—'}${guestTag}</td>
+      <td>${r.progressPct ?? 0}%</td>
+      <td>${r.poisonPct ?? '—'}</td>
+      <td>${r.compScore ?? '—'}</td>
+      <td class="admin-skills-cell">${skillsTags}</td>
+      <td>${r.skillsOverall ?? '—'}</td>
+      <td>${r.routineDone ? '✅' : '—'}</td>
+      <td>${r.planningDone ? '✅' : '—'}</td>
+      <td>${completedAt}</td>
+      <td>${updated}</td>
+      <td>${actionBtns}</td>
+    </tr>`;
+  });
+  html += '</tbody></table>';
+  wrap.innerHTML = html;
+}
+
+// ── Analytics dashboard ──────────────────────────────────────
+const STAGE_DEFS = [
+  { key: 'started',   label: 'بدأ الرحلة',     test: r => !!r.updatedAt },
+  { key: 'poison',    label: 'اختبار التسمم',   test: r => (r.poisonPct != null && r.poisonPct !== '—') || (r.milestones && r.milestones.poison) },
+  { key: 'lecture',   label: 'أتمّ المحاضرة',   test: r => !!r.lectureDone },
+  { key: 'skills',    label: 'أتمّ المهارات',   test: r => !!r.skillsDone },
+  { key: 'routine',   label: 'صمّم الروتين',    test: r => !!r.routineDone },
+  { key: 'planning',  label: 'أتمّ الخطة',      test: r => !!r.planningDone },
+  { key: 'completed', label: 'أكمل كل شيء',     test: r => !!r.completedAt },
+];
+
+function renderDashboard(rows) {
+  const dash = document.getElementById('admin-dashboard');
+  if (!dash) return;
+  const total = rows.length;
+  const started = rows.filter(r => r.updatedAt).length;
+  const completed = rows.filter(r => r.completedAt).length;
+  const inProgress = started - completed;
+  const completionRate = total ? Math.round((completed / total) * 100) : 0;
+  const avgProgress = total ? Math.round(rows.reduce((s, r) => s + (r.progressPct || 0), 0) / total) : 0;
+
+  dash.innerHTML = `
+    <div class="kpi-grid">
+      <div class="kpi-card"><div class="kpi-num" style="color:var(--brand-dark);">${total}</div><div class="kpi-label">إجمالي الأعضاء</div></div>
+      <div class="kpi-card"><div class="kpi-num" style="color:var(--brand-blue);">${started}</div><div class="kpi-label">بدأوا الرحلة</div></div>
+      <div class="kpi-card"><div class="kpi-num" style="color:var(--brand-yellow);">${inProgress}</div><div class="kpi-label">قيد التقدم</div></div>
+      <div class="kpi-card"><div class="kpi-num" style="color:var(--brand-teal);">${completed}</div><div class="kpi-label">أكملوا كل المراحل</div></div>
+      <div class="kpi-card"><div class="kpi-num" style="color:var(--brand-red);">${completionRate}%</div><div class="kpi-label">نسبة الإكمال</div></div>
+      <div class="kpi-card"><div class="kpi-num" style="color:var(--brand-dark);">${avgProgress}%</div><div class="kpi-label">متوسط التقدم</div></div>
+    </div>
+    <div class="chart-grid">
+      <div class="chart-card"><h3>🪜 قمع المراحل — كم عضواً وصل كل مرحلة</h3><div class="chart-box"><canvas id="chart-funnel"></canvas></div></div>
+      <div class="chart-card"><h3>🧭 حالة الأعضاء</h3><div class="chart-box"><canvas id="chart-status"></canvas></div></div>
+      <div class="chart-card"><h3>🃏 أكثر التخصصات اختياراً</h3><div class="chart-box"><canvas id="chart-skills"></canvas></div></div>
+      <div class="chart-card"><h3>📈 الإكمال عبر الزمن (تراكمي)</h3><div class="chart-box"><canvas id="chart-timeline"></canvas></div></div>
+    </div>`;
+
+  if (typeof Chart === 'undefined') {
+    dash.insertAdjacentHTML('beforeend', '<p style="text-align:center;color:var(--text-muted);margin-top:16px;">تعذّر تحميل مكتبة الرسوم البيانية — تحقق من الاتصال.</p>');
+    return;
+  }
+
+  Object.values(_adminCharts).forEach(c => { try { c.destroy(); } catch (e) {} });
+  _adminCharts = {};
+  const C = { red:'#F04D39', yellow:'#F4C82C', teal:'#3BB9AB', blue:'#086FB4', dark:'#262626', grey:'#cfcabf' };
+  Chart.defaults.font.family = 'Rubik, sans-serif';
+
+  // 1) Funnel — members reaching each stage
+  const funnelCounts = STAGE_DEFS.map(s => rows.filter(s.test).length);
+  _adminCharts.funnel = new Chart(document.getElementById('chart-funnel'), {
+    type: 'bar',
+    data: { labels: STAGE_DEFS.map(s => s.label), datasets: [{ data: funnelCounts,
+      backgroundColor: [C.dark, C.blue, C.blue, C.teal, C.teal, C.yellow, C.red], borderRadius: 8 }] },
+    options: { indexAxis: 'y', responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { display: false } },
+      scales: { x: { beginAtZero: true, ticks: { precision: 0 }, max: Math.max(total, 1) } } }
+  });
+
+  // 2) Status doughnut
+  _adminCharts.status = new Chart(document.getElementById('chart-status'), {
+    type: 'doughnut',
+    data: { labels: ['لم يبدأ', 'قيد التقدم', 'أكمل'], datasets: [{
+      data: [total - started, inProgress, completed], backgroundColor: [C.grey, C.yellow, C.teal], borderWidth: 2, borderColor: '#fff' }] },
+    options: { responsive: true, maintainAspectRatio: false, cutout: '62%',
+      plugins: { legend: { position: 'bottom' } } }
+  });
+
+  // 3) Skills popularity
+  const skillCount = {};
+  rows.forEach(r => (r.skillsList || []).forEach(s => { skillCount[s.label] = (skillCount[s.label] || 0) + 1; }));
+  const skillEntries = Object.entries(skillCount).sort((a, b) => b[1] - a[1]).slice(0, 10);
+  if (skillEntries.length) {
+    _adminCharts.skills = new Chart(document.getElementById('chart-skills'), {
+      type: 'bar',
+      data: { labels: skillEntries.map(e => e[0]), datasets: [{ data: skillEntries.map(e => e[1]),
+        backgroundColor: C.teal, borderRadius: 6 }] },
+      options: { indexAxis: 'y', responsive: true, maintainAspectRatio: false,
+        plugins: { legend: { display: false } }, scales: { x: { beginAtZero: true, ticks: { precision: 0 } } } }
+    });
+  } else {
+    document.getElementById('chart-skills').closest('.chart-box').innerHTML = '<p style="text-align:center;color:var(--text-muted);padding-top:90px;">لا توجد تخصصات مختارة بعد</p>';
+  }
+
+  // 4) Cumulative completions over time
+  const compTimes = rows.filter(r => r.completedAt).map(r => r.completedAt).sort((a, b) => a - b);
+  if (compTimes.length) {
+    let cum = 0;
+    const pts = compTimes.map(t => { cum++; return { x: t, y: cum }; });
+    _adminCharts.timeline = new Chart(document.getElementById('chart-timeline'), {
+      type: 'line',
+      data: { datasets: [{ data: pts, label: 'أكملوا', borderColor: C.red, backgroundColor: 'rgba(240,77,57,0.12)',
+        fill: true, tension: 0.25, stepped: false, pointRadius: 4, pointBackgroundColor: C.red }] },
+      options: { responsive: true, maintainAspectRatio: false,
+        plugins: { legend: { display: false } },
+        scales: {
+          x: { type: 'linear', ticks: { callback: v => new Date(v).toLocaleDateString('ar-SA', { month: 'short', day: 'numeric' }) } },
+          y: { beginAtZero: true, ticks: { precision: 0 } }
+        } }
+    });
+  } else {
+    document.getElementById('chart-timeline').closest('.chart-box').innerHTML = '<p style="text-align:center;color:var(--text-muted);padding-top:90px;">لم يُكمل أحد الرحلة بعد</p>';
+  }
+}
+
+// ── Per-member chronological timeline ────────────────────────
+function openTimeline(name) {
+  const r = _adminRows.find(x => x.name === name);
+  if (!r) return;
+  const ms = r.milestones || {};
+  const order = [
+    { key: 'started',   label: '🚀 بدأ الرحلة',    fb: r.startedAt },
+    { key: 'poison',    label: '🧪 اختبار التسمم',  fb: null },
+    { key: 'watch',     label: '🎥 أكّد مشاهدة المحاضرة', fb: null },
+    { key: 'comp',      label: '💡 اختبار الاستيعاب', fb: null },
+    { key: 'skills',    label: '🃏 أتمّ المهارات',   fb: null },
+    { key: 'routine',   label: '⏰ صمّم الروتين',    fb: null },
+    { key: 'planning',  label: '📓 أتمّ الخطة السنوية', fb: null },
+    { key: 'completed', label: '🏆 أكمل كل المراحل', fb: r.completedAt },
+  ];
+  const COLORS = ['#262626', '#086FB4', '#086FB4', '#086FB4', '#3BB9AB', '#3BB9AB', '#F4C82C', '#F04D39'];
+  let html = '';
+  order.forEach((o, i) => {
+    const t = ms[o.key] || o.fb;
+    const done = !!t;
+    const when = done ? new Date(t).toLocaleString('ar-SA') : 'لم يصل بعد';
+    html += `<li>
+      <span class="tl-dot" style="background:${done ? COLORS[i] : '#dcd8cf'};"></span>
+      <span class="tl-stage" style="${done ? '' : 'color:var(--text-muted);font-weight:500;'}">${o.label}</span>
+      <span class="tl-time">${when}</span>
+    </li>`;
+  });
+  document.getElementById('timeline-title').textContent = '🕒 رحلة ' + name;
+  document.getElementById('timeline-list').innerHTML = html;
+  document.getElementById('timeline-overlay').classList.add('open');
+}
+function closeTimeline() {
+  document.getElementById('timeline-overlay').classList.remove('open');
 }
 
 // ============================================================
@@ -4938,6 +5323,7 @@ async function loadAdminResults() {
 // ============================================================
 window.addEventListener('DOMContentLoaded', () => {
   buildMembersGrid();
+  refreshGuestResume();
   initSkills();
   initMonthlyGrid();
   updateProgress();
@@ -5536,6 +5922,7 @@ async function rt_saveRoutine(){
   const valid = rt_modes[rt_mode].state.filter(r => rt_parseT(r.s)!==null && rt_parseT(r.e)!==null);
   if(valid.length === 0){ rt_toast('أضف نشاطاً واحداً بأوقات صحيحة على الأقل ✋','warn'); return; }
   progress.routineDone = true;
+  markMilestone('routine');
   updateProgress();
   saveProgress();
   document.getElementById('rt-saved-msg').style.display = 'block';
@@ -5715,6 +6102,7 @@ function generateAnnualPlan(){
   document.getElementById('annual-plan-output').scrollIntoView({behavior:'smooth',block:'start'});
 
   progress.planningDone=true;
+  markMilestone('planning');
   updateProgress();
   saveProgress();
   sfx('success');
@@ -5945,7 +6333,7 @@ async function showMemberResultAdmin(name){
     const member=MEMBERS.find(m=>m.name===r.name);
     wrap.innerHTML=buildResultsHTML({
       name: r.name || name,
-      avatarSrc: member ? member.img : '',
+      avatarSrc: r.avatar || (member ? member.img : ''),
       poisonPct: r.poisonPct ?? '—',
       compScore: r.compScore ?? '—',
       skillsList: r.skillsList || [],

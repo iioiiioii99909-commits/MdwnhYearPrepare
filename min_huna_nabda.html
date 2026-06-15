@@ -3598,8 +3598,9 @@ function updateProgress() {
   document.getElementById('progress-label').textContent = done + ' / ' + total + ' محطات';
   document.getElementById('readiness-badge').textContent = pct + '%';
   updateNavLocks();
-  // Show results CTA on home page when all stages complete
-  const allDone = progress.watchConfirmed && progress.lectureDone && progress.skillsDone && progress.routineDone && progress.planningDone;
+  // Journey is considered complete once the member reaches & finishes the
+  // year-planning stage (the final stage — gated behind all the earlier ones).
+  const allDone = !!progress.planningDone;
   const cta = document.getElementById('results-cta');
   if (cta) cta.style.display = allDone ? 'block' : 'none';
   // record the exact moment the member finished the entire journey

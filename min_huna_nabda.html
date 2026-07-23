@@ -4533,7 +4533,20 @@ function goToStep(idx) {
 // MEMBERS DATABASE
 // ============================================================
 // f:true → female. سراج مستثنى عمداً.
-const MEMBERS = [
+// Fallback roster — used only if the shared list can't be fetched. The live roster comes
+// from github.com/mdwnstudio/MdwnhMembers (see loadRoster below). `let` so it can be replaced.
+const YP_ROSTER_BASE = 'https://raw.githubusercontent.com/mdwnstudio/MdwnhMembers/main';
+function loadRoster() {
+  return fetch(YP_ROSTER_BASE + '/members.json', { cache: 'no-cache' })
+    .then(r => { if (!r.ok) throw 0; return r.json(); })
+    .then(data => {
+      MEMBERS = data.members
+        .filter(m => !m.dummy && m.active !== false)
+        .map(m => ({ name: m.name, img: YP_ROSTER_BASE + '/avatars/' + m.slug + '.png', f: m.gender === 'f' }));
+    })
+    .catch(() => {});
+}
+let MEMBERS = [
   { name: 'الشعيرة',   img: 'MdwnhMembers/الشعيرة.png' },
   { name: 'أبو بندر',  img: 'MdwnhMembers/أبو بندر.png' },
   { name: 'أبو مزاحم', img: 'MdwnhMembers/ابو مزاحم.png' },
@@ -4695,7 +4708,7 @@ function buildMembersGrid() {
     const card = document.createElement('div');
     card.className = 'member-card';
     card.innerHTML = `
-      <img class="member-avatar" src="${m.img}" alt="${m.name}" onerror="this.style.background='#444';this.src=''">
+      <img class="member-avatar" src="${m.img}" alt="${m.name}" data-name="${m.name}" onerror="if(!this.dataset.f){this.dataset.f=1;this.src='MdwnhMembers/'+this.dataset.name+'.png';}else{this.style.background='#444';this.src='';}">
       <span class="member-name">${m.name}</span>
     `;
     card.onclick = () => selectMember(m);
@@ -5384,7 +5397,8 @@ async function deleteMemberRecord(name, isGuest) {
 // BOOT
 // ============================================================
 window.addEventListener('DOMContentLoaded', () => {
-  buildMembersGrid();
+  buildMembersGrid();                       // instant render from bundled fallback
+  loadRoster().then(buildMembersGrid);      // then re-render from the shared roster
   refreshGuestResume();
   initSkills();
   initMonthlyGrid();
